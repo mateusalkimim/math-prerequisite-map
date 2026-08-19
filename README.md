@@ -143,6 +143,8 @@ Sob uma norma de diagramas própria (documento irmão, não publicado):
 ## Licença
 
 - **Código** (`gerar_mapa.py`, `layout.py`, `materias.py`) — [MIT](LICENSE).
+  O arquivo `LICENSE` traz o texto MIT puro, para que o GitHub o reconheça;
+  a divisão de escopo entre código e conteúdo é esta seção.
 - **Conteúdo** (o grafo, seus warrants e este README) —
   [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/): use, adapte e
   redistribua, inclusive comercialmente, citando a fonte.

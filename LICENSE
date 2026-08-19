@@ -19,17 +19,3 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
-
----
-
-NOTE ON SCOPE
-
-The MIT license above covers the CODE in this repository: gerar_mapa.py,
-layout.py and materias.py.
-
-The CONTENT — the dependency graph itself, its warrants, and the README — is
-licensed under Creative Commons Attribution 4.0 International (CC BY 4.0):
-https://creativecommons.org/licenses/by/4.0/
-
-Works cited as warrant for the edges are bibliographic references; no text
-from them is reproduced here.
