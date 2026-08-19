@@ -1,0 +1,570 @@
+# -*- coding: utf-8 -*-
+"""Gera o mapa das matérias — HTML autossuficiente, para projetar em aula.
+
+Sob a `norma-de-diagramas.md` da Hipátia, com a regra citada em cada decisão:
+
+  §1.1  cruzamento é o defeito nº 1 e vence qualquer outra regra em conflito
+        (Purchase 1997) — por isso o layout é medido, não desenhado: 131 -> 11;
+  §1.2  a direção se declara UMA vez e não se mistura — aqui é T->B (o
+        pré-requisito sempre acima de quem o exige), dito no cabeçalho;
+  §1.3  kit de três formas: retângulo arredondado (matéria), oval (a raiz, que
+        é terminador de início). Losango não aparece porque não há decisão.
+        Nada de forma inventada;
+  §1.4  o nó é CAIXA, nunca ponto — rótulo dentro, legível de uma vez;
+  §1.5  modularidade: o mapa abre em UM ramo por vez quando se escolhe matéria
+        (information hiding — o resto apaga em vez de sumir);
+  §2    a gramática: o ouro é o fluxo. As três classes de warrant se
+        distinguem por peso e traço, declarado na legenda;
+  §4    SVG com max-height em vh, e a página medida em mais de uma resolução.
+
+Saída: index.html (abre com duplo clique, sem servidor; e é o que o
+GitHub Pages serve na raiz).
+"""
+import html, json, os
+from materias import NOS, ARESTAS, DOMINIOS
+from layout import montar
+
+AQUI = os.path.dirname(os.path.abspath(__file__))
+SAIDA = os.path.join(AQUI, "index.html")
+
+CAIXA_L, CAIXA_A = 152, 58
+GAP_X, GAP_Y = 20, 146
+GAP_VIRTUAL = 7         # entre duas passagens, o vão pode ser menor
+VIRTUAL_L = 16          # o nó virtual é passagem, não caixa (§1.4 vale para nó, não para dobra)
+MARGEM = 48
+
+# Os três troncos, em RGB aditivo — declaração do operador (2026-08-18).
+# A cor não é enfeite: é a soma. Duas matérias no mesmo tronco têm a mesma cor;
+# uma matéria em dois troncos tem a cor que a LUZ dos dois faria.
+TRONCOS = {
+    "calculo":   ((226, 86, 74),  "Cálculo (I, II, III)", "laterais arredondadas"),
+    "algebra":   ((95, 180, 95),  "Álgebra Linear",       "hexágono"),
+    "geometria": ((74, 134, 226), "Geometria Analítica",  "cantos vivos"),
+}
+OURO = "#c9a266"
+
+RAMOS = {
+    "base":      ("o tronco", "#c9a266"),
+    "calculo":   ("cálculo",  "#7ea8d8"),
+    "geometria": ("geometria analítica", "#8fbf8a"),
+    "algebra":   ("álgebra linear", "#c56a45"),
+    "fronteira": ("fronteira — sem obra no acervo", "#7c88a1"),
+}
+
+
+def cor_do_no(doms, tema):
+    """Soma de luz no tema escuro; média no claro (a soma clareia demais lá)."""
+    if not doms:
+        return OURO
+    cs = [TRONCOS[d][0] for d in doms]
+    if tema == "escuro":
+        c = tuple(min(255, sum(x[i] for x in cs)) for i in range(3))
+    else:
+        c = tuple(round(sum(x[i] for x in cs) / len(cs)) for i in range(3))
+    return "#%02x%02x%02x" % c
+
+
+def forma(doms, L, A, raiz=False):
+    """A forma carrega o tronco — §1.3(a): forma é significado atribuído.
+
+    base (nenhum tronco)  retângulo de canto suave · o tronco anterior aos três
+    cálculo               laterais arredondadas (o stadium)
+    álgebra linear        hexágono, como o nó de tempo do Nuke
+    geometria analítica   cantos vivos
+    dois ou mais troncos  octógono — os cantos chanfrados dizem "mistura"
+    """
+    if raiz:
+        return f'<rect width="{L}" height="{A}" rx="{A/2}" ry="{A/2}"></rect>'
+    if len(doms) >= 2:
+        c = 11
+        pts = [(c,0),(L-c,0),(L,c),(L,A-c),(L-c,A),(c,A),(0,A-c),(0,c)]
+        return '<polygon points="' + " ".join(f"{x},{y}" for x, y in pts) + '"></polygon>'
+    if doms == ("calculo",):
+        return f'<rect width="{L}" height="{A}" rx="{A/2}" ry="{A/2}"></rect>'
+    if doms == ("algebra",):
+        c = 15
+        pts = [(c,0),(L-c,0),(L,A/2),(L-c,A),(c,A),(0,A/2)]
+        return '<polygon points="' + " ".join(f"{x},{y}" for x, y in pts) + '"></polygon>'
+    if doms == ("geometria",):
+        return f'<rect width="{L}" height="{A}"></rect>'
+    return f'<rect width="{L}" height="{A}" rx="8"></rect>'
+
+
+def ortogonal(pts, desvio):
+    """Sem diagonal: cada trecho vira um Z — desce, anda, desce.
+
+    Pedido do operador (2026-08-18): só horizontal, vertical e L. A diagonal
+    some. O `desvio` afasta o degrau horizontal de cada aresta dentro do vão
+    entre camadas, para que duas arestas não se deitem uma sobre a outra.
+    """
+    saida = [pts[0]]
+    for k in range(len(pts) - 1):
+        (x1, y1), (x2, y2) = pts[k], pts[k + 1]
+        if abs(x1 - x2) < 0.5:
+            saida.append((x2, y2))
+            continue
+        ym = (y1 + y2) / 2 + desvio
+        saida += [(x1, ym), (x2, ym), (x2, y2)]
+    return saida
+
+
+def montar_svg():
+    r = montar()
+    nivel, ordem = r["nivel"], r["ordem"]
+    reais = {n[0]: n for n in NOS}
+
+    # x pela ordem dentro da camada, centralizado; y pela camada.
+    # O nó virtual NÃO é caixa: ele é só o lugar por onde a seta longa passa.
+    # Dar a ele a largura de uma caixa inflava o desenho e fazia a aresta
+    # desviar até a borda — o "bico" que o olho pegou na 1ª geração.
+    por_camada = {}
+    for i, n in nivel.items():
+        por_camada.setdefault(n, []).append(i)
+    for n in por_camada:
+        por_camada[n].sort(key=lambda i: ordem[i])
+
+    def larg(i):
+        return VIRTUAL_L if i.startswith("~") else CAIXA_L
+
+    H = MARGEM * 2 + (max(nivel.values()) + 1) * GAP_Y - (GAP_Y - CAIXA_A)
+
+    # ⚠ MEDIDO e DESCARTADO (2026-08-18): tentei alinhar as coordenadas ao
+    # baricentro dos vizinhos para endireitar as arestas. A medida derrubou a
+    # ideia — comprimento das arestas caiu só 1,4% (29.590 -> 29.170 px) e a
+    # largura subiu 64% (1.572 -> 2.581 px). O código do alinhamento fica em
+    # layout.py para quem quiser retomar com resolução de colisão melhor.
+    # O que rendeu de verdade foi o gap menor entre nós virtuais vizinhos.
+    def gap_entre(i, j):
+        return GAP_VIRTUAL if (i.startswith("~") and j.startswith("~")) else GAP_X
+
+    def total_da_camada(ids):
+        t = sum(larg(i) for i in ids)
+        return t + sum(gap_entre(ids[k], ids[k+1]) for k in range(len(ids)-1))
+
+    W = MARGEM * 2 + max(total_da_camada(v) for v in por_camada.values())
+    pos = {}
+    for n, ids in por_camada.items():
+        x = (W - total_da_camada(ids)) / 2
+        for k, i in enumerate(ids):
+            pos[i] = (x, MARGEM + n * GAP_Y)
+            if k < len(ids) - 1:
+                x += larg(i) + gap_entre(i, ids[k+1])
+    return r, pos, W, H, reais
+
+
+def caminhos(arestas_v, pos):
+    """Uma polilinha por aresta original, passando pelos nós virtuais."""
+    partes = {}
+    for a, b, w, f, virtual in arestas_v:
+        raiz = a if not a.startswith("~") else a.split("#")[0][1:]
+        chave = raiz if virtual else f"{a}>{b}"
+        partes.setdefault(chave, []).append((a, b, w, f))
+    return partes
+
+
+def gerar():
+    r, pos, W, H, reais = montar_svg()
+    nivel = r["nivel"]
+
+    # --- arestas: encadeia os trechos virtuais numa polilinha só ------------
+    seguinte = {}
+    for a, b, w, f, v in r["arestas_v"]:
+        seguinte.setdefault(a, []).append((b, w, f, v))
+
+    linhas = []
+    for idx, (a, b, w, f) in enumerate(ARESTAS):
+        pts, atual = [], a
+        pts_ids = [a]
+        pts.append(pos[a])
+        while atual != b:
+            prox = None
+            for cand, cw, cf, cv in seguinte.get(atual, []):
+                if cand == b or (cand.startswith("~") and cand.startswith(f"~{a}>{b}#")):
+                    prox = cand
+                    break
+            if prox is None:
+                break
+            pts.append(pos[prox])
+            pts_ids.append(prox)
+            atual = prox
+        d = []
+        ids_pts = [a] + [p for p in pts_ids[1:]]
+        for k, (x, y) in enumerate(pts):
+            nid = ids_pts[k]
+            cx = x + (VIRTUAL_L if nid.startswith("~") else CAIXA_L) / 2
+            cy = y + (CAIXA_A if k == 0 else 0)
+            if k and k < len(pts) - 1:
+                cy = y + CAIXA_A / 2
+            d.append((cx, cy))
+        desvio = ((idx % 7) - 3) * 5          # espalha os degraus dentro do vão
+        linhas.append({"de": a, "para": b, "warrant": w, "fonte": f,
+                       "pts": ortogonal(d, desvio)})
+
+    # --- SVG ---------------------------------------------------------------
+    svg = []
+    for L in linhas:
+        p = " ".join(f"{x:.1f},{y:.1f}" for x, y in L["pts"])
+        svg.append(f'<polyline class="aresta w-{L["warrant"]}" points="{p}" '
+                   f'data-de="{L["de"]}" data-para="{L["para"]}" '
+                   f'marker-end="url(#seta-{L["warrant"]})"></polyline>')
+    for nid, rot, ramo, nota in NOS:
+        x, y = pos[nid]
+        doms = tuple(sorted(DOMINIOS[nid][0]))
+        chave = "-".join(doms) if doms else "base"
+        raiz = nivel[nid] == 0
+        svg.append(
+            f'<g class="no ramo-{ramo} dom-{chave}" data-id="{nid}" '
+            f'data-dom="{chave}" transform="translate({x:.1f},{y:.1f})">'
+            + forma(doms, CAIXA_L, CAIXA_A, raiz)
+            + "".join(
+                f'<text x="{CAIXA_L/2}" y="{CAIXA_A/2 + (i - (len(rot.split(chr(10)))-1)/2)*15 + 5:.1f}">'
+                f'{html.escape(l)}</text>'
+                for i, l in enumerate(rot.split("\n")))
+            + "</g>")
+
+    dados = {
+        "nos": {n[0]: {"rotulo": n[1].replace("\n", " "), "ramo": n[2], "nota": n[3],
+                       "camada": nivel[n[0]],
+                       "dom": list(sorted(DOMINIOS[n[0]][0])),
+                       "dom_fonte": DOMINIOS[n[0]][1]} for n in NOS},
+        "arestas": [{"de": a, "para": b, "w": w, "fonte": f} for a, b, w, f in ARESTAS],
+        "cruz": {"antes": r["cruz_antes"], "depois": r["cruz_depois"]},
+        "ramos": {k: v[0] for k, v in RAMOS.items()},
+        "troncos": {k: v[1] for k, v in TRONCOS.items()},
+    }
+
+    combos = sorted({tuple(sorted(DOMINIOS[n[0]][0])) for n in NOS})
+    css_dom = []
+    for doms in combos:
+        chave = "-".join(doms) if doms else "base"
+        css_dom.append(f'.dom-{chave} > :first-child{{stroke:{cor_do_no(doms,"escuro")}}}')
+        css_dom.append(f'html[data-tema="claro"] .dom-{chave} > :first-child'
+                       f'{{stroke:{cor_do_no(doms,"claro")}}}')
+    css_dom = "\n".join(css_dom)
+
+    legenda_ramos = "".join(
+        f'<span class="chip"><i style="background:{c}"></i>{html.escape(t)}</span>'
+        for t, c in RAMOS.values())
+
+    with open(SAIDA, "w", encoding="utf-8") as f:
+        f.write(TEMPLATE
+                .replace("{{SVG}}", "\n".join(svg))
+                .replace("{{W}}", str(int(W)))
+                .replace("{{H}}", str(int(H)))
+                .replace("{{DADOS}}", json.dumps(dados, ensure_ascii=False))
+                .replace("{{RAMOS}}", legenda_ramos)
+                .replace("/*{{CSS_DOM}}*/", css_dom)
+                .replace("{{CRUZ_ANTES}}", str(r["cruz_antes"]))
+                .replace("{{CRUZ_DEPOIS}}", str(r["cruz_depois"]))
+                .replace("{{N_NOS}}", str(len(NOS)))
+                .replace("{{N_ARESTAS}}", str(len(ARESTAS)))
+                .replace("{{N_CAMADAS}}", str(max(nivel.values()) + 1)))
+    return dados, r
+
+
+TEMPLATE = r"""<!doctype html>
+<html lang="pt-BR"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>O mapa das matérias — Hipátia</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0a1424; --sup:#111e34; --sup2:#16233f; --borda:#2a3d5e;
+  --ink:#f0e4cc; --ink2:#ded2ba; --muted:#8b98b3;
+  --ouro:#c9a266; --ouro-claro:#d4af6a; --terracota:#c56a45;
+  --serif:"Cormorant Garamond",Georgia,serif;
+  --sans:"Inter",system-ui,sans-serif;
+}
+html[data-tema="claro"]{
+  --bg:#f3f5f9; --sup:#ffffff; --sup2:#eef1f7; --borda:#d9e0ec;
+  --ink:#16233f; --ink2:#2b3a58; --muted:#7c88a1;
+  --ouro:#a9713f; --ouro-claro:#8f5e33; --terracota:#b35430;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);
+     font-size:15px;line-height:1.5}
+header{padding:18px 26px 12px;border-bottom:1px solid var(--borda)}
+h1{font-family:var(--serif);font-weight:600;font-size:30px;margin:0 0 2px;
+   letter-spacing:.01em}
+.sub{color:var(--muted);font-size:13px;max-width:74ch}
+.sub b{color:var(--ink2);font-weight:500}
+.barra{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-top:12px}
+input[type=search]{background:var(--sup);border:1px solid var(--borda);
+  color:var(--ink);border-radius:8px;padding:7px 11px;font:inherit;font-size:13px;
+  min-width:220px}
+button{background:var(--sup);border:1px solid var(--borda);color:var(--ink2);
+  border-radius:8px;padding:7px 12px;font:inherit;font-size:13px;cursor:pointer}
+button:hover{border-color:var(--ouro);color:var(--ink)}
+.chips{display:flex;gap:14px;flex-wrap:wrap;font-size:12px;color:var(--muted)}
+.chip{display:inline-flex;align-items:center;gap:6px}
+.chip i{width:11px;height:11px;border-radius:3px;display:inline-block}
+main{display:flex;gap:0;align-items:stretch}
+#palco{flex:1;overflow:hidden;position:relative;cursor:grab;
+       height:calc(100vh - 210px);min-height:340px}
+#palco.arrastando{cursor:grabbing}
+svg{display:block;max-height:none}
+aside{width:330px;flex:none;border-left:1px solid var(--borda);padding:18px 20px;
+      overflow-y:auto;height:calc(100vh - 210px);min-height:340px;background:var(--sup)}
+aside h2{font-family:var(--serif);font-size:23px;margin:0 0 2px;font-weight:600}
+aside .ramo{font-size:12px;color:var(--muted);text-transform:uppercase;
+            letter-spacing:.08em;margin-bottom:10px}
+aside .nota{color:var(--ink2);font-size:14px;margin-bottom:16px}
+aside h3{font-size:12px;text-transform:uppercase;letter-spacing:.08em;
+         color:var(--muted);margin:16px 0 7px;font-weight:600}
+.pre{border-left:2px solid var(--borda);padding:5px 0 5px 10px;margin-bottom:9px}
+.pre b{font-weight:500;font-size:14px}
+.pre .fonte{display:block;color:var(--muted);font-size:11.5px;margin-top:2px}
+.pre.w-definicao{border-left-color:var(--ouro)}
+.pre.w-ordem{border-left-color:var(--borda)}
+.pre.w-fronteira{border-left-color:var(--terracota);border-left-style:dashed}
+.vazio{color:var(--muted);font-size:13px}
+footer{padding:9px 26px;border-top:1px solid var(--borda);color:var(--muted);
+       font-size:11.5px;display:flex;gap:18px;flex-wrap:wrap}
+/* --- o grafo --- */
+.aresta{fill:none;stroke:var(--ouro);stroke-width:1.6;opacity:.75}
+.aresta.w-ordem{stroke-width:1.1;opacity:.42}
+.aresta.w-fronteira{stroke:var(--muted);stroke-width:1.1;stroke-dasharray:5 4;opacity:.5}
+.no > :first-child{fill:var(--sup);stroke:var(--borda);stroke-width:1.7}
+.no text{fill:var(--ink);font-family:var(--sans);font-size:12.5px;font-weight:500;
+         text-anchor:middle;pointer-events:none}
+.no{cursor:pointer}
+.no:hover > :first-child{stroke-width:2.6}
+.ramo-fronteira > :first-child{stroke-dasharray:5 4}
+.ramo-fronteira text{fill:var(--muted)}
+/*{{CSS_DOM}}*/
+/* --- o mapa RGB: os círculos somam como luz soma --- */
+.rgb{background:#0a1424;border:1px solid var(--borda);border-radius:10px;
+     padding:12px 10px 8px;margin-bottom:18px}
+.rgb svg{display:block;margin:0 auto}
+.rgb circle{mix-blend-mode:screen}
+.rgb .cap{color:#8b98b3;font-size:11px;text-align:center;margin-top:6px;line-height:1.4}
+.formas{display:grid;grid-template-columns:auto 1fr;gap:7px 10px;align-items:center;
+        font-size:12px;color:var(--muted);margin-bottom:18px}
+.formas b{color:var(--ink2);font-weight:500}
+.formas svg{display:block}
+/* apagado, não sumido — §1.5 information hiding */
+svg.focado .no{opacity:.16}
+svg.focado .aresta{opacity:.07}
+svg.focado .no.acesa{opacity:1}
+svg.focado .aresta.acesa{opacity:.95;stroke-width:2.2}
+svg.focado .no.alvo > :first-child{stroke-width:3.4}
+svg.focado .no.alvo text{font-weight:600}
+</style></head><body>
+
+<header>
+  <h1>O mapa das matérias</h1>
+  <div class="sub">A ordem <b>lógica</b> — não a histórica, não a curricular.
+    A direção é declarada uma vez e não se mistura: <b>de cima para baixo</b>,
+    o pré-requisito sempre acima de quem o exige. Clique numa matéria para
+    acender a cadeia inteira que a sustenta, até a aritmética.</div>
+  <div class="barra">
+    <input type="search" id="busca" placeholder="procurar matéria… (ex.: limite)" autocomplete="off">
+    <button id="limpar">limpar</button>
+    <button id="ajustar">ajustar à tela</button>
+    <button id="tema">tema claro</button>
+    <span class="chips">{{RAMOS}}</span>
+  </div>
+</header>
+
+<main>
+  <div id="palco">
+    <svg id="grafo" viewBox="0 0 {{W}} {{H}}" width="{{W}}" height="{{H}}"
+         xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <marker id="seta-definicao" viewBox="0 0 8 8" refX="7" refY="4"
+                markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+          <path d="M0,0 L8,4 L0,8 z" fill="var(--ouro)"></path></marker>
+        <marker id="seta-ordem" viewBox="0 0 8 8" refX="7" refY="4"
+                markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+          <path d="M0,0 L8,4 L0,8 z" fill="var(--ouro)" opacity=".55"></path></marker>
+        <marker id="seta-fronteira" viewBox="0 0 8 8" refX="7" refY="4"
+                markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+          <path d="M0,0 L8,4 L0,8 z" fill="var(--muted)"></path></marker>
+      </defs>
+      {{SVG}}
+    </svg>
+  </div>
+  <aside>
+    <div class="rgb">
+      <svg width="188" height="150" viewBox="0 0 188 150" aria-label="mapa RGB dos três troncos">
+        <circle cx="94" cy="54"  r="42" fill="#e2564a"></circle>
+        <circle cx="70" cy="96"  r="42" fill="#5fb45f"></circle>
+        <circle cx="118" cy="96" r="42" fill="#4a86e2"></circle>
+        <text x="94" y="26" fill="#fff" font-size="10" text-anchor="middle"
+              font-family="Inter,sans-serif" style="mix-blend-mode:normal">CÁLCULO</text>
+        <text x="34" y="126" fill="#fff" font-size="10" text-anchor="middle"
+              font-family="Inter,sans-serif">ÁLGEBRA</text>
+        <text x="154" y="126" fill="#fff" font-size="10" text-anchor="middle"
+              font-family="Inter,sans-serif">GEOMETRIA</text>
+      </svg>
+      <div class="cap">A cor <b>soma como luz soma</b>.<br>
+        cálculo + álgebra = amarelo · cálculo + geometria = magenta ·
+        álgebra + geometria = ciano</div>
+    </div>
+    <div class="formas">
+      <svg width="46" height="24"><rect x="1" y="1" width="44" height="22" rx="11" ry="11"
+        fill="none" stroke="#e2564a" stroke-width="1.8"></rect></svg>
+      <span><b>Cálculo</b> — laterais arredondadas</span>
+      <svg width="46" height="24"><polygon points="8,1 38,1 45,12 38,23 8,23 1,12"
+        fill="none" stroke="#5fb45f" stroke-width="1.8"></polygon></svg>
+      <span><b>Álgebra Linear</b> — hexágono</span>
+      <svg width="46" height="24"><rect x="1" y="1" width="44" height="22"
+        fill="none" stroke="#4a86e2" stroke-width="1.8"></rect></svg>
+      <span><b>Geometria Analítica</b> — cantos vivos</span>
+      <svg width="46" height="24"><polygon points="7,1 39,1 45,6 45,18 39,23 7,23 1,18 1,6"
+        fill="none" stroke="#a9ffff" stroke-width="1.8"></polygon></svg>
+      <span><b>Dois troncos</b> — cantos chanfrados, cor somada</span>
+      <svg width="46" height="24"><rect x="1" y="1" width="44" height="22" rx="6"
+        fill="none" stroke="#c9a266" stroke-width="1.8"></rect></svg>
+      <span><b>A base</b> — anterior aos três</span>
+    </div>
+    <div id="painel">
+      <div class="vazio">Nenhuma matéria escolhida.<br><br>
+        Clique numa caixa do mapa — ou procure pelo nome — para ver o que ela é,
+        de quais matérias ela depende, e <b>de onde veio cada seta</b>.</div>
+    </div>
+  </aside>
+</main>
+
+<footer>
+  <span>{{N_NOS}} matérias · {{N_ARESTAS}} dependências · {{N_CAMADAS}} camadas</span>
+  <span>cruzamentos de aresta: <b>{{CRUZ_ANTES}} → {{CRUZ_DEPOIS}}</b> (§1.1 da norma de diagramas)</span>
+  <span>seta cheia = definição · seta fraca = ordem do livro · tracejada = sem obra no acervo</span>
+</footer>
+
+<script>
+const D = {{DADOS}};
+const svg = document.getElementById('grafo');
+const palco = document.getElementById('palco');
+const painel = document.getElementById('painel');
+
+const pais = {}, filhos = {};
+D.arestas.forEach(a => {
+  (pais[a.para] = pais[a.para] || []).push(a);
+  (filhos[a.de] = filhos[a.de] || []).push(a);
+});
+
+function ancestrais(id){
+  const vistos = new Set(), fila = [id];
+  while(fila.length){
+    const c = fila.pop();
+    (pais[c]||[]).forEach(a => { if(!vistos.has(a.de)){ vistos.add(a.de); fila.push(a.de); } });
+  }
+  return vistos;
+}
+
+function acender(id){
+  const anc = ancestrais(id);
+  const conjunto = new Set([...anc, id]);
+  svg.classList.add('focado');
+  svg.querySelectorAll('.no').forEach(g =>
+    g.classList.toggle('acesa', conjunto.has(g.dataset.id)));
+  svg.querySelectorAll('.no').forEach(g =>
+    g.classList.toggle('alvo', g.dataset.id === id));
+  svg.querySelectorAll('.aresta').forEach(l =>
+    l.classList.toggle('acesa', conjunto.has(l.dataset.de) && conjunto.has(l.dataset.para)));
+
+  const n = D.nos[id];
+  const diretos = (pais[id]||[]);
+  const usa = (filhos[id]||[]);
+  painel.innerHTML =
+    '<h2>' + n.rotulo + '</h2>' +
+    '<div class="ramo">' + (n.dom.length ? n.dom.map(d => D.troncos[d]).join(' + ')
+        : 'a base — anterior aos três troncos') + ' · camada ' + n.camada + '</div>' +
+    '<div class="nota" style="font-size:11.5px;color:var(--muted);margin-bottom:12px">' +
+        n.dom_fonte + '</div>' +
+    '<div class="nota">' + n.nota + '</div>' +
+    '<h3>depende diretamente de</h3>' +
+    (diretos.length ? diretos.map(a =>
+      '<div class="pre w-' + a.w + '"><b>' + D.nos[a.de].rotulo + '</b>' +
+      '<span class="fonte">' + a.fonte + '</span></div>').join('')
+      : '<div class="vazio">Nada. É onde o mapa começa.</div>') +
+    '<h3>a cadeia inteira que a sustenta</h3>' +
+    '<div class="nota">' + (anc.size ? anc.size + ' matérias acesas no mapa.' :
+      'Nenhuma — esta é a raiz.') + '</div>' +
+    '<h3>abre caminho para</h3>' +
+    (usa.length ? usa.map(a => '<div class="pre w-' + a.w + '"><b>' +
+      D.nos[a.para].rotulo + '</b></div>').join('')
+      : '<div class="vazio">Ponta do mapa, por enquanto.</div>');
+}
+
+function limpar(){
+  svg.classList.remove('focado');
+  svg.querySelectorAll('.acesa,.alvo').forEach(e => e.classList.remove('acesa','alvo'));
+  painel.innerHTML = '<div class="vazio">Nenhuma matéria escolhida.<br><br>' +
+    'Clique numa caixa do mapa — ou procure pelo nome — para ver o que ela é, ' +
+    'de quais matérias ela depende, e <b>de onde veio cada seta</b>.</div>';
+}
+
+svg.querySelectorAll('.no').forEach(g =>
+  g.addEventListener('click', e => { e.stopPropagation(); acender(g.dataset.id); }));
+palco.addEventListener('click', limpar);
+document.getElementById('limpar').addEventListener('click', limpar);
+
+document.getElementById('busca').addEventListener('input', e => {
+  const q = e.target.value.trim().toLowerCase();
+  if(!q) return limpar();
+  const achado = Object.keys(D.nos).find(k =>
+    D.nos[k].rotulo.toLowerCase().includes(q));
+  if(achado) acender(achado);
+});
+
+document.getElementById('tema').addEventListener('click', e => {
+  const claro = document.documentElement.dataset.tema === 'claro';
+  document.documentElement.dataset.tema = claro ? '' : 'claro';
+  e.target.textContent = claro ? 'tema claro' : 'tema escuro';
+});
+
+/* --- zoom e arrasto: o mapa é para apontar na tela --- */
+let z = 1, tx = 0, ty = 0, arrastando = false, x0 = 0, y0 = 0;
+function aplicar(){ svg.style.transform = `translate(${tx}px,${ty}px) scale(${z})`;
+                    svg.style.transformOrigin = '0 0'; }
+function ajustar(){
+  const r = palco.getBoundingClientRect();
+  z = Math.min(r.width / {{W}}, r.height / {{H}}) * 0.96;
+  tx = (r.width - {{W}} * z) / 2; ty = (r.height - {{H}} * z) / 2;
+  aplicar();
+}
+palco.addEventListener('wheel', e => {
+  e.preventDefault();
+  const r = palco.getBoundingClientRect();
+  const mx = e.clientX - r.left, my = e.clientY - r.top;
+  const k = e.deltaY < 0 ? 1.12 : 1/1.12;
+  const zn = Math.min(3, Math.max(0.15, z * k));
+  tx = mx - (mx - tx) * (zn / z); ty = my - (my - ty) * (zn / z);
+  z = zn; aplicar();
+}, {passive:false});
+palco.addEventListener('mousedown', e => {
+  arrastando = true; palco.classList.add('arrastando');
+  x0 = e.clientX - tx; y0 = e.clientY - ty;
+});
+addEventListener('mousemove', e => {
+  if(!arrastando) return;
+  tx = e.clientX - x0; ty = e.clientY - y0; aplicar();
+});
+addEventListener('mouseup', () => { arrastando = false; palco.classList.remove('arrastando'); });
+document.getElementById('ajustar').addEventListener('click', ajustar);
+addEventListener('resize', ajustar);
+ajustar();
+
+/* abrir já apontando: index.html#integral — serve para deixar o link
+   pronto antes da aula, e é como esta interação se testa sem clicar. */
+function doHash(){
+  const id = decodeURIComponent(location.hash.replace('#',''));
+  if(id && D.nos[id]) acender(id); else limpar();
+}
+addEventListener('hashchange', doHash);
+if(location.hash) doHash();
+</script>
+</body></html>
+"""
+
+if __name__ == "__main__":
+    dados, r = gerar()
+    print(f"{SAIDA}")
+    print(f"  {len(dados['nos'])} matérias · {len(dados['arestas'])} dependências · "
+          f"{max(n['camada'] for n in dados['nos'].values())+1} camadas")
+    print(f"  cruzamentos: {r['cruz_antes']} -> {r['cruz_depois']}")
