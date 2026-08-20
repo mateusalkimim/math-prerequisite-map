@@ -323,6 +323,8 @@ aside h3{font-size:12px;text-transform:uppercase;letter-spacing:.08em;
 .vazio{color:var(--muted);font-size:13px}
 footer{padding:9px 26px;border-top:1px solid var(--borda);color:var(--muted);
        font-size:11.5px;display:flex;gap:18px;flex-wrap:wrap}
+footer a{color:inherit;text-decoration:underline;text-underline-offset:2px}
+footer .licenca{margin-left:auto}
 /* --- o grafo --- */
 .aresta{fill:none;stroke:var(--ouro);stroke-width:1.6;opacity:.75}
 .aresta.w-ordem{stroke-width:1.1;opacity:.42}
@@ -433,6 +435,7 @@ svg.focado .no.alvo text{font-weight:600}
   <span>{{N_NOS}} matérias · {{N_ARESTAS}} dependências · {{N_CAMADAS}} camadas</span>
   <span>cruzamentos de aresta: <b>{{CRUZ_ANTES}} → {{CRUZ_DEPOIS}}</b> (§1.1 da norma de diagramas)</span>
   <span>seta cheia = definição · seta fraca = ordem do livro · tracejada = sem obra no acervo</span>
+  <span class="licenca">© 2026 Mateus Alkimim · conteúdo sob <a href="https://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a> · código sob MIT</span>
 </footer>
 
 <script>

@@ -146,8 +146,19 @@ Sob uma norma de diagramas própria (documento irmão, não publicado):
   O arquivo `LICENSE` traz o texto MIT puro, para que o GitHub o reconheça;
   a divisão de escopo entre código e conteúdo é esta seção.
 - **Conteúdo** (o grafo, seus warrants e este README) —
-  [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/): use, adapte e
-  redistribua, inclusive comercialmente, citando a fonte.
+  [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/), com o texto
+  legal integral em [`LICENSE-CONTENT`](LICENSE-CONTENT): use, adapte e
+  redistribua, inclusive comercialmente, **citando a fonte** e mantendo
+  qualquer derivado **sob a mesma licença**. O *share-alike* não proíbe uso
+  comercial — proíbe fechar o que se derivou daqui.
+
+O copyright do conteúdo é de Mateus Alkimim. A licença acima vale para
+terceiros; o titular mantém o direito de licenciar a própria obra sob outros
+termos. O nome do projeto e sua identidade visual não são licenciados aqui.
+
+> **Emenda de 2026-08-20.** O conteúdo saiu de CC BY 4.0 para CC BY-SA 4.0. A
+> CC BY 4.0 concedida na publicação de 2026-08-19 é irrevogável: quem obteve o
+> conteúdo sob ela naquele intervalo segue coberto por ela.
 
 As obras citadas como warrant são referências bibliográficas; nenhum texto delas
 é reproduzido aqui.
