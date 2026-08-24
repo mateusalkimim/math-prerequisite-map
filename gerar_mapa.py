@@ -341,7 +341,7 @@ button:hover{border-color:var(--ouro);color:var(--ink)}
 .chip{display:inline-flex;align-items:center;gap:6px}
 .chip i{width:11px;height:11px;border-radius:3px;display:inline-block}
 main{display:flex;gap:0;align-items:stretch}
-#palco{flex:1;overflow:hidden;position:relative;cursor:grab;
+#palco{flex:1;overflow:hidden;position:relative;cursor:grab;touch-action:none;
        height:calc(100vh - 210px);min-height:340px}
 #palco.arrastando{cursor:grabbing}
 svg{display:block;max-height:none}
@@ -376,6 +376,54 @@ footer .licenca{margin-left:auto}
 .ramo-fronteira > :first-child{stroke-dasharray:5 4}
 .ramo-fronteira text{fill:var(--muted)}
 /*{{CSS_DOM}}*/
+/* =======================================================================
+   MOBILE (2026-08-24). Antes disto o mapa era inusável no telefone: o aside
+   de 330px fixos comia 85% de uma tela de 390, sobrando ~155px para o grafo,
+   e ainda transbordava para fora da janela. O cabeçalho tomava 40% da altura
+   antes de mostrar qualquer coisa.
+
+   A escolha: em tela estreita o mapa vira a tela inteira e o painel lateral
+   desce para baixo dele, virando leitura em coluna. Não se esconde nada — a
+   §1.5 da casa é information hiding, não information deleting.
+   ======================================================================= */
+@media (max-width: 860px){
+  body{font-size:15px}
+  header{padding:12px 14px 10px}
+  h1{font-size:22px}
+  /* a explicação longa vira resumo: o texto inteiro fica no título do
+     elemento e no painel, não sumiu */
+  .sub{font-size:12.5px;max-width:none;
+       display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;
+       overflow:hidden}
+  .barra{gap:8px;margin-top:10px}
+  input[type=search]{min-width:0;flex:1 1 100%;padding:10px 12px;font-size:16px}
+  button{padding:10px 13px}          /* alvo de toque: 40px de altura */
+  .chips{width:100%;gap:10px 12px;font-size:11.5px}
+
+  main{flex-direction:column}
+  /* flex:none é ESSENCIAL: com flex:1 o flex-basis vence o height em coluna,
+     e o palco crescia até a altura nativa do SVG (medido: 1614px), empurrando
+     o mapa inteiro para fora da tela. */
+  #palco{flex:none;height:58vh;min-height:280px;width:100%}
+  aside{width:100%;flex:none;height:auto;min-height:0;max-height:none;
+        border-left:0;border-top:1px solid var(--borda);padding:16px 14px}
+  .rgb svg{width:100%;height:auto;max-width:252px}
+  .formas{font-size:13px}
+}
+
+/* telefone estreito de verdade */
+@media (max-width: 430px){
+  h1{font-size:20px}
+  .chips{font-size:11px;gap:8px 10px}
+  #palco{flex:none;height:52vh}
+}
+
+/* deitado: a tela é baixa, então o mapa toma o que sobra e o painel rola */
+@media (max-width: 860px) and (orientation: landscape){
+  #palco{flex:none;height:76vh}
+  .sub{display:none}
+}
+
 /* a moldura do conjunto da aritmética — tracejada porque é agrupamento, não
    dependência: nenhuma seta entra ou sai dela */
 .grupo-aritmetica rect{fill:rgba(201,162,102,.05);stroke:var(--ouro);
@@ -412,7 +460,7 @@ svg.focado .no.alvo text{font-weight:600}
   <div class="barra">
     <input type="search" id="busca" placeholder="procurar matéria… (ex.: limite)" autocomplete="off">
     <button id="limpar">limpar</button>
-    <button id="ajustar">ajustar à tela</button>
+    <button id="ajustar" title="reenquadra o mapa inteiro na tela">ajustar à tela</button>
     <button id="tema">tema claro</button>
     <span class="chips">{{RAMOS}}</span>
   </div>
@@ -606,6 +654,39 @@ addEventListener('mousemove', e => {
   tx = e.clientX - x0; ty = e.clientY - y0; aplicar();
 });
 addEventListener('mouseup', () => { arrastando = false; palco.classList.remove('arrastando'); });
+
+/* --- TOQUE (2026-08-24): sem isto o mapa não se move no telefone. Um dedo
+   arrasta; dois dedos dão pinça, com o zoom ancorado no PONTO MÉDIO entre os
+   dedos — que é o gesto que a mão espera. `touch-action:none` no palco é o que
+   impede o navegador de roubar o gesto para rolar a página. --- */
+let toqueD = 0, toqueX = 0, toqueY = 0, toqueZ = 1;
+const meio = t => ({x:(t[0].clientX + t[1].clientX)/2, y:(t[0].clientY + t[1].clientY)/2});
+const dist = t => Math.hypot(t[0].clientX - t[1].clientX, t[0].clientY - t[1].clientY);
+palco.addEventListener('touchstart', e => {
+  const t = e.touches;
+  if(t.length === 1){ arrastando = true; x0 = t[0].clientX - tx; y0 = t[0].clientY - ty; }
+  else if(t.length === 2){
+    arrastando = false; toqueD = dist(t); toqueZ = z;
+    const r = palco.getBoundingClientRect(), m = meio(t);
+    toqueX = m.x - r.left; toqueY = m.y - r.top;
+  }
+}, {passive:true});
+palco.addEventListener('touchmove', e => {
+  const t = e.touches;
+  if(t.length === 1 && arrastando){
+    e.preventDefault();
+    tx = t[0].clientX - x0; ty = t[0].clientY - y0; aplicar();
+  } else if(t.length === 2 && toqueD){
+    e.preventDefault();
+    const zn = Math.min(3, Math.max(0.15, toqueZ * (dist(t) / toqueD)));
+    tx = toqueX - (toqueX - tx) * (zn / z);
+    ty = toqueY - (toqueY - ty) * (zn / z);
+    z = zn; aplicar();
+  }
+}, {passive:false});
+palco.addEventListener('touchend', e => {
+  if(e.touches.length === 0){ arrastando = false; toqueD = 0; }
+}, {passive:true});
 document.getElementById('ajustar').addEventListener('click', ajustar);
 addEventListener('resize', ajustar);
 ajustar();
