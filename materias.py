@@ -26,6 +26,16 @@ Obras (todas dissecadas, `mouseion/_dissecado/`):
 # --- nós: id, rótulo, ramo, o que é (uma linha) -----------------------------
 NOS = [
     ("aritmetica",   "Aritmética\ne as operações", "base", "contar, somar, multiplicar — a operação antes da letra"),
+
+    # OS PILARES DA ARITMÉTICA (2026-08-24). "Aritmética e as operações" é um
+    # CONJUNTO, e o mapa mostrava só o rótulo dele — o que escondia justamente
+    # onde as lacunas do ensino básico moram. Cada pilar abaixo aponta para o
+    # que ele sustenta lá na frente, e é por aqui que se aponta o buraco.
+    ("op_quatro",    "As quatro\noperações",      "base", "somar, subtrair, multiplicar, dividir — e em que ordem se aplicam"),
+    ("fracoes",      "Frações\ne proporção",      "base", "a parte do todo, a razão entre duas grandezas, a regra de três"),
+    ("potencias",    "Potência\ne raiz",          "base", "o expoente, e a operação que o desfaz"),
+    ("negativos",    "Negativos\ne a reta",       "base", "o sinal, a ordem e a distância — os números postos em fila"),
+    ("fatoracao",    "Divisibilidade\ne fatoração","base", "primos, o que divide o quê, e por que isso simplifica"),
     ("algebra_elem", "Álgebra\nelementar",         "base", "a letra no lugar do número"),
     ("trigonometria","Trigonometria",              "base", "razão entre lados de um triângulo"),
     ("reais",        "Números reais",              "base", "o corpo ordenado completo onde tudo se passa"),
@@ -74,6 +84,21 @@ NOS = [
 A = "definicao"; O = "ordem"; F = "fronteira"
 ARESTAS = [
     # a cadeia da base — já é a fig-3-base do mapa-genealogia
+    # o conjunto abre nos seus pilares
+    ("aritmetica",   "op_quatro",    O, "hipatia/norma-de-notacao.md §1 — o arco do cálculo exige aritmética com FAMILIARIDADE, não com \"já vi\""),
+    ("aritmetica",   "fracoes",      O, "hipatia/norma-de-notacao.md §1 · seminario-calculo-0, folha 2"),
+    ("aritmetica",   "potencias",    O, "hipatia/norma-de-notacao.md §1 · seminario-calculo-0, folha 2"),
+    ("aritmetica",   "negativos",    O, "hipatia/norma-de-notacao.md §1 · seminario-calculo-0, folha 2"),
+    ("aritmetica",   "fatoracao",    O, "hipatia/norma-de-notacao.md §1 · seminario-calculo-0, folha 2"),
+
+    # e cada pilar sustenta o que vem depois — é aqui que a lacuna aparece
+    ("op_quatro",    "algebra_elem", O, "mapa-genealogia, fig-3-base · a letra obedece às MESMAS propriedades: comutativa, associativa, distributiva"),
+    ("fatoracao",    "algebra_elem", O, "seminario-calculo-0, folha 9 — fatorar é o que revela ou esconde um buraco no domínio"),
+    ("fracoes",      "trigonometria",O, "trigonometria é RAZÃO entre lados: sem fração, o seno não tem sentido"),
+    ("negativos",    "reais",        O, "GUI cap. 1 — a reta ordenada é o que os reais completam"),
+    ("negativos",    "coord_plano",  O, "seminario-geometria, Estação 3 — o eixo tem lado negativo, e o observador fica na origem"),
+    ("potencias",    "exp_log",      O, "seminario-calculo-0 — a potência de expoente natural antes da de expoente real"),
+    ("fracoes",      "funcoes",      O, "seminario-calculo-0, folha 9 — a função escrita como quociente, e o domínio que ela perde"),
     ("aritmetica",   "algebra_elem", O, "mapa-genealogia, fig-3-base · BOY caps. 1-3 (contagem antes da equação)"),
     ("algebra_elem", "trigonometria",O, "mapa-genealogia, fig-3-base"),
     ("algebra_elem", "reais",        O, "GUI cap. 1 (racionais §1.1 antes dos reais §1.2)"),
@@ -164,6 +189,11 @@ C, AL, GA = "calculo", "algebra", "geometria"
 DOMINIOS = {
     # a base — anterior aos três troncos
     "aritmetica": ((), "anterior aos três — nenhum curso a ensina, todos a exigem"),
+    "op_quatro": ((), "pilar da aritmética — as propriedades que a letra vai herdar"),
+    "fracoes": ((), "pilar da aritmética — razão e proporção, que a trigonometria cobra"),
+    "potencias": ((), "pilar da aritmética — o expoente natural, que a exponencial estende"),
+    "negativos": ((), "pilar da aritmética — a reta ordenada, que os reais completam"),
+    "fatoracao": ((), "pilar da aritmética — o que permite simplificar sem mudar o valor"),
     "algebra_elem": ((), "anterior aos três"),
     "trigonometria": ((), "anterior aos três; GUI §2.2 a retoma como função"),
     "reais": ((), "anterior aos três; GUI cap. 1 a formaliza antes de tudo"),

@@ -37,17 +37,31 @@ MARGEM = 48
 # A cor não é enfeite: é a soma. Duas matérias no mesmo tronco têm a mesma cor;
 # uma matéria em dois troncos tem a cor que a LUZ dos dois faria.
 TRONCOS = {
-    "calculo":   ((226, 86, 74),  "Cálculo (I, II, III)", "laterais arredondadas"),
-    "algebra":   ((95, 180, 95),  "Álgebra Linear",       "hexágono"),
-    "geometria": ((74, 134, 226), "Geometria Analítica",  "cantos vivos"),
+    # 2026-08-24: as três subiram de saturação com o MATIZ INTACTO — o verde
+    # era o mais lavado da casa (s36%) e sumia contra o fundo navy. A soma de
+    # luz continua dando amarelo, magenta e ciano.
+    "calculo":   ((244, 78, 62),  "Cálculo (I, II, III)", "laterais arredondadas"),
+    "algebra":   ((58, 200, 72),  "Álgebra Linear",       "hexágono"),
+    "geometria": ((60, 138, 246), "Geometria Analítica",  "cantos vivos"),
 }
 OURO = "#c9a266"
 
+# DEFEITO ACHADO EM 2026-08-24: os chips do cabeçalho usavam cores PRÓPRIAS, e
+# elas estavam ROTACIONADAS em relação ao contorno dos nós — o chip "cálculo"
+# era azul (o matiz da geometria), o "geometria" era verde (o da álgebra), e o
+# "álgebra" era uma terracota que não pertencia a ninguém. Medido: 207°, 102° e
+# 103° de diferença de matiz. Com o chip dizendo uma cor e o nó dizendo outra, o
+# olho não aprende a associação — que é a razão de o mapa ser colorido.
+# Agora o chip É a cor do tronco, derivada da mesma fonte.
+def _hx(rgb):
+    return "#%02x%02x%02x" % rgb
+
+
 RAMOS = {
     "base":      ("o tronco", "#c9a266"),
-    "calculo":   ("cálculo",  "#7ea8d8"),
-    "geometria": ("geometria analítica", "#8fbf8a"),
-    "algebra":   ("álgebra linear", "#c56a45"),
+    "calculo":   ("cálculo",  _hx(TRONCOS["calculo"][0])),
+    "geometria": ("geometria analítica", _hx(TRONCOS["geometria"][0])),
+    "algebra":   ("álgebra linear", _hx(TRONCOS["algebra"][0])),
     "fronteira": ("fronteira — sem obra no acervo", "#7c88a1"),
 }
 
@@ -202,6 +216,27 @@ def gerar():
 
     # --- SVG ---------------------------------------------------------------
     svg = []
+
+    # O CONJUNTO DA ARITMÉTICA, desenhado (2026-08-24). Os cinco pilares são o
+    # CONTEÚDO de "Aritmética e as operações", não cinco irmãos soltos — e é
+    # neste bloco que se aponta a lacuna que veio do ensino básico. Uma moldura
+    # tracejada dá a ver o conjunto sem inventar um nó que não existe.
+    PILARES = ("op_quatro", "fracoes", "potencias", "negativos", "fatoracao")
+    if all(k in pos for k in PILARES):
+        xs = [pos[k][0] for k in PILARES]
+        ys = [pos[k][1] for k in PILARES]
+        m = 16
+        gx, gy = min(xs) - m, min(ys) - m - 20
+        gw = (max(xs) + CAIXA_L + m) - gx
+        gh = (max(ys) + CAIXA_A + m) - gy
+        svg.append(
+            f'<g class="grupo-aritmetica">'
+            f'<rect x="{gx:.1f}" y="{gy:.1f}" width="{gw:.1f}" height="{gh:.1f}" '
+            f'rx="14" ry="14"></rect>'
+            f'<text x="{gx + 14:.1f}" y="{gy + 16:.1f}">'
+            f'os pilares da aritmética — onde a lacuna do ensino básico aparece'
+            f'</text></g>')
+
     for L in linhas:
         p = " ".join(f"{x:.1f},{y:.1f}" for x, y in L["pts"])
         svg.append(f'<polyline class="aresta w-{L["warrant"]}" points="{p}" '
@@ -253,6 +288,10 @@ def gerar():
                 .replace("{{H}}", str(int(H)))
                 .replace("{{DADOS}}", json.dumps(dados, ensure_ascii=False))
                 .replace("{{RAMOS}}", legenda_ramos)
+                # o Venn e os ícones da legenda saem da MESMA fonte que os nós
+                .replace("{{C_CALC}}", _hx(TRONCOS["calculo"][0]))
+                .replace("{{C_ALG}}", _hx(TRONCOS["algebra"][0]))
+                .replace("{{C_GEO}}", _hx(TRONCOS["geometria"][0]))
                 .replace("/*{{CSS_DOM}}*/", css_dom)
                 .replace("{{CRUZ_ANTES}}", str(r["cruz_antes"]))
                 .replace("{{CRUZ_DEPOIS}}", str(r["cruz_depois"]))
@@ -337,15 +376,23 @@ footer .licenca{margin-left:auto}
 .ramo-fronteira > :first-child{stroke-dasharray:5 4}
 .ramo-fronteira text{fill:var(--muted)}
 /*{{CSS_DOM}}*/
+/* a moldura do conjunto da aritmética — tracejada porque é agrupamento, não
+   dependência: nenhuma seta entra ou sai dela */
+.grupo-aritmetica rect{fill:rgba(201,162,102,.05);stroke:var(--ouro);
+  stroke-width:1.3;stroke-dasharray:7 5;opacity:.65}
+.grupo-aritmetica text{fill:var(--ouro-claro);font-size:13px;font-weight:600;
+  letter-spacing:.02em;font-family:Inter,sans-serif;opacity:1}
+svg.focado .grupo-aritmetica{opacity:.2}
+
 /* --- o mapa RGB: os círculos somam como luz soma --- */
 .rgb{background:#0a1424;border:1px solid var(--borda);border-radius:10px;
      padding:12px 10px 8px;margin-bottom:18px}
 .rgb svg{display:block;margin:0 auto}
 .rgb circle{mix-blend-mode:screen}
-.rgb .cap{color:#8b98b3;font-size:11px;text-align:center;margin-top:6px;line-height:1.4}
-.formas{display:grid;grid-template-columns:auto 1fr;gap:7px 10px;align-items:center;
-        font-size:12px;color:var(--muted);margin-bottom:18px}
-.formas b{color:var(--ink2);font-weight:500}
+.rgb .cap{color:var(--ink2);font-size:11.5px;text-align:center;margin-top:6px;line-height:1.4}
+.formas{display:grid;grid-template-columns:auto 1fr;gap:9px 10px;align-items:center;
+        font-size:12.5px;color:var(--ink2);margin-bottom:18px}
+.formas b{color:var(--ink);font-weight:600}
 .formas svg{display:block}
 /* apagado, não sumido — §1.5 information hiding */
 svg.focado .no{opacity:.16}
@@ -391,16 +438,26 @@ svg.focado .no.alvo text{font-weight:600}
   </div>
   <aside>
     <div class="rgb">
-      <svg width="188" height="150" viewBox="0 0 188 150" aria-label="mapa RGB dos três troncos">
-        <circle cx="94" cy="54"  r="42" fill="#e2564a"></circle>
-        <circle cx="70" cy="96"  r="42" fill="#5fb45f"></circle>
-        <circle cx="118" cy="96" r="42" fill="#4a86e2"></circle>
-        <text x="94" y="26" fill="#fff" font-size="10" text-anchor="middle"
-              font-family="Inter,sans-serif" style="mix-blend-mode:normal">CÁLCULO</text>
-        <text x="34" y="126" fill="#fff" font-size="10" text-anchor="middle"
-              font-family="Inter,sans-serif">ÁLGEBRA</text>
-        <text x="154" y="126" fill="#fff" font-size="10" text-anchor="middle"
-              font-family="Inter,sans-serif">GEOMETRIA</text>
+      <!-- 2026-08-24: círculos MAIORES (r 42 -> 56) e o rótulo no CENTRO de
+           cada um. Os centros ficam na zona PURA — a distância entre dois
+           centros (66 e 68) é maior que o raio, então nenhum rótulo cai sobre
+           cor misturada, que é o que faria o nome mentir sobre a cor. -->
+      <svg width="252" height="200" viewBox="0 0 252 200" aria-label="mapa RGB dos três troncos">
+        <circle cx="126" cy="66"  r="58" fill="{{C_CALC}}"></circle>
+        <circle cx="88"  cy="128" r="58" fill="{{C_ALG}}"></circle>
+        <circle cx="164" cy="128" r="58" fill="{{C_GEO}}"></circle>
+        <text x="126" y="66" fill="#fff" font-size="11" font-weight="600"
+              text-anchor="middle" dominant-baseline="central"
+              font-family="Inter,sans-serif"
+              style="mix-blend-mode:normal;paint-order:stroke;stroke:#0a1424;stroke-width:2.5px">CÁLCULO</text>
+        <text x="88" y="128" fill="#fff" font-size="11" font-weight="600"
+              text-anchor="middle" dominant-baseline="central"
+              font-family="Inter,sans-serif"
+              style="mix-blend-mode:normal;paint-order:stroke;stroke:#0a1424;stroke-width:2.5px">ÁLGEBRA</text>
+        <text x="164" y="128" fill="#fff" font-size="11" font-weight="600"
+              text-anchor="middle" dominant-baseline="central"
+              font-family="Inter,sans-serif"
+              style="mix-blend-mode:normal;paint-order:stroke;stroke:#0a1424;stroke-width:2.5px">GEOMETRIA</text>
       </svg>
       <div class="cap">A cor <b>soma como luz soma</b>.<br>
         cálculo + álgebra = amarelo · cálculo + geometria = magenta ·
@@ -408,19 +465,19 @@ svg.focado .no.alvo text{font-weight:600}
     </div>
     <div class="formas">
       <svg width="46" height="24"><rect x="1" y="1" width="44" height="22" rx="11" ry="11"
-        fill="none" stroke="#e2564a" stroke-width="1.8"></rect></svg>
+        fill="none" stroke="{{C_CALC}}" stroke-width="2.6"></rect></svg>
       <span><b>Cálculo</b> — laterais arredondadas</span>
       <svg width="46" height="24"><polygon points="8,1 38,1 45,12 38,23 8,23 1,12"
-        fill="none" stroke="#5fb45f" stroke-width="1.8"></polygon></svg>
+        fill="none" stroke="{{C_ALG}}" stroke-width="2.6"></polygon></svg>
       <span><b>Álgebra Linear</b> — hexágono</span>
       <svg width="46" height="24"><rect x="1" y="1" width="44" height="22"
-        fill="none" stroke="#4a86e2" stroke-width="1.8"></rect></svg>
+        fill="none" stroke="{{C_GEO}}" stroke-width="2.6"></rect></svg>
       <span><b>Geometria Analítica</b> — cantos vivos</span>
       <svg width="46" height="24"><polygon points="7,1 39,1 45,6 45,18 39,23 7,23 1,18 1,6"
-        fill="none" stroke="#a9ffff" stroke-width="1.8"></polygon></svg>
+        fill="none" stroke="#a9ffff" stroke-width="2.6"></polygon></svg>
       <span><b>Dois troncos</b> — cantos chanfrados, cor somada</span>
       <svg width="46" height="24"><rect x="1" y="1" width="44" height="22" rx="6"
-        fill="none" stroke="#c9a266" stroke-width="1.8"></rect></svg>
+        fill="none" stroke="#c9a266" stroke-width="2.6"></rect></svg>
       <span><b>A base</b> — anterior aos três</span>
     </div>
     <div id="painel">
