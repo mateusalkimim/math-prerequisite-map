@@ -142,7 +142,9 @@ define.
 ## A coluna de propriedades, e os verbetes
 
 Clicar num nó abre o painel **dele** numa coluna própria — o raciocínio do
-Properties Bin do Nuke, aplicado a um mapa. A coluna fica **sempre aberta**,
+Properties Bin do Nuke, aplicado a um mapa. O texto fica **encostado no mapa**,
+e a chave de cores e formas vai para a ponta: quem clica olha para o lado e lê,
+enquanto a legenda é consulta ocasional. A coluna fica **sempre aberta**,
 mesmo vazia: coluna que aparece e some faz o mapa saltar de largura a cada
 clique, e o leitor perde de vista o nó que estava olhando. **Um nó por vez.**
 

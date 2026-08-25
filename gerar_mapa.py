@@ -407,6 +407,9 @@ aside{width:330px;flex:none;border-left:1px solid var(--borda);padding:18px 20px
    própria. Antes isto vivia espremido embaixo do Venn, no fim de uma coluna
    que o leitor já tinha percorrido — e o texto mais longo da página ficava no
    pior lugar dela.
+   ORDEM (correção do operador): o TEXTO vem primeiro, encostado no mapa, e as
+   figuras ficam na ponta. Quem clica num nó olha para o lado e lê; a chave de
+   cores e formas é consulta ocasional, e consulta ocasional mora mais longe.
    Fica SEMPRE aberta, mesmo vazia: coluna que aparece e some faz o mapa saltar
    de largura a cada clique, e o leitor perde o nó que estava olhando.
    UM POR VEZ, por decisão do operador — o Properties Bin do Nuke empilha, este
@@ -593,6 +596,15 @@ svg.focado .no.alvo text{font-weight:600}
       {{SVG}}
     </svg>
   </div>
+  <section id="propriedades">
+    <div id="painel">
+      <div class="vazio">Nenhuma matéria escolhida.<br><br>
+        Clique numa caixa do mapa — ou procure pelo nome — para ver o que ela é,
+        por que existe, onde aparece no mundo, onde se costuma travar, e
+        <b>de onde veio cada seta</b>.</div>
+    </div>
+  </section>
+
   <aside>
     <div class="rgb">
       <!-- 2026-08-24: círculos MAIORES (r 42 -> 56) e o rótulo no CENTRO de
@@ -648,15 +660,6 @@ svg.focado .no.alvo text{font-weight:600}
       <span><b>A base</b> — anterior aos dois</span>
     </div>
   </aside>
-
-  <section id="propriedades">
-    <div id="painel">
-      <div class="vazio">Nenhuma matéria escolhida.<br><br>
-        Clique numa caixa do mapa — ou procure pelo nome — para ver o que ela é,
-        por que existe, onde aparece no mundo, onde se costuma travar, e
-        <b>de onde veio cada seta</b>.</div>
-    </div>
-  </section>
 </main>
 
 <footer>
