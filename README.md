@@ -205,6 +205,43 @@ painel fica visível depois do clique, e o gesto de um dedo não é capturado. A
 segunda medida existe porque o CSS certo não basta — o handler ainda podia
 chamar `preventDefault` e matar a rolagem com o `touch-action` correto ao lado.
 
+## O mapa como figura dentro de uma aula
+
+[`figura_deck.py`](figura_deck.py) exporta o mapa em SVG com um episódio em
+foco, para o deck da aula abrir dizendo **onde estamos** e fechar dizendo **para
+onde vamos**:
+
+```bash
+python3 figura_deck.py --ids matrizes,sistemas,determinante \
+    --modo abertura --titulo "G2 · Determinantes" --saida onde-estamos.svg
+python3 figura_deck.py --ids matrizes,sistemas,determinante \
+    --modo recorte  --titulo "para onde vamos"    --saida proximo.svg
+```
+
+| modo | o que desenha | para quê |
+|---|---|---|
+| `abertura` | o mapa **inteiro**; rótulo só nas matérias do episódio e nos vizinhos diretos | lê-se a mancha: quanto do campo já foi andado |
+| `recorte` | só a vizinhança, toda rotulada, com as camadas vazias colapsadas | lê-se o nome: qual é a próxima dependência |
+
+Três decisões que o desenho carrega:
+
+- **rótulo só nos relacionados.** Cinquenta nomes numa folha de 1920 não se
+  leem. As outras matérias continuam desenhadas e apagadas — §1.5 da norma:
+  *apagar em vez de sumir*, o contexto fica, o foco não;
+- **o recorte é por `viewBox`, com o layout intacto.** Recalcular posições só
+  para a vizinhança daria um desenho mais compacto e **mentiria sobre a
+  geografia**: o leitor acabou de ver o mapa inteiro na abertura, e as caixas
+  precisam estar onde estavam. O que se comprime são as **camadas vazias** — a
+  vizinhança do determinante vai da camada 1 à 9, o que em altura real daria
+  1.624 px contra 714 de largura, um fio ilegível numa folha 16:9. Colapsadas,
+  a proporção sai entre 0,83 e 1,10 nos episódios medidos;
+- **SVG e não PNG**, por causa de um portão: o auditor de rótulos lê o **texto
+  vetorial** do PDF. Rótulo em bitmap é rótulo que o auditor não vê.
+
+A paleta é a do **deck** (papel `#f3f5f9`), não a do site: os matizes dos
+troncos são os mesmos, mas no claro a cor **mistura por média** e não por soma —
+somar luz sobre papel claro estoura para o branco.
+
 ## As linhas não têm diagonal
 
 Só horizontal, vertical e L, por decisão de desenho. Cada trecho vira um **Z**
