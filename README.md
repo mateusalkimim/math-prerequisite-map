@@ -139,6 +139,36 @@ não é um intruso na aritmética: é a segunda inversa que a assimetria obriga 
 existir. O que fica no cálculo é a *função* de expoente real, que só o limite
 define.
 
+## A lógica primordial, declarada
+
+O mapa nomeava os troncos — "Cálculo", "Álgebra Linear" — e **em lugar nenhum
+dizia o que eles são**. A cor codificava o tronco; ninguém decodificava a razão
+dele. Agora está dito em quatro lugares:
+
+> **A álgebra linear fala do que é LINEAR** — soma e escala preservadas.
+> **O cálculo fala do que é CONSTANTE**, e do que muda perto de um ponto.
+> São dois assuntos, e nenhum se apoia no outro.
+
+É essa distinção que faz a série ser uma **árvore** e não uma fila, e por isso
+ela precisava estar no mapa, não só na norma.
+
+**A marca de canto.** Cada matéria carrega no canto um disco com letra — **C**
+de constante, **L** de linear — no gesto dos nós do Nuke, onde um disco no canto
+diz que o nó tem animação, expressão ou clone. O rótulo não muda; a informação
+entra por fora. Uma matéria que vive nos dois troncos leva as duas marcas.
+
+**A base fica sem marca, de propósito**: ela não é nem uma coisa nem outra, é
+anterior às duas. Marcar tudo diria que tudo se classifica.
+
+## Atalhos
+
+| tecla | o que faz |
+|---|---|
+| **F** | reenquadra o mapa inteiro na tela — o mesmo que "ajustar à tela" |
+
+O **F** é ignorado enquanto se digita na busca: sem isso, procurar por "função"
+reenquadraria o mapa a cada `f` batido.
+
 ## A coluna de propriedades, e os verbetes
 
 Clicar num nó abre o painel **dele** numa coluna própria — o raciocínio do

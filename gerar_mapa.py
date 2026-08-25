@@ -49,6 +49,16 @@ TRONCOS = {
     "calculo":   ((244, 78, 62),  "Cálculo (I, II, III)", "laterais arredondadas"),
     "algebra":   ((58, 200, 72),  "Álgebra Linear",       "hexágono"),
 }
+
+# A LÓGICA PRIMORDIAL, que faltava (2026-08-25). O mapa nomeava os troncos e não
+# dizia o que eles SÃO. A série inteira se organiza sobre isto — a
+# `norma-de-notacao.md` §1: o arco GAAL fala do que é LINEAR, o arco do cálculo
+# fala do que é CONSTANTE, e é por isso que um não se apoia no outro.
+# A cor codificava o tronco; ninguém decodificava a razão dele.
+NATUREZA = {
+    "calculo":  ("C", "constante", "o que é constante, e o que muda perto de um ponto"),
+    "algebra":  ("L", "linear",    "o que é linear — soma e escala preservadas"),
+}
 # O azul da geometria vira o traço da REGIÃO, não de um tronco: é o contorno
 # interno que marca, dentro do verde, o que é geometria analítica.
 COR_REGIAO = (120, 196, 255)
@@ -66,9 +76,9 @@ def _hx(rgb):
 
 
 RAMOS = {
-    "base":      ("o tronco", "#c9a266"),
-    "calculo":   ("cálculo",  _hx(TRONCOS["calculo"][0])),
-    "algebra":   ("álgebra linear", _hx(TRONCOS["algebra"][0])),
+    "base":      ("o tronco — anterior aos dois", "#c9a266"),
+    "calculo":   ("cálculo · o que é CONSTANTE",  _hx(TRONCOS["calculo"][0])),
+    "algebra":   ("álgebra linear · o que é LINEAR", _hx(TRONCOS["algebra"][0])),
     "geometria": ("geometria analítica — dentro da álgebra linear", _hx(COR_REGIAO)),
     "fronteira": ("fronteira — sem obra no acervo", "#7c88a1"),
 }
@@ -138,6 +148,32 @@ def contorno_regiao(doms, L, A, raiz=False):
     else:
         corpo = f'<rect width="{l}" height="{a}" rx="6"></rect>'
     return f'<g class="regiao-geo" transform="translate({d},{d})">{corpo}</g>'
+
+
+def badges(doms, L, A):
+    """As marcas de canto — a metodologia dos nós do Nuke, aplicada ao mapa.
+
+    No Nuke um nó carrega no canto um disco com letra dizendo o que ele TEM:
+    A de animação, E de expressão, C de clone. O rótulo não muda; a informação
+    entra por fora. Aqui a letra diz a NATUREZA da matéria — C de constante,
+    L de linear — e é o único lugar da página onde a tese aparece no próprio nó,
+    e não só na legenda.
+
+    A base fica SEM marca de propósito: ela não é nem uma coisa nem outra, é
+    anterior às duas. Marcar tudo diria que tudo se classifica.
+    """
+    if not doms:
+        return ""
+    r, saida = 8.5, []
+    for k, d in enumerate(doms):
+        letra, _nome, _ = NATUREZA[d]
+        cx, cy = L - r - 2, r + 2 + k * (2 * r + 3)
+        saida.append(
+            f'<g class="badge badge-{d}">'
+            f'<circle cx="{cx:.1f}" cy="{cy:.1f}" r="{r}"></circle>'
+            f'<text x="{cx:.1f}" y="{cy + 3.6:.1f}" text-anchor="middle">{letra}</text>'
+            f'</g>')
+    return "".join(saida)
 
 
 def ortogonal(pts, desvio):
@@ -290,6 +326,7 @@ def gerar():
             + forma(doms, CAIXA_L, CAIXA_A, raiz)
             + (contorno_regiao(doms, CAIXA_L, CAIXA_A, raiz)
                if nid in REGIAO_GEO else "")
+            + badges(doms, CAIXA_L, CAIXA_A)
             + "".join(
                 f'<text x="{CAIXA_L/2}" y="{CAIXA_A/2 + (i - (len(rot.split(chr(10)))-1)/2)*15 + 5:.1f}">'
                 f'{html.escape(l)}</text>'
@@ -321,6 +358,9 @@ def gerar():
         "cruz": {"antes": r["cruz_antes"], "depois": r["cruz_depois"]},
         "ramos": {k: v[0] for k, v in RAMOS.items()},
         "troncos": {k: v[1] for k, v in TRONCOS.items()},
+        # a natureza vai ao painel: clicar num nó passa a dizer se ele é do que
+        # é CONSTANTE ou do que é LINEAR, não só a que tronco pertence
+        "natureza": {k: f"o que é {v[1]}" for k, v in NATUREZA.items()},
     }
 
     combos = sorted({tuple(sorted(DOMINIOS[n[0]][0])) for n in NOS})
@@ -392,6 +432,8 @@ input[type=search]{background:var(--sup);border:1px solid var(--borda);
 button{background:var(--sup);border:1px solid var(--borda);color:var(--ink2);
   border-radius:8px;padding:7px 12px;font:inherit;font-size:13px;cursor:pointer}
 button:hover{border-color:var(--ouro);color:var(--ink)}
+kbd{font:inherit;font-size:11px;border:1px solid var(--borda);border-radius:4px;
+    padding:1px 5px;margin-left:5px;color:var(--muted);background:var(--fundo)}
 .chips{display:flex;gap:14px;flex-wrap:wrap;font-size:12px;color:var(--muted)}
 .chip{display:inline-flex;align-items:center;gap:6px}
 .chip i{width:11px;height:11px;border-radius:3px;display:inline-block}
@@ -470,6 +512,16 @@ footer .licenca{margin-left:auto}
    se tivesse, competiria com a cor do tronco, e a região não é outro tronco. */
 .regiao-geo > *{fill:none;stroke:{{C_GEO}};stroke-width:1.3;opacity:.85}
 svg.focado .no:not(.acesa) .regiao-geo > *{opacity:.18}
+/* AS MARCAS DE CANTO (2026-08-25) — o gesto dos nós do Nuke: um disco com
+   letra dizendo o que a matéria É, sem tocar no rótulo. C de constante,
+   L de linear. Ficam discretas até o nó entrar em foco. */
+.badge circle{stroke:none;opacity:.85}
+.badge text{font-family:var(--sans);font-size:11px;font-weight:700;
+            fill:#0a1424;pointer-events:none}
+.badge-calculo circle{fill:{{C_CALC}}}
+.badge-algebra circle{fill:{{C_ALG}}}
+svg.focado .no:not(.acesa) .badge{opacity:.15}
+.no:hover .badge circle{opacity:1}
 .no > :first-child{fill:var(--sup);stroke:var(--borda);stroke-width:1.7}
 .no text{fill:var(--ink);font-family:var(--sans);font-size:12.5px;font-weight:500;
          text-anchor:middle;pointer-events:none}
@@ -581,11 +633,15 @@ svg.focado .no.alvo text{font-weight:600}
   <div class="sub">A ordem <b>lógica</b> — não a histórica, não a curricular.
     A direção é declarada uma vez e não se mistura: <b>de cima para baixo</b>,
     o pré-requisito sempre acima de quem o exige. Clique numa matéria para
-    acender a cadeia inteira que a sustenta, até a linguagem dos conjuntos.</div>
+    acender a cadeia inteira que a sustenta, até a linguagem dos conjuntos.<br>
+    <b>Dois troncos, e eles não se apoiam um no outro</b>: a álgebra linear fala
+    do que é <b>linear</b> — soma e escala preservadas; o cálculo fala do que é
+    <b>constante</b>, e do que muda perto de um ponto. Cada matéria carrega no
+    canto a marca do seu: <b>L</b> ou <b>C</b>.</div>
   <div class="barra">
     <input type="search" id="busca" placeholder="procurar matéria… (ex.: limite)" autocomplete="off">
     <button id="limpar">limpar</button>
-    <button id="ajustar" title="reenquadra o mapa inteiro na tela">ajustar à tela</button>
+    <button id="ajustar" title="reenquadra o mapa inteiro na tela — atalho: F">ajustar à tela <kbd>F</kbd></button>
     <button id="tema">tema claro</button>
     <span class="chips">{{RAMOS}}</span>
   </div>
@@ -651,7 +707,10 @@ svg.focado .no.alvo text{font-weight:600}
               font-family="Inter,sans-serif"
               style="paint-order:stroke;stroke:#0a1424;stroke-width:2.5px">GEOM. ANALÍTICA</text>
       </svg>
-      <div class="cap"><b>Dois troncos</b>, e a geometria analítica <b>dentro</b>
+      <div class="cap"><b>O cálculo fala do que é constante</b>; a álgebra
+        linear, <b>do que é linear</b>. São dois assuntos, e nenhum se apoia no
+        outro — é por isso que a série é uma árvore, e não uma fila.<br><br>
+        E a geometria analítica fica <b>dentro</b>
         da álgebra linear — é a região dela onde existe <b>produto interno</b>,
         que é o que dá distância e ângulo, e portanto figura.<br>
         Em <b>qualquer</b> dimensão: o limite de três é da ilustração, que precisa
@@ -674,7 +733,15 @@ svg.focado .no.alvo text{font-weight:600}
       <span><b>Dois troncos</b> — cantos chanfrados, cor somada</span>
       <svg width="46" height="24"><rect x="1" y="1" width="44" height="22" rx="6"
         fill="none" stroke="#c9a266" stroke-width="2.6"></rect></svg>
-      <span><b>A base</b> — anterior aos dois</span>
+      <span><b>A base</b> — anterior aos dois, e por isso <b>sem marca</b></span>
+      <svg width="46" height="24"><circle cx="13" cy="12" r="8.5" fill="{{C_CALC}}"></circle>
+        <text x="13" y="15.6" text-anchor="middle" font-size="11" font-weight="700"
+          font-family="Inter,sans-serif" fill="#0a1424">C</text>
+        <circle cx="33" cy="12" r="8.5" fill="{{C_ALG}}"></circle>
+        <text x="33" y="15.6" text-anchor="middle" font-size="11" font-weight="700"
+          font-family="Inter,sans-serif" fill="#0a1424">L</text></svg>
+      <span><b>A marca de canto</b> — <b>C</b> de constante, <b>L</b> de linear:
+        a matéria diz a que tronco pertence sem depender da cor</span>
     </div>
   </aside>
 </main>
@@ -757,7 +824,8 @@ function acender(id){
   const usa = (filhos[id]||[]);
   painel.innerHTML =
     '<h2>' + n.rotulo + '</h2>' +
-    '<div class="ramo">' + (n.dom.length ? n.dom.map(d => D.troncos[d]).join(' + ')
+    '<div class="ramo">' + (n.dom.length
+        ? n.dom.map(d => D.troncos[d] + ' · ' + (D.natureza[d] || '')).join('  +  ')
         : 'a base — anterior aos dois troncos') + ' · camada ' + n.camada +
         (n.geo ? ' · <b class="marca-geo">geometria analítica</b>' : '') + '</div>' +
     verbete(id) +
@@ -890,6 +958,14 @@ palco.addEventListener('touchend', e => {
   if(e.touches.length === 0){ arrastando = false; toqueD = 0; }
 }, {passive:true});
 document.getElementById('ajustar').addEventListener('click', ajustar);
+// F DE FIT, como no Nuke. Ignorado enquanto se digita: procurar por "função"
+// reenquadraria o mapa a cada "f" batido na busca.
+addEventListener('keydown', e => {
+  const t = document.activeElement;
+  const digitando = t && (t.tagName === 'INPUT' || t.tagName === 'TEXTAREA');
+  if (digitando || e.ctrlKey || e.metaKey || e.altKey) return;
+  if (e.key === 'f' || e.key === 'F') { e.preventDefault(); ajustar(); }
+});
 addEventListener('resize', ajustar);
 ajustar();
 
