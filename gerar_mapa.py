@@ -296,7 +296,22 @@ def gerar():
                 for i, l in enumerate(rot.split("\n")))
             + "</g>")
 
+    # OS VERBETES (2026-08-25). Gerados fora daqui — a página é estática, e
+    # quem escreve é o phi-4 local, orquestrado pelo `gerar_textos_mapa.py` da
+    # Hipátia. Aqui eles só são EMBUTIDOS. Se o arquivo não existe, o mapa
+    # continua funcionando sem eles: o texto é acréscimo, não dependência.
+    verbetes = {}
+    cam = os.path.join(AQUI, "textos-nos.json")
+    if os.path.exists(cam):
+        with open(cam, encoding="utf-8") as f:
+            verbetes = json.load(f).get("nos", {})
+    faltam = [n[0] for n in NOS if n[0] not in verbetes]
+    if faltam:
+        print(f"  ⚠ {len(faltam)} nó(s) sem verbete: {', '.join(faltam[:6])}"
+              + ("…" if len(faltam) > 6 else ""))
+
     dados = {
+        "verbetes": verbetes,
         "nos": {n[0]: {"rotulo": n[1].replace("\n", " "), "ramo": n[2], "nota": n[3],
                        "camada": nivel[n[0]],
                        "dom": list(sorted(DOMINIOS[n[0]][0])),
@@ -387,6 +402,30 @@ main{display:flex;gap:0;align-items:stretch}
 svg{display:block;max-height:none}
 aside{width:330px;flex:none;border-left:1px solid var(--borda);padding:18px 20px;
       overflow-y:auto;height:calc(100vh - 210px);min-height:340px;background:var(--sup)}
+/* A COLUNA DE PROPRIEDADES (2026-08-25). Raciocínio do Nuke aplicado ao mapa:
+   seleciona-se um nó e ele abre o painel de propriedades DELE, numa coluna
+   própria. Antes isto vivia espremido embaixo do Venn, no fim de uma coluna
+   que o leitor já tinha percorrido — e o texto mais longo da página ficava no
+   pior lugar dela.
+   Fica SEMPRE aberta, mesmo vazia: coluna que aparece e some faz o mapa saltar
+   de largura a cada clique, e o leitor perde o nó que estava olhando.
+   UM POR VEZ, por decisão do operador — o Properties Bin do Nuke empilha, este
+   não. */
+#propriedades{width:390px;flex:none;border-left:1px solid var(--borda);
+      padding:18px 22px;overflow-y:auto;height:calc(100vh - 210px);
+      min-height:340px;background:var(--fundo)}
+#propriedades h2{font-family:var(--serif);font-size:25px;margin:0 0 2px;font-weight:600}
+#propriedades .ramo{font-size:12px;color:var(--muted);text-transform:uppercase;
+      letter-spacing:.08em;margin-bottom:14px}
+#propriedades h3{font-size:11.5px;text-transform:uppercase;letter-spacing:.08em;
+      color:var(--muted);margin:18px 0 6px;font-weight:600}
+#propriedades .verbete{color:var(--ink2);font-size:14px;line-height:1.55;margin:0 0 2px}
+#propriedades .campo{margin-bottom:14px}
+#propriedades .campo b{display:block;font-size:11.5px;text-transform:uppercase;
+      letter-spacing:.06em;color:var(--ouro-claro);font-weight:600;margin-bottom:3px}
+.proc{margin-top:20px;padding-top:10px;border-top:1px solid var(--borda);
+      font-size:11px;color:var(--muted);line-height:1.5}
+.sem-texto{font-size:12.5px;color:var(--muted);font-style:italic}
 aside h2{font-family:var(--serif);font-size:23px;margin:0 0 2px;font-weight:600}
 aside .ramo{font-size:12px;color:var(--muted);text-transform:uppercase;
             letter-spacing:.08em;margin-bottom:10px}
@@ -437,6 +476,20 @@ svg.focado .no:not(.acesa) .regiao-geo > *{opacity:.18}
    desce para baixo dele, virando leitura em coluna. Não se esconde nada — a
    §1.5 da casa é information hiding, não information deleting.
    ======================================================================= */
+/* ENTRE O TELEFONE E A TELA LARGA (2026-08-25). Com a coluna de propriedades
+   são 330+390 = 720px de coluna FIXA: numa tela de 900px sobrariam 180px de
+   mapa, que não é mapa nenhum. Aqui o mapa fica inteiro em cima e as duas
+   colunas descem.
+   É bloco PRÓPRIO, e não uma subida do breakpoint de 860: aquele carrega
+   ajustes de DEDO (input a 16px para o iOS não dar zoom, alvo de toque de
+   40px) que não têm o que fazer numa tela de mouse. */
+@media (min-width: 861px) and (max-width: 1199px){
+  main{flex-direction:column}
+  #palco{flex:none;height:60vh;min-height:320px;width:100%}
+  aside,#propriedades{width:100%;flex:none;height:auto;min-height:0;
+        border-left:0;border-top:1px solid var(--borda)}
+}
+
 @media (max-width: 860px){
   body{font-size:15px}
   header{padding:12px 14px 10px}
@@ -457,6 +510,8 @@ svg.focado .no:not(.acesa) .regiao-geo > *{opacity:.18}
      o mapa inteiro para fora da tela. */
   #palco{flex:none;height:58vh;min-height:280px;width:100%}
   aside{width:100%;flex:none;height:auto;min-height:0;max-height:none;
+        border-left:0;border-top:1px solid var(--borda);padding:16px 14px}
+  #propriedades{width:100%;flex:none;height:auto;min-height:0;
         border-left:0;border-top:1px solid var(--borda);padding:16px 14px}
   .rgb svg{width:100%;height:auto;max-width:252px}
   .formas{font-size:13px}
@@ -507,7 +562,7 @@ svg.focado .no.alvo text{font-weight:600}
   <div class="sub">A ordem <b>lógica</b> — não a histórica, não a curricular.
     A direção é declarada uma vez e não se mistura: <b>de cima para baixo</b>,
     o pré-requisito sempre acima de quem o exige. Clique numa matéria para
-    acender a cadeia inteira que a sustenta, até a aritmética.</div>
+    acender a cadeia inteira que a sustenta, até a linguagem dos conjuntos.</div>
   <div class="barra">
     <input type="search" id="busca" placeholder="procurar matéria… (ex.: limite)" autocomplete="off">
     <button id="limpar">limpar</button>
@@ -592,12 +647,16 @@ svg.focado .no.alvo text{font-weight:600}
         fill="none" stroke="#c9a266" stroke-width="2.6"></rect></svg>
       <span><b>A base</b> — anterior aos dois</span>
     </div>
+  </aside>
+
+  <section id="propriedades">
     <div id="painel">
       <div class="vazio">Nenhuma matéria escolhida.<br><br>
         Clique numa caixa do mapa — ou procure pelo nome — para ver o que ela é,
-        de quais matérias ela depende, e <b>de onde veio cada seta</b>.</div>
+        por que existe, onde aparece no mundo, onde se costuma travar, e
+        <b>de onde veio cada seta</b>.</div>
     </div>
-  </aside>
+  </section>
 </main>
 
 <footer>
@@ -628,6 +687,30 @@ function ancestrais(id){
   return vistos;
 }
 
+const CAMPOS = [['o_que_e','o que é'], ['por_que_existe','por que existe'],
+                ['onde_aparece','onde aparece no mundo'], ['onde_se_trava','onde se trava']];
+
+function verbete(id){
+  const v = (D.verbetes||{})[id];
+  if(!v) return '<div class="sem-texto">Sem verbete escrito para esta matéria ainda.</div>';
+  const corpo = CAMPOS.filter(([k]) => v[k]).map(([k,rot]) =>
+    '<div class="campo"><b>' + rot + '</b><p class="verbete">' + esc(v[k]) + '</p></div>').join('');
+  const p = v.procedencia || {};
+  // A PROCEDÊNCIA aparece porque este mapa declara de onde vem cada seta; um
+  // texto de modelo entrando calado seria a única afirmação sem warrant aqui.
+  const proc = p.modelo
+    ? '<div class="proc">Verbete escrito por <b>' + esc(p.modelo) + '</b> (' +
+      esc(p.onde || '') + '), ' + esc(p.data || '') + ' — ' +
+      (p.revisado_por_humano ? 'revisado por leitura humana.'
+                             : '<b>ainda não revisado por leitura humana.</b>') + '</div>'
+    : '';
+  return corpo + proc;
+}
+
+function esc(t){
+  const d = document.createElement('div'); d.textContent = t; return d.innerHTML;
+}
+
 function acender(id){
   const anc = ancestrais(id);
   const conjunto = new Set([...anc, id]);
@@ -647,6 +730,7 @@ function acender(id){
     '<div class="ramo">' + (n.dom.length ? n.dom.map(d => D.troncos[d]).join(' + ')
         : 'a base — anterior aos dois troncos') + ' · camada ' + n.camada +
         (n.geo ? ' · <b class="marca-geo">geometria analítica</b>' : '') + '</div>' +
+    verbete(id) +
     '<div class="nota" style="font-size:11.5px;color:var(--muted);margin-bottom:12px">' +
         n.dom_fonte + '</div>' +
     '<div class="nota">' + n.nota + '</div>' +

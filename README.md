@@ -18,7 +18,7 @@ um mapa da genealogia histórica (documento irmão, não publicado); este docume
 até o fim, e a torna instrumento.
 
 **Para que serve**: projetar na tela e apontar onde um aluno travou. Clicar numa
-matéria acende **toda a cadeia que a sustenta**, até a aritmética — e mostra, no
+matéria acende **toda a cadeia que a sustenta**, até a linguagem dos conjuntos — e mostra, no
 painel, de onde veio cada seta.
 
 ```bash
@@ -138,6 +138,43 @@ isso tem **duas** — a raiz acha a *base*, o logaritmo acha o *expoente*. O log
 não é um intruso na aritmética: é a segunda inversa que a assimetria obriga a
 existir. O que fica no cálculo é a *função* de expoente real, que só o limite
 define.
+
+## A coluna de propriedades, e os verbetes
+
+Clicar num nó abre o painel **dele** numa coluna própria — o raciocínio do
+Properties Bin do Nuke, aplicado a um mapa. A coluna fica **sempre aberta**,
+mesmo vazia: coluna que aparece e some faz o mapa saltar de largura a cada
+clique, e o leitor perde de vista o nó que estava olhando. **Um nó por vez.**
+
+Cada matéria tem quatro campos, escritos fora da página e embutidos aqui (a
+página é estática — não há modelo rodando ao vivo):
+
+| campo | o que responde |
+|---|---|
+| **o que é** | a definição, em uma frase |
+| **por que existe** | que problema apareceu ANTES e obrigou isto a existir |
+| **onde aparece no mundo** | onde isto vive hoje, em serviços que qualquer pessoa reconhece |
+| **onde se trava** | o erro comum de quem está aprendendo |
+
+**Os verbetes são escritos por um modelo de linguagem, e a página diz isso.**
+Cada um carrega sua procedência — qual modelo, onde rodou, em que data, e se já
+passou por leitura humana. Num mapa cujo valor inteiro é declarar de onde vem
+cada seta, um texto entrando calado seria a única afirmação sem warrant aqui.
+
+O gerador não é só um prompt. Três coisas fazem a regra valer:
+
+- **um validador** que recusa campo vazio, transbordo, fórmula em LaTeX (a
+  página não desenha LaTeX) e exemplo tirado de efeitos visuais, computação
+  gráfica ou processamento de imagem — que é o assunto de outro material, não
+  deste mapa;
+- **um verificador adversarial** sobre o campo do exemplo, que é onde um modelo
+  inventa. Ele é **portão, não etiqueta**: reprovou, o nó volta para a fila com
+  o motivo e o modelo troca de exemplo. Como simples marcador ele reprovava 3
+  em 4, e uma lista com 35 suspeitos em 50 não separa nada;
+- **um teto por domínio de exemplo.** Numa rodada, 13 dos 50 verbetes ancoraram
+  em GPS e navegação. Cada um era verdadeiro — o verificador não tinha o que
+  marcar — mas juntos faziam o mapa dizer que a matemática toda serve para achar
+  caminho. Com o teto, a maior concentração caiu para 6 de 50.
 
 ## As linhas não têm diagonal
 
