@@ -178,6 +178,33 @@ O gerador não é só um prompt. Três coisas fazem a regra valer:
   marcar — mas juntos faziam o mapa dizer que a matemática toda serve para achar
   caminho. Com o teto, a maior concentração caiu para 6 de 50.
 
+## No celular, um dedo é da página e dois são do mapa
+
+O mapa era medido em 1366×768 e 1920×1080, e no telefone tinha um defeito que
+nenhuma dessas medidas pega: as colunas de texto e de figuras **existiam e eram
+inalcançáveis**. O palco cobria o meio da tela com `touch-action: none`, então o
+dedo sobre o mapa não rolava a página, e clicar num nó preenchia um painel fora
+da vista.
+
+Medido em 390×844 antes do conserto: painel no topo **710** de 844 de viewport,
+coluna de figuras em **860** — fora da tela — e o clique num nó rolava **0px**.
+
+Três mudanças, e as três são medidas por [`medir_telas.py`](medir_telas.py):
+
+- **um dedo rola a página, dois movem e ampliam o mapa** — o padrão de mapa
+  embutido. Como o arrasto de um dedo saiu, o de dois passou a deslocar além de
+  ampliar; sem isso o celular só conseguiria dar zoom, nunca andar;
+- **clicar num nó leva o leitor até o painel**, com rolagem suave. Só no clique,
+  nunca na busca: rolar a cada tecla digitada, com o teclado do celular aberto,
+  seria pior que o defeito original;
+- **um botão "voltar ao mapa"**, que só aparece quando as colunas estão
+  empilhadas — lado a lado o mapa nunca sai de vista, e o botão seria ruído.
+
+O portão confere as duas coisas separadamente, porque são defeitos diferentes: o
+painel fica visível depois do clique, e o gesto de um dedo não é capturado. A
+segunda medida existe porque o CSS certo não basta — o handler ainda podia
+chamar `preventDefault` e matar a rolagem com o `touch-action` correto ao lado.
+
 ## As linhas não têm diagonal
 
 Só horizontal, vertical e L, por decisão de desenho. Cada trecho vira um **Z**

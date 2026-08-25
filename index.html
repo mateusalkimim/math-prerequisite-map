@@ -71,6 +71,15 @@ aside{width:330px;flex:none;border-left:1px solid var(--borda);padding:18px 20px
 .proc{margin-top:20px;padding-top:10px;border-top:1px solid var(--borda);
       font-size:11px;color:var(--muted);line-height:1.5}
 .sem-texto{font-size:12.5px;color:var(--muted);font-style:italic}
+/* só aparece quando as colunas estão EMPILHADAS: no lado a lado o mapa nunca
+   sai de vista, e um botão para "voltar" ao que está ali seria ruído. */
+#ao-mapa{display:none}
+@media (max-width: 1199px){
+  #ao-mapa{display:inline-flex;align-items:center;gap:6px;margin-bottom:12px;
+    background:var(--sup);border:1px solid var(--borda);color:var(--ink2);
+    border-radius:8px;padding:8px 12px;font:inherit;font-size:13px;cursor:pointer}
+  #ao-mapa:hover{border-color:var(--ouro);color:var(--ink)}
+}
 aside h2{font-family:var(--serif);font-size:23px;margin:0 0 2px;font-weight:600}
 aside .ramo{font-size:12px;color:var(--muted);text-transform:uppercase;
             letter-spacing:.08em;margin-bottom:10px}
@@ -160,7 +169,14 @@ html[data-tema="claro"] .dom-calculo > :first-child{stroke:#f44e3e}
   /* flex:none é ESSENCIAL: com flex:1 o flex-basis vence o height em coluna,
      e o palco crescia até a altura nativa do SVG (medido: 1614px), empurrando
      o mapa inteiro para fora da tela. */
-  #palco{flex:none;height:58vh;min-height:280px;width:100%}
+  /* UM DEDO ROLA A PÁGINA, DOIS MOVEM O MAPA (2026-08-25). Com
+     touch-action:none o palco engolia o gesto vertical, e como ele ocupa o
+     MEIO da tela (medido: 439px de 844 no celular retrato), não sobrava por
+     onde rolar: as colunas de texto e de figuras existiam no DOM e eram
+     inalcançáveis. Padrão de mapa embutido em página: o gesto primário do
+     celular é rolar. O mapa continua inteiro com dois dedos e com
+     "ajustar à tela". */
+  #palco{flex:none;height:58vh;min-height:280px;width:100%;touch-action:pan-y}
   aside{width:100%;flex:none;height:auto;min-height:0;max-height:none;
         border-left:0;border-top:1px solid var(--borda);padding:16px 14px}
   #propriedades{width:100%;flex:none;height:auto;min-height:0;
@@ -373,6 +389,7 @@ svg.focado .no.alvo text{font-weight:600}
     </svg>
   </div>
   <section id="propriedades">
+    <button id="ao-mapa" type="button">↑ voltar ao mapa</button>
     <div id="painel">
       <div class="vazio">Nenhuma matéria escolhida.<br><br>
         Clique numa caixa do mapa — ou procure pelo nome — para ver o que ela é,
@@ -490,6 +507,16 @@ function esc(t){
   const d = document.createElement('div'); d.textContent = t; return d.innerHTML;
 }
 
+// Sem isto, clicar num nó no celular preenchia um painel FORA DA TELA — medido
+// em 2026-08-25: painel no topo 710 de um viewport de 844, e 483 de 390 no
+// deitado. O leitor tocava, nada acontecia à vista, e concluía que não havia
+// nada ali.
+function levarAoPainel(){
+  if(!empilhado()) return;
+  const alvo = document.getElementById('propriedades');
+  requestAnimationFrame(() => alvo.scrollIntoView({behavior:'smooth', block:'start'}));
+}
+
 function acender(id){
   const anc = ancestrais(id);
   const conjunto = new Set([...anc, id]);
@@ -535,8 +562,15 @@ function limpar(){
     'de quais matérias ela depende, e <b>de onde veio cada seta</b>.</div>';
 }
 
+// A rolagem vai no CLIQUE, não dentro de acender(): a busca também chama
+// acender, e rolar a página a cada tecla digitada — com o teclado do celular
+// aberto — seria pior que o defeito que isto conserta.
 svg.querySelectorAll('.no').forEach(g =>
-  g.addEventListener('click', e => { e.stopPropagation(); acender(g.dataset.id); }));
+  g.addEventListener('click', e => {
+    e.stopPropagation(); acender(g.dataset.id); levarAoPainel();
+  }));
+document.getElementById('ao-mapa').addEventListener('click', () =>
+  document.getElementById('palco').scrollIntoView({behavior:'smooth', block:'start'}));
 palco.addEventListener('click', limpar);
 document.getElementById('limpar').addEventListener('click', limpar);
 
@@ -555,6 +589,12 @@ document.getElementById('tema').addEventListener('click', e => {
 });
 
 /* --- zoom e arrasto: o mapa é para apontar na tela --- */
+// EMPILHADO: as colunas estão embaixo do mapa, não ao lado — o leitor não vê
+// o painel sem rolar. TOQUE-ROLA: tela de dedo, onde um dedo pertence à página
+// e não ao mapa. São perguntas diferentes e têm larguras diferentes.
+const empilhado = () => matchMedia('(max-width: 1199px)').matches;
+const toqueRolaPagina = () => matchMedia('(max-width: 860px)').matches;
+
 let z = 1, tx = 0, ty = 0, arrastando = false, x0 = 0, y0 = 0;
 function aplicar(){ svg.style.transform = `translate(${tx}px,${ty}px) scale(${z})`;
                     svg.style.transformOrigin = '0 0'; }
@@ -592,7 +632,10 @@ const meio = t => ({x:(t[0].clientX + t[1].clientX)/2, y:(t[0].clientY + t[1].cl
 const dist = t => Math.hypot(t[0].clientX - t[1].clientX, t[0].clientY - t[1].clientY);
 palco.addEventListener('touchstart', e => {
   const t = e.touches;
-  if(t.length === 1){ arrastando = true; x0 = t[0].clientX - tx; y0 = t[0].clientY - ty; }
+  // no celular, um dedo é da PÁGINA: quem move o mapa são dois.
+  if(t.length === 1 && !toqueRolaPagina()){
+    arrastando = true; x0 = t[0].clientX - tx; y0 = t[0].clientY - ty;
+  }
   else if(t.length === 2){
     arrastando = false; toqueD = dist(t); toqueZ = z;
     const r = palco.getBoundingClientRect(), m = meio(t);
@@ -609,7 +652,14 @@ palco.addEventListener('touchmove', e => {
     const zn = Math.min(3, Math.max(0.15, toqueZ * (dist(t) / toqueD)));
     tx = toqueX - (toqueX - tx) * (zn / z);
     ty = toqueY - (toqueY - ty) * (zn / z);
-    z = zn; aplicar();
+    z = zn;
+    // com um dedo entregue à página, o ARRASTO do mapa passa a ser de dois —
+    // sem isto o celular só conseguiria ampliar, nunca deslocar.
+    const m = meio(t), r = palco.getBoundingClientRect();
+    const mx = m.x - r.left, my = m.y - r.top;
+    tx += mx - toqueX; ty += my - toqueY;
+    toqueX = mx; toqueY = my;
+    aplicar();
   }
 }, {passive:false});
 palco.addEventListener('touchend', e => {
