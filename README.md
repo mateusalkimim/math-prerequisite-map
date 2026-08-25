@@ -1,8 +1,8 @@
 # O mapa das matérias — a ordem lógica do ciclo básico
 
-Um mapa interativo de **pré-requisitos** da matemática do ciclo básico: 39
-matérias, 56 dependências, cada seta declarando de qual obra ela saiu. Clicar
-numa matéria acende toda a cadeia que a sustenta, até a aritmética.
+Um mapa interativo de **pré-requisitos** da matemática do ciclo básico: 50
+matérias, 78 dependências, cada seta declarando de onde ela saiu. Clicar
+numa matéria acende toda a cadeia que a sustenta, até a linguagem dos conjuntos.
 
 **→ [Abrir o mapa](https://mateusalkimim.github.io/math-prerequisite-map/)**
 
@@ -32,9 +32,9 @@ aula. Os identificadores estão em `materias.py`.
 
 | | |
 |---|---|
-| matérias | **39** em **10 camadas** |
-| dependências | **56** |
-| cruzamentos de aresta | **131 → 11** |
+| matérias | **50** em **13 camadas** |
+| dependências | **78** |
+| cruzamentos de aresta | **102 → 41** |
 
 ## Nenhuma seta entra sem dizer de onde veio
 
@@ -45,45 +45,106 @@ aparece no desenho e no painel:
 - **definição** (26) — X entra na *definição* de Y na obra citada. É a seta
   forte: dependência lógica, não conveniência de currículo. *A derivada é
   definida como um limite* (Guidorizzi §7.2);
-- **ordem do livro** (17) — X é definido antes de Y na mesma obra, e Y o usa.
+- **ordem do livro** (29) — X é definido antes de Y na mesma obra, e Y o usa.
   Precedência consolidada, evidência mais fraca;
-- **fronteira** (14) — matéria que **o acervo do Mouseion não cobre**. O nó
-  aparece porque o mapa precisa mostrar para onde as estradas vão; a seta é
-  julgamento declarado, desenhada em traço fraco. É honestidade, não decoração.
+- **orientação acadêmica** (9) — a seta vem de **orientação registrada**, não
+  de página conferível. Mais forte que a fronteira, porque há uma pessoa
+  responsável e uma data; mais fraca que a ordem, porque não se abre o livro
+  para conferir. **Só entra com data** — sem data é opinião anônima. Desenhada
+  pontilhada. O nome de quem orientou fica fora desta publicação enquanto não
+  houver aval da pessoa: o texto do warrant vai inteiro para a página, e nome
+  de terceiro não se publica sem consentimento;
+- **fronteira** (14) — matéria que **o acervo não cobre**. O nó aparece porque o
+  mapa precisa mostrar para onde as estradas vão; a seta é julgamento declarado,
+  desenhada em traço fraco. É honestidade, não decoração.
 
 Obras (todas em `mouseion/_dissecado/`): **Guidorizzi** v.1 (classe A, TOC de
 157) · **Elon Lages Lima** (classe A) · **Callioli** (classe B — scan sem TOC, e
 a ficha do acervo pede conferir se é parcial; por isso só sustenta aresta de
 *ordem*, nunca de *definição*) · **Merzbach & Boyer** (classe A, TOC de 300).
 
-## Os três troncos, em RGB
+## Dois troncos, e um deles contém o outro
 
-A matemática do ciclo básico se organiza, aqui, em três troncos, e o mapa os
-mostra por **forma** e por **cor**:
+Eram **três** até 2026-08-25 — Cálculo, Álgebra Linear e Geometria Analítica,
+desenhados em RGB aditivo, com a cor somando como luz soma. Uma orientação
+acadêmica desfez o terceiro:
+
+> *"Geometria Analítica é uma forma de enxergar a Álgebra Linear."*
+
+A Geometria Analítica não é irmã da Álgebra Linear: está **contida** nela. E a
+contenção tem nome exato — é a região da Álgebra Linear onde existe **produto
+interno**, que é o que dá distância e ângulo, e portanto figura. Em **qualquer**
+dimensão: prender a Geometria Analítica a três dimensões confunde o limite da
+*ilustração*, que precisa caber no papel, com o limite da *estrutura*, que não
+tem nenhum.
+
+O argumento que fecha: o próprio **número real já é um espaço vetorial** de
+dimensão 1, e um real qualquer se representa pelo segmento orientado que vai da
+origem até ele. Se o objeto mais elementar da reta já é vetorial, não há onde
+cortar uma coisa da outra.
 
 | tronco | forma | cor |
 |---|---|---|
-| **Cálculo** (I, II, III) | laterais arredondadas | **R** — vermelho |
-| **Álgebra Linear** | hexágono (o nó de tempo do Nuke) | **G** — verde |
-| **Geometria Analítica** | cantos vivos | **B** — azul |
-| **dois troncos** | cantos chanfrados | a **soma** das duas luzes |
-| **a base** | canto suave | ouro — anterior aos três |
+| **Cálculo** (I, II, III) | laterais arredondadas | vermelho |
+| **Álgebra Linear** | hexágono (o nó de tempo do Nuke) | verde |
+| **Geometria Analítica** | **contorno duplo** dentro do hexágono | traço azul |
+| **dois troncos** | cantos chanfrados | a soma das duas luzes |
+| **a base** | canto suave | ouro — anterior aos dois |
 
-A cor **soma como luz soma**: cálculo + álgebra = amarelo, cálculo + geometria =
-magenta, álgebra + geometria = ciano. O **mapa RGB** fica na lateral da página,
-sempre visível — sem ele a mistura seria enfeite, e a norma passou a exigi-lo.
+A contenção é **desenhada**, não declarada em legenda: contorno dentro de
+contorno. A mistura de cor dizia *"estes dois se cruzam"*; o contorno interno diz
+*"este está dentro daquele"*, que é o que a matemática afirma. O RGB saiu junto
+com o terceiro tronco — não havia mais três luzes para somar.
+
+⚠️ **Contenção não é precedência, e por isso nenhuma seta mudou.** "A Geometria
+Analítica está contida na Álgebra Linear" diz onde a matéria **mora**; a seta diz
+de quem ela **depende**. Desenhar a contenção como seta mandaria o aluno estudar
+espaço vetorial antes de coordenadas no plano. É o mesmo erro que já derrubou um
+ciclo neste mapa: lá era *"usa"* contra *"precede"*, aqui é *"contém"*.
 
 **Pertencer a um tronco não é depender dele.** *Cálculo de várias variáveis*
-depende de vetores (geometria) mas pertence ao Cálculo. A aresta diz de quem se
-depende; a forma diz onde a matéria é ensinada. As duas informações são
-diferentes e o mapa mostra as duas ao mesmo tempo.
+depende de vetores mas pertence ao Cálculo. A aresta diz de quem se depende; a
+forma diz onde a matéria é ensinada.
+
+## A base tem seis áreas, e a conta não é a primeira
+
+A camada anterior aos dois troncos tem **16 nós**, organizados nas seis áreas da
+matemática elementar (taxonomia de orientação, 2026-08-25):
+
+1. **conjuntos e conjuntos numéricos** — a língua em que o resto é dito, e por
+   isso é onde o mapa começa. ℕ ⊂ ℤ ⊂ ℚ ⊂ ℝ: cada um existe porque o anterior
+   não bastava — o inteiro dá o oposto, o racional dá o inverso, o real fecha os
+   buracos;
+2. **aritmética e problemas de contagem** — o raciocínio combinatório, que não é
+   a mesma área da aritmética das operações. Ela sustenta o **determinante**,
+   que é uma soma sobre as *n*! permutações;
+3. **geometria plana e não plana** — a figura de duas dimensões e o sólido de
+   três. É aqui que a **trigonometria** mora: ela é razão entre lados de um
+   *triângulo*, e antes disso ficava pendurada na álgebra elementar sem chão;
+4. **álgebra elementar** — a letra no lugar do número;
+5. **aritmética e as operações** — que abre em cinco pilares, e onde as lacunas
+   do ensino básico aparecem;
+6. **relações e funções** — a função é a relação em que cada entrada tem uma
+   saída só. E o **par ordenado** do produto cartesiano é o mesmo objeto que a
+   coordenada no plano: é a raiz comum da função e da geometria analítica.
+
+**Não existem quatro operações.** A subtração não é operação própria — é somar o
+oposto; a divisão é multiplicar pelo inverso. São **duas** operações e seus
+inversos, e o mesmo vale para a potenciação.
+
+E é daí que sai o lugar do **logaritmo**: soma e produto são *comutativos*, então
+cada um tem **uma** inversa. A potenciação **não é comutativa** (2³ ≠ 3²), e por
+isso tem **duas** — a raiz acha a *base*, o logaritmo acha o *expoente*. O log
+não é um intruso na aritmética: é a segunda inversa que a assimetria obriga a
+existir. O que fica no cálculo é a *função* de expoente real, que só o limite
+define.
 
 ## As linhas não têm diagonal
 
 Só horizontal, vertical e L, por decisão de desenho. Cada trecho vira um **Z**
 (desce, anda, desce), com o degrau afastado dentro do vão entre camadas para que
 duas arestas não se deitem uma sobre a outra. Medido no SVG gerado: **0
-segmentos diagonais em 56 arestas**.
+segmentos diagonais em 78 arestas**.
 
 ## A norma, citada onde foi aplicada
 
@@ -104,7 +165,7 @@ Sob uma norma de diagramas própria (documento irmão, não publicado):
   legenda; caixa se lê de uma vez"*;
 - **§1.5 — modularidade por ocultação.** Escolhida uma matéria, o resto **apaga
   em vez de sumir**: o contexto continua visível, o foco não;
-- **§2 — a gramática.** O ouro é o fluxo. As três classes de warrant se
+- **§2 — a gramática.** O ouro é o fluxo. As **quatro** classes de warrant se
   distinguem por peso e traço, declaradas na legenda do rodapé;
 - **§4 — a armadilha do SVG.** A página foi medida em **1366×768 e 1920×1080**.
 
@@ -128,6 +189,32 @@ Sob uma norma de diagramas própria (documento irmão, não publicado):
    desviarem até a borda — bicos que a medida de cruzamento **não pegava**,
    porque cruzamento não é a mesma coisa que desvio. O olho pegou. Corrigido, a
    largura caiu para **1668 px**.
+
+4. **O layout partia da ordem alfabética.** O baricentro é local: melhora o
+   arranjo que recebe, e recebia os nós de cada camada ordenados **por nome** —
+   que não tem relação nenhuma com o grafo. Trocado por descida em profundidade
+   a partir das raízes, que põe irmãos lado a lado, e acrescentado o passo de
+   **transposição** (testar cada par adjacente, trocar, e só manter se a
+   contagem cair). Medido nas quatro combinações, para separar o que é do
+   algoritmo do que é do conteúdo novo:
+
+   | | layout antigo | layout novo |
+   |---|---|---|
+   | grafo de 44 nós/68 arestas | 34 | **28** |
+   | grafo de 50 nós/78 arestas | 51 | **41** |
+
+   O algoritmo novo vale **−10** cruzamentos; as seis matérias e dez
+   dependências novas custam **+13**. O saldo é declarado, não escondido: o mapa
+   cresceu 14% e ficou com 7 cruzamentos a mais do que tinha.
+
+5. **Duas arestas minhas saíram por serem redundantes — e onze ficaram.**
+   `conj_num → negativos` e `conj_num → fracoes` custavam 15 cruzamentos
+   medidos, e o caminho `conj_num → aritmética → negativos` já dizia a mesma
+   coisa; a informação que carregavam foi para a nota do nó. Mas redundância
+   topológica **não é** motivo suficiente: há 11 outras arestas redundantes no
+   grafo, e quase todas são de *definição* — *"a derivada é um limite"* é
+   redundante por caminho e é a informação central do cálculo. Só sai a aresta
+   cuja informação o caminho alternativo já diz.
 
 ## O que este mapa NÃO faz
 

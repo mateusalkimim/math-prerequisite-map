@@ -13,6 +13,13 @@ estudar a coisa errada. Três classes de warrant, e elas aparecem no mapa:
   (c) FRONTEIRA — matéria que o acervo do Mouseion NÃO cobre. O nó aparece
       porque o mapa precisa mostrar para onde as estradas vão, mas a seta é
       julgamento declarado, não fonte. Desenhada em traço fraco.
+  (d) ORIENTAÇÃO — a seta vem de ORIENTAÇÃO ACADÊMICA registrada, não de
+      página conferível. Mais forte que (c), porque há uma pessoa responsável
+      e uma data; mais fraca que (b), porque não se abre o livro para conferir.
+      REGRA DURA: só entra com data. Sem data é opinião anônima, e vira (c).
+      Nota de publicação: o nome de quem orientou fica FORA do artefato
+      público enquanto não houver aval da pessoa — o texto do warrant vai
+      inteiro para o HTML, e nome de terceiro não se publica sem consentir.
 
 Obras (todas dissecadas, `mouseion/_dissecado/`):
   GUI  Guidorizzi, Um Curso de Cálculo v.1 (5ª ed.) — classe A, TOC 157
@@ -27,13 +34,33 @@ Obras (todas dissecadas, `mouseion/_dissecado/`):
 NOS = [
     ("aritmetica",   "Aritmética\ne as operações", "base", "contar, somar, multiplicar — a operação antes da letra"),
 
+    # A LINGUAGEM E AS FIGURAS, ANTES DA CONTA (2026-08-25, orientação).
+    # A taxonomia da matemática de base tem SEIS áreas, e três não estavam
+    # no mapa: a linguagem dos conjuntos (que precede tudo), os problemas de
+    # contagem (que não são a aritmética das operações) e a geometria — plana
+    # e não plana, com a trigonometria DENTRO dela em vez de solta.
+    ("conjuntos",    "Conjuntos",                 "base", "pertencer, conter, unir, cortar — a língua em que o resto é dito"),
+    ("conj_num",     "Conjuntos\nnuméricos",      "base", "ℕ ⊂ ℤ ⊂ ℚ ⊂ ℝ — cada um existe porque o anterior não bastava: o inteiro dá o oposto, o racional dá o inverso, o real fecha os buracos"),
+    ("contagem",     "Problemas\nde contagem",    "base", "quantos são, sem listar um a um — o raciocínio combinatório"),
+    ("relacoes",     "Relações\ne o par ordenado","base", "o vínculo entre dois conjuntos; a função é o caso com unicidade"),
+    ("geom_plana",   "Geometria\nplana",          "base", "a figura de duas dimensões — comprimento e largura"),
+    ("geom_espacial","Geometria\nespacial",       "base", "o sólido de três dimensões — e o volume"),
+
     # OS PILARES DA ARITMÉTICA (2026-08-24). "Aritmética e as operações" é um
     # CONJUNTO, e o mapa mostrava só o rótulo dele — o que escondia justamente
     # onde as lacunas do ensino básico moram. Cada pilar abaixo aponta para o
     # que ele sustenta lá na frente, e é por aqui que se aponta o buraco.
-    ("op_quatro",    "As quatro\noperações",      "base", "somar, subtrair, multiplicar, dividir — e em que ordem se aplicam"),
+    # 2026-08-25 (orientação): NÃO são quatro. A subtração não existe como
+    # operação própria — é somar o oposto; a divisão é multiplicar pelo
+    # inverso. Duas operações e seus inversos, e o mesmo se estende à
+    # potenciação. O nó dizia "as quatro operações" e ensinava o contrário.
+    ("operacoes",    "Soma e produto\ne seus inversos", "base", "duas operações, não quatro: subtrair é somar o oposto, dividir é multiplicar pelo inverso"),
     ("fracoes",      "Frações\ne proporção",      "base", "a parte do todo, a razão entre duas grandezas, a regra de três"),
-    ("potencias",    "Potência\ne raiz",          "base", "o expoente, e a operação que o desfaz"),
+    # A potenciação NÃO é comutativa (2³ ≠ 3²), e é por isso que ela tem DUAS
+    # inversas, enquanto a soma e o produto — comutativos — têm uma cada: a
+    # raiz acha a BASE, o logaritmo acha o EXPOENTE. É essa assimetria que dá
+    # ao logaritmo lugar próprio aqui, e não no cálculo.
+    ("potencias",    "Potência, raiz\ne logaritmo",  "base", "a operação com DUAS inversas: a raiz acha a base, o logaritmo acha o expoente"),
     ("negativos",    "Negativos\ne a reta",       "base", "o sinal, a ordem e a distância — os números postos em fila"),
     ("fatoracao",    "Divisibilidade\ne fatoração","base", "primos, o que divide o quê, e por que isso simplifica"),
     ("algebra_elem", "Álgebra\nelementar",         "base", "a letra no lugar do número"),
@@ -81,23 +108,60 @@ NOS = [
 ]
 
 # --- arestas: (de, para, warrant, fonte) ------------------------------------
-A = "definicao"; O = "ordem"; F = "fronteira"
+A = "definicao"; O = "ordem"; F = "fronteira"; R = "orientacao"
 ARESTAS = [
+    # A LINGUAGEM PRIMEIRO (2026-08-25, orientação). O conjunto é a língua em
+    # que número, relação e figura são ditos — por isso ele, e não a
+    # aritmética, é onde o mapa começa.
+    ("conjuntos",    "conj_num",     R, "orientação acadêmica, 2026-08-25 — conjunto numérico é, antes de tudo, um conjunto"),
+    ("conjuntos",    "contagem",     R, "orientação acadêmica, 2026-08-25 — contar é contar os elementos de um conjunto"),
+    ("conjuntos",    "relacoes",     R, "orientação acadêmica, 2026-08-25 — a relação é um subconjunto do produto cartesiano"),
+    ("conj_num",     "aritmetica",   R, "orientação acadêmica, 2026-08-25 — a operação precisa saber sobre QUE números ela opera"),
+    # ⚠️ NÃO ENTRAM as arestas conj_num->negativos e conj_num->fracoes. Elas
+    # são TRANSITIVAMENTE REDUNDANTES: conj_num->aritmetica->negativos (e
+    # ->fracoes) já dizem a mesma coisa, e as duas custavam 15 cruzamentos
+    # medidos. O que elas carregavam de informação — o inteiro é o que o
+    # natural não dava (o oposto), o racional é o que o inteiro não dava (o
+    # inverso) — foi para a NOTA do nó conj_num, onde não atravessa o desenho.
+    #
+    # Redundância topológica NÃO é motivo suficiente para remover: há 11 outras
+    # arestas redundantes no grafo, e quase todas são de DEFINIÇÃO — "a derivada
+    # É um limite" (GUI §7.2) é redundante por caminho e é a informação central
+    # do cálculo. Só sai a aresta cuja informação o caminho alternativo já diz.
+
+    # a função é um caso de relação, e o par ordenado é a MESMA coisa que a
+    # coordenada no plano — é a raiz comum da função e da geometria analítica.
+    ("relacoes",     "funcoes",      R, "orientação acadêmica, 2026-08-25 — função é a relação em que cada entrada tem uma saída só"),
+    ("relacoes",     "coord_plano",  R, "orientação acadêmica, 2026-08-25 — o par ordenado do produto cartesiano É o ponto do plano"),
+
+    # a figura, plana e não plana. A trigonometria deixa de flutuar: ela é
+    # razão entre lados de um TRIÂNGULO, e o triângulo mora aqui.
+    ("geom_plana",   "geom_espacial",R, "orientação acadêmica, 2026-08-25 — o sólido acrescenta a terceira dimensão à figura plana"),
+    ("geom_plana",   "trigonometria",R, "orientação acadêmica, 2026-08-25 — a razão é entre os lados de um triângulo, que é figura plana"),
+    ("geom_espacial","coord_espaco", R, "orientação acadêmica, 2026-08-25 — o espaço de três dimensões antes de receber coordenadas"),
+
+    # a contagem sustenta o determinante: ele é uma soma sobre as n!
+    # permutações, e é essa a lacuna que o tabuleiro do seminário ensina.
+    ("contagem",     "determinante", O, "seminario-determinantes — o determinante é a soma sobre as permutações"),
+
     # a cadeia da base — já é a fig-3-base do mapa-genealogia
     # o conjunto abre nos seus pilares
-    ("aritmetica",   "op_quatro",    O, "hipatia/norma-de-notacao.md §1 — o arco do cálculo exige aritmética com FAMILIARIDADE, não com \"já vi\""),
+    ("aritmetica",   "operacoes",    O, "hipatia/norma-de-notacao.md §1 — o arco do cálculo exige aritmética com FAMILIARIDADE, não com \"já vi\""),
     ("aritmetica",   "fracoes",      O, "hipatia/norma-de-notacao.md §1 · seminario-calculo-0, folha 2"),
     ("aritmetica",   "potencias",    O, "hipatia/norma-de-notacao.md §1 · seminario-calculo-0, folha 2"),
     ("aritmetica",   "negativos",    O, "hipatia/norma-de-notacao.md §1 · seminario-calculo-0, folha 2"),
     ("aritmetica",   "fatoracao",    O, "hipatia/norma-de-notacao.md §1 · seminario-calculo-0, folha 2"),
 
     # e cada pilar sustenta o que vem depois — é aqui que a lacuna aparece
-    ("op_quatro",    "algebra_elem", O, "mapa-genealogia, fig-3-base · a letra obedece às MESMAS propriedades: comutativa, associativa, distributiva"),
+    ("operacoes",    "algebra_elem", O, "mapa-genealogia, fig-3-base · a letra obedece às MESMAS propriedades: comutativa, associativa, distributiva"),
     ("fatoracao",    "algebra_elem", O, "seminario-calculo-0, folha 9 — fatorar é o que revela ou esconde um buraco no domínio"),
     ("fracoes",      "trigonometria",O, "trigonometria é RAZÃO entre lados: sem fração, o seno não tem sentido"),
     ("negativos",    "reais",        O, "GUI cap. 1 — a reta ordenada é o que os reais completam"),
     ("negativos",    "coord_plano",  O, "seminario-geometria, Estação 3 — o eixo tem lado negativo, e o observador fica na origem"),
-    ("potencias",    "exp_log",      O, "seminario-calculo-0 — a potência de expoente natural antes da de expoente real"),
+    # A CISÃO (2026-08-25): a OPERAÇÃO potência/raiz/log é da base — expoente
+    # racional, conta fechada. O que fica no cálculo é a FUNÇÃO de expoente
+    # REAL, que só o limite define. Esta aresta é a costura entre as duas.
+    ("potencias",    "exp_log",      O, "seminario-calculo-0 — a potência de expoente racional antes da de expoente real; o limite é o que atravessa"),
     ("fracoes",      "funcoes",      O, "seminario-calculo-0, folha 9 — a função escrita como quociente, e o domínio que ela perde"),
     ("aritmetica",   "algebra_elem", O, "mapa-genealogia, fig-3-base · BOY caps. 1-3 (contagem antes da equação)"),
     ("algebra_elem", "trigonometria",O, "mapa-genealogia, fig-3-base"),
@@ -171,68 +235,100 @@ ARESTAS = [
 ]
 
 
-# --- domínio: a qual dos três troncos a matéria pertence --------------------
-# O operador declarou (2026-08-18) que a matemática do ciclo básico se organiza
-# em três troncos — Cálculo (I, II, III), Álgebra Linear e Geometria Analítica —
-# e que o mapa deve mostrar isso por FORMA e por COR, em RGB aditivo:
+# --- domínio: a que tronco a matéria pertence -------------------------------
+# 2026-08-25 — O TRONCO AZUL COLAPSOU. Eram três (Cálculo, Álgebra Linear e
+# Geometria Analítica, em RGB aditivo, declaração de 2026-08-18). A orientação
+# desta data desfez o terceiro:
 #
-#     Cálculo = R (vermelho)  ·  Álgebra Linear = G (verde)  ·  Geom. Analítica = B (azul)
+#   "Geometria Analítica é uma forma de enxergar a Álgebra Linear."
 #
-# Uma matéria pode estar em mais de um tronco: a cor soma como luz soma
-# (R+G = amarelo, R+B = magenta, G+B = ciano, os três = branco). Conjunto VAZIO
-# é o tronco anterior aos três — a base, que nenhum deles pode dispensar.
+# A GA não é irmã da AL: está CONTIDA nela. E a contenção tem nome exato — é a
+# parte da Álgebra Linear onde existe PRODUTO INTERNO, que é o que dá distância
+# e ângulo, que é o que permite desenhar a figura. Em QUALQUER dimensão: prender
+# a GA a três dimensões confunde o limite da ILUSTRAÇÃO, que precisa caber no
+# papel, com o limite da ESTRUTURA, que não tem nenhum.
 #
-# ATENÇÃO: pertencer a um tronco NÃO é o mesmo que depender dele. "Cálculo de
-# várias variáveis" DEPENDE de vetores (geometria), mas PERTENCE ao Cálculo. A
-# aresta diz de quem se depende; o domínio diz onde a matéria é ensinada.
-C, AL, GA = "calculo", "algebra", "geometria"
+# O argumento que fecha: o próprio número real já é um espaço vetorial de
+# dimensão 1, e um real qualquer se representa pelo segmento orientado que vai
+# da origem até ele. Se o objeto mais elementar da reta já é vetorial, não há
+# onde cortar uma da outra.
+#
+# ⚠️ CONTENÇÃO NÃO É PRECEDÊNCIA. Nenhuma aresta mudou por causa disto — e não
+# pode mudar. "GA está contida em AL" diz onde a matéria MORA; a seta diz de
+# quem ela DEPENDE. Desenhar a contenção como seta mandaria o aluno estudar
+# espaço vetorial antes de coordenadas no plano. É o mesmo erro que já derrubou
+# o ciclo determinante→sistemas: ali era "usa" × "precede", aqui é "contém".
+#
+# Restam DOIS troncos, que é o que o mapa-genealogia sempre disse — "os dois
+# pilares". O desenho e o documento pararam de se desmentir.
+#
+#     Cálculo = vermelho   ·   Álgebra Linear = verde
+#
+# Conjunto VAZIO é a base, anterior aos dois. REGIAO_GEO marca, DENTRO da
+# álgebra linear, o que é geometria analítica: desenhada por contorno duplo —
+# um contorno dentro do outro, que é o desenho da própria contenção.
+C, AL = "calculo", "algebra"
+
+# A região da Álgebra Linear onde há produto interno — logo, distância, ângulo
+# e figura. É a Geometria Analítica, em qualquer dimensão.
+REGIAO_GEO = {
+    "coord_plano", "reta", "conicas", "coord_espaco", "plano_eq",
+    "vetores", "prod_interno", "formas_quad", "geom_dif",
+}
+
 DOMINIOS = {
-    # a base — anterior aos três troncos
-    "aritmetica": ((), "anterior aos três — nenhum curso a ensina, todos a exigem"),
-    "op_quatro": ((), "pilar da aritmética — as propriedades que a letra vai herdar"),
+    # a base — anterior aos dois troncos
+    "conjuntos": ((), "anterior a tudo: é a língua em que o resto é dito"),
+    "conj_num": ((), "anterior aos dois — que números existem, antes de operar com eles"),
+    "contagem": ((), "anterior aos dois — o raciocínio combinatório, que o determinante cobra"),
+    "relacoes": ((), "anterior aos dois — o par ordenado, raiz comum da função e do plano"),
+    "geom_plana": ((), "anterior aos dois — a figura antes da coordenada"),
+    "geom_espacial": ((), "anterior aos dois — o sólido antes da terceira coordenada"),
+    "aritmetica": ((), "anterior aos dois — nenhum curso a ensina, todos a exigem"),
+    "operacoes": ((), "pilar da aritmética — as propriedades que a letra vai herdar"),
     "fracoes": ((), "pilar da aritmética — razão e proporção, que a trigonometria cobra"),
-    "potencias": ((), "pilar da aritmética — o expoente natural, que a exponencial estende"),
+    "potencias": ((), "pilar da aritmética — a operação de duas inversas; o log nasce aqui"),
     "negativos": ((), "pilar da aritmética — a reta ordenada, que os reais completam"),
     "fatoracao": ((), "pilar da aritmética — o que permite simplificar sem mudar o valor"),
-    "algebra_elem": ((), "anterior aos três"),
-    "trigonometria": ((), "anterior aos três; GUI §2.2 a retoma como função"),
-    "reais": ((), "anterior aos três; GUI cap. 1 a formaliza antes de tudo"),
-    "funcoes": ((), "anterior aos três; é o objeto que os três manipulam"),
+    "algebra_elem": ((), "anterior aos dois"),
+    "trigonometria": ((), "anterior aos dois; mora na geometria plana, GUI §2.2 a retoma como função"),
+    "reais": ((), "anterior aos dois; GUI cap. 1 a formaliza antes de tudo"),
+    "funcoes": ((), "anterior aos dois; é o objeto que os dois manipulam"),
 
     # cálculo — Guidorizzi v.1 é a ementa de Cálculo I
     "limite": ((C,), "GUI cap. 3"), "sequencias": ((C,), "GUI §4.3"),
-    "exp_log": ((C,), "GUI cap. 6"), "derivada": ((C,), "GUI cap. 7"),
+    "exp_log": ((C,), "GUI cap. 6 — a FUNÇÃO de expoente real; a operação ficou na base"),
+    "derivada": ((C,), "GUI cap. 7"),
     "regra_cadeia": ((C,), "GUI §7.10"), "inversa": ((C,), "GUI cap. 8"),
     "variacao": ((C,), "GUI cap. 9"), "primitiva": ((C,), "GUI cap. 10"),
     "integral": ((C,), "GUI cap. 11"), "tecnicas_int": ((C,), "GUI cap. 12"),
     "polares": ((C,), "GUI cap. 13"),
 
-    # geometria analítica — Elon, primeira metade do título
-    "coord_plano": ((GA,), "ELO 'Coordenadas no Plano'"),
-    "reta": ((GA,), "ELO 'As Equações da Reta'"),
-    "conicas": ((GA,), "ELO 'Equação da Circunferência' e 'da Hipérbole'"),
-    "coord_espaco": ((GA,), "ELO 'Coordenadas no Espaço'"),
-    "plano_eq": ((GA,), "ELO 'Equação do Plano'"),
-
-    # álgebra linear — Callioli, e a segunda metade do título do Elon
+    # álgebra linear — a região com produto interno é a geometria analítica
+    "coord_plano": ((AL,), "ELO 'Coordenadas no Plano' — o par ordenado num espaço de dimensão 2"),
+    "reta": ((AL,), "ELO 'As Equações da Reta' — o subespaço de dimensão 1, transladado"),
+    "conicas": ((AL,), "ELO — o grau dois no plano; a diagonalização as classifica"),
+    "coord_espaco": ((AL,), "ELO 'Coordenadas no Espaço' — a mesma coisa em dimensão 3"),
+    "plano_eq": ((AL,), "ELO 'Equação do Plano' — definido pelo vetor normal, que é produto interno"),
     "matrizes": ((AL,), "ELO/CAL"), "sistemas": ((AL,), "ELO/CAL"),
     "determinante": ((AL,), "ELO 'Determinantes'"),
-    "esp_vetorial": ((AL,), "CAL — espaços vetoriais"),
+    "esp_vetorial": ((AL,), "CAL — o vetor sem a flecha: fora da região geométrica, "
+                            "porque sem produto interno não há distância nem ângulo"),
     "base_dim": ((AL,), "CAL — base e dimensão"),
     "transf_lin": ((AL,), "ELO 'Transformações Lineares'"),
     "autovalores": ((AL,), "CAL — autovalores e autovetores"),
     "algebra_abs": ((AL,), "generaliza a estrutura da álgebra linear"),
+    "vetores": ((AL,), "ELO trata o vetor dentro da geometria e CAL o axiomatiza — "
+                       "o título do Elon carrega os dois nomes porque é uma coisa só"),
+    "prod_interno": ((AL,), "É O OPERADOR QUE FABRICA A GEOMETRIA DENTRO DA ÁLGEBRA: "
+                            "dele saem distância e ângulo, em qualquer dimensão"),
+    "formas_quad": ((AL,), "ELO trata quádricas e as diagonaliza por autovalores"),
 
-    # os que moram em dois troncos — a cor soma
-    "vetores": ((AL, GA), "o objeto comum: ELO trata vetor dentro da geometria, "
-                          "CAL o axiomatiza — o título do Elon carrega os dois nomes"),
-    "prod_interno": ((AL, GA), "ELO usa o produto para distância e ângulo (geometria); "
-                               "CAL o define sobre o espaço vetorial"),
-    "formas_quad": ((AL, GA), "ELO trata quádricas na geometria e as diagonaliza "
-                              "por autovalores — a ponte entre os dois"),
-    "geom_dif": ((C, GA), "cálculo sobre superfície curva"),
+    # os que moram nos dois troncos
+    "geom_dif": ((C, AL), "cálculo sobre superfície curva — e a superfície tem métrica"),
     "analise_func": ((C, AL), "espaço vetorial de dimensão infinita, com análise por cima"),
-    "topologia": ((C, GA), "a vizinhança sem distância — nasce da análise e da geometria"),
+    "topologia": ((C, AL), "a vizinhança SEM distância — é o que sobra da geometria "
+                           "quando se tira o produto interno, e por isso fica FORA da região"),
 
     # fronteira que fica num tronco só
     "varias_var": ((C,), "Cálculo II/III — pertence ao cálculo mesmo dependendo de vetores"),

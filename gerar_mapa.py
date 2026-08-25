@@ -21,7 +21,7 @@ Saída: index.html (abre com duplo clique, sem servidor; e é o que o
 GitHub Pages serve na raiz).
 """
 import html, json, os
-from materias import NOS, ARESTAS, DOMINIOS
+from materias import NOS, ARESTAS, DOMINIOS, REGIAO_GEO
 from layout import montar
 
 AQUI = os.path.dirname(os.path.abspath(__file__))
@@ -33,17 +33,25 @@ GAP_VIRTUAL = 7         # entre duas passagens, o vão pode ser menor
 VIRTUAL_L = 16          # o nó virtual é passagem, não caixa (§1.4 vale para nó, não para dobra)
 MARGEM = 48
 
-# Os três troncos, em RGB aditivo — declaração do operador (2026-08-18).
-# A cor não é enfeite: é a soma. Duas matérias no mesmo tronco têm a mesma cor;
-# uma matéria em dois troncos tem a cor que a LUZ dos dois faria.
+# DOIS troncos (2026-08-25). Eram três até a orientação desta data desfazer o
+# terceiro: a Geometria Analítica não é irmã da Álgebra Linear, está CONTIDA
+# nela — é a região onde há produto interno, logo distância, ângulo e figura,
+# em qualquer dimensão. Ver o cabeçalho de DOMINIOS em materias.py.
+#
+# A cor deixou de somar como luz porque não há mais três luzes para somar. O
+# que ela faz agora é mais simples e mais verdadeiro: dois troncos, duas cores,
+# e a contenção desenhada por CONTORNO DUPLO em vez de por mistura. Mistura
+# dizia "estes dois se cruzam"; o contorno dentro do contorno diz "este está
+# dentro daquele", que é o que a matemática afirma.
 TRONCOS = {
-    # 2026-08-24: as três subiram de saturação com o MATIZ INTACTO — o verde
-    # era o mais lavado da casa (s36%) e sumia contra o fundo navy. A soma de
-    # luz continua dando amarelo, magenta e ciano.
+    # os matizes de 2026-08-24 ficam INTACTOS: o vermelho e o verde não mudam
+    # de cor por causa do colapso — quem some é o azul, e nada herda o lugar.
     "calculo":   ((244, 78, 62),  "Cálculo (I, II, III)", "laterais arredondadas"),
     "algebra":   ((58, 200, 72),  "Álgebra Linear",       "hexágono"),
-    "geometria": ((60, 138, 246), "Geometria Analítica",  "cantos vivos"),
 }
+# O azul da geometria vira o traço da REGIÃO, não de um tronco: é o contorno
+# interno que marca, dentro do verde, o que é geometria analítica.
+COR_REGIAO = (120, 196, 255)
 OURO = "#c9a266"
 
 # DEFEITO ACHADO EM 2026-08-24: os chips do cabeçalho usavam cores PRÓPRIAS, e
@@ -60,8 +68,8 @@ def _hx(rgb):
 RAMOS = {
     "base":      ("o tronco", "#c9a266"),
     "calculo":   ("cálculo",  _hx(TRONCOS["calculo"][0])),
-    "geometria": ("geometria analítica", _hx(TRONCOS["geometria"][0])),
     "algebra":   ("álgebra linear", _hx(TRONCOS["algebra"][0])),
+    "geometria": ("geometria analítica — dentro da álgebra linear", _hx(COR_REGIAO)),
     "fronteira": ("fronteira — sem obra no acervo", "#7c88a1"),
 }
 
@@ -81,11 +89,15 @@ def cor_do_no(doms, tema):
 def forma(doms, L, A, raiz=False):
     """A forma carrega o tronco — §1.3(a): forma é significado atribuído.
 
-    base (nenhum tronco)  retângulo de canto suave · o tronco anterior aos três
+    base (nenhum tronco)  retângulo de canto suave · o tronco anterior aos dois
     cálculo               laterais arredondadas (o stadium)
     álgebra linear        hexágono, como o nó de tempo do Nuke
-    geometria analítica   cantos vivos
-    dois ou mais troncos  octógono — os cantos chanfrados dizem "mistura"
+    dois troncos          octógono — os cantos chanfrados dizem "mistura"
+
+    A GEOMETRIA ANALÍTICA NÃO TEM FORMA PRÓPRIA desde 2026-08-25: ela não é um
+    tronco, é uma região DENTRO do hexágono da álgebra linear, e se marca por
+    contorno duplo (ver `contorno_regiao`). Dar-lhe forma própria de novo seria
+    voltar a afirmar que ela é irmã, e não parte.
     """
     if raiz:
         return f'<rect width="{L}" height="{A}" rx="{A/2}" ry="{A/2}"></rect>'
@@ -99,9 +111,33 @@ def forma(doms, L, A, raiz=False):
         c = 15
         pts = [(c,0),(L-c,0),(L,A/2),(L-c,A),(c,A),(0,A/2)]
         return '<polygon points="' + " ".join(f"{x},{y}" for x, y in pts) + '"></polygon>'
-    if doms == ("geometria",):
-        return f'<rect width="{L}" height="{A}"></rect>'
     return f'<rect width="{L}" height="{A}" rx="8"></rect>'
+
+
+def contorno_regiao(doms, L, A, raiz=False):
+    """O contorno INTERNO que marca a região geométrica dentro da álgebra.
+
+    Contenção se desenha como contorno dentro de contorno — não como cor
+    misturada, que dizia "cruzam-se", nem como forma própria, que dizia
+    "são irmãs". A mesma silhueta, um pouco menor, por dentro.
+    """
+    d = 5
+    l, a = L - 2 * d, A - 2 * d
+    if raiz:
+        corpo = f'<rect width="{l}" height="{a}" rx="{a/2}" ry="{a/2}"></rect>'
+    elif len(doms) >= 2:
+        c = 8
+        pts = [(c,0),(l-c,0),(l,c),(l,a-c),(l-c,a),(c,a),(0,a-c),(0,c)]
+        corpo = '<polygon points="' + " ".join(f"{x},{y}" for x, y in pts) + '"></polygon>'
+    elif doms == ("calculo",):
+        corpo = f'<rect width="{l}" height="{a}" rx="{a/2}" ry="{a/2}"></rect>'
+    elif doms == ("algebra",):
+        c = 12
+        pts = [(c,0),(l-c,0),(l,a/2),(l-c,a),(c,a),(0,a/2)]
+        corpo = '<polygon points="' + " ".join(f"{x},{y}" for x, y in pts) + '"></polygon>'
+    else:
+        corpo = f'<rect width="{l}" height="{a}" rx="6"></rect>'
+    return f'<g class="regiao-geo" transform="translate({d},{d})">{corpo}</g>'
 
 
 def ortogonal(pts, desvio):
@@ -248,9 +284,12 @@ def gerar():
         chave = "-".join(doms) if doms else "base"
         raiz = nivel[nid] == 0
         svg.append(
-            f'<g class="no ramo-{ramo} dom-{chave}" data-id="{nid}" '
+            f'<g class="no ramo-{ramo} dom-{chave}'
+            f'{" na-regiao" if nid in REGIAO_GEO else ""}" data-id="{nid}" '
             f'data-dom="{chave}" transform="translate({x:.1f},{y:.1f})">'
             + forma(doms, CAIXA_L, CAIXA_A, raiz)
+            + (contorno_regiao(doms, CAIXA_L, CAIXA_A, raiz)
+               if nid in REGIAO_GEO else "")
             + "".join(
                 f'<text x="{CAIXA_L/2}" y="{CAIXA_A/2 + (i - (len(rot.split(chr(10)))-1)/2)*15 + 5:.1f}">'
                 f'{html.escape(l)}</text>'
@@ -261,6 +300,7 @@ def gerar():
         "nos": {n[0]: {"rotulo": n[1].replace("\n", " "), "ramo": n[2], "nota": n[3],
                        "camada": nivel[n[0]],
                        "dom": list(sorted(DOMINIOS[n[0]][0])),
+                       "geo": n[0] in REGIAO_GEO,
                        "dom_fonte": DOMINIOS[n[0]][1]} for n in NOS},
         "arestas": [{"de": a, "para": b, "w": w, "fonte": f} for a, b, w, f in ARESTAS],
         "cruz": {"antes": r["cruz_antes"], "depois": r["cruz_depois"]},
@@ -291,7 +331,7 @@ def gerar():
                 # o Venn e os ícones da legenda saem da MESMA fonte que os nós
                 .replace("{{C_CALC}}", _hx(TRONCOS["calculo"][0]))
                 .replace("{{C_ALG}}", _hx(TRONCOS["algebra"][0]))
-                .replace("{{C_GEO}}", _hx(TRONCOS["geometria"][0]))
+                .replace("{{C_GEO}}", _hx(COR_REGIAO))
                 .replace("/*{{CSS_DOM}}*/", css_dom)
                 .replace("{{CRUZ_ANTES}}", str(r["cruz_antes"]))
                 .replace("{{CRUZ_DEPOIS}}", str(r["cruz_depois"]))
@@ -356,8 +396,10 @@ aside h3{font-size:12px;text-transform:uppercase;letter-spacing:.08em;
 .pre{border-left:2px solid var(--borda);padding:5px 0 5px 10px;margin-bottom:9px}
 .pre b{font-weight:500;font-size:14px}
 .pre .fonte{display:block;color:var(--muted);font-size:11.5px;margin-top:2px}
+.marca-geo{color:{{C_GEO}};font-weight:600}
 .pre.w-definicao{border-left-color:var(--ouro)}
 .pre.w-ordem{border-left-color:var(--borda)}
+.pre.w-orientacao{border-left-color:var(--ouro);border-left-style:dotted}
 .pre.w-fronteira{border-left-color:var(--terracota);border-left-style:dashed}
 .vazio{color:var(--muted);font-size:13px}
 footer{padding:9px 26px;border-top:1px solid var(--borda);color:var(--muted);
@@ -367,7 +409,16 @@ footer .licenca{margin-left:auto}
 /* --- o grafo --- */
 .aresta{fill:none;stroke:var(--ouro);stroke-width:1.6;opacity:.75}
 .aresta.w-ordem{stroke-width:1.1;opacity:.42}
+/* orientação: pontilhada CURTA — mais presente que a fronteira (há uma pessoa
+   responsável e uma data), menos que a ordem (não se abre o livro para
+   conferir). O tracejado longo continua sendo só da fronteira. */
+.aresta.w-orientacao{stroke-width:1.25;stroke-dasharray:2 3;opacity:.6}
 .aresta.w-fronteira{stroke:var(--muted);stroke-width:1.1;stroke-dasharray:5 4;opacity:.5}
+
+/* A REGIÃO GEOMÉTRICA — contorno dentro do contorno. Não tem preenchimento:
+   se tivesse, competiria com a cor do tronco, e a região não é outro tronco. */
+.regiao-geo > *{fill:none;stroke:{{C_GEO}};stroke-width:1.3;opacity:.85}
+svg.focado .no:not(.acesa) .regiao-geo > *{opacity:.18}
 .no > :first-child{fill:var(--sup);stroke:var(--borda);stroke-width:1.7}
 .no text{fill:var(--ink);font-family:var(--sans);font-size:12.5px;font-weight:500;
          text-anchor:middle;pointer-events:none}
@@ -432,7 +483,7 @@ footer .licenca{margin-left:auto}
   letter-spacing:.02em;font-family:Inter,sans-serif;opacity:1}
 svg.focado .grupo-aritmetica{opacity:.2}
 
-/* --- o mapa RGB: os círculos somam como luz soma --- */
+/* --- os dois troncos, e a região contida num deles --- */
 .rgb{background:#0a1424;border:1px solid var(--borda);border-radius:10px;
      padding:12px 10px 8px;margin-bottom:18px}
 .rgb svg{display:block;margin:0 auto}
@@ -477,6 +528,9 @@ svg.focado .no.alvo text{font-weight:600}
         <marker id="seta-ordem" viewBox="0 0 8 8" refX="7" refY="4"
                 markerWidth="6" markerHeight="6" orient="auto-start-reverse">
           <path d="M0,0 L8,4 L0,8 z" fill="var(--ouro)" opacity=".55"></path></marker>
+        <marker id="seta-orientacao" viewBox="0 0 8 8" refX="7" refY="4"
+                markerWidth="6.5" markerHeight="6.5" orient="auto-start-reverse">
+          <path d="M0,0 L8,4 L0,8 z" fill="var(--ouro)" opacity=".75"></path></marker>
         <marker id="seta-fronteira" viewBox="0 0 8 8" refX="7" refY="4"
                 markerWidth="6" markerHeight="6" orient="auto-start-reverse">
           <path d="M0,0 L8,4 L0,8 z" fill="var(--muted)"></path></marker>
@@ -490,26 +544,34 @@ svg.focado .no.alvo text{font-weight:600}
            cada um. Os centros ficam na zona PURA — a distância entre dois
            centros (66 e 68) é maior que o raio, então nenhum rótulo cai sobre
            cor misturada, que é o que faria o nome mentir sobre a cor. -->
-      <svg width="252" height="200" viewBox="0 0 252 200" aria-label="mapa RGB dos três troncos">
-        <circle cx="126" cy="66"  r="58" fill="{{C_CALC}}"></circle>
-        <circle cx="88"  cy="128" r="58" fill="{{C_ALG}}"></circle>
-        <circle cx="164" cy="128" r="58" fill="{{C_GEO}}"></circle>
-        <text x="126" y="66" fill="#fff" font-size="11" font-weight="600"
+      <!-- 2026-08-25: eram três círculos que se cruzavam, em soma de luz. A
+           orientação desta data desfez o terceiro tronco, e o desenho passou a
+           dizer o que a matemática diz: a geometria analítica está DENTRO da
+           álgebra linear — é a região dela onde há produto interno. Círculo
+           dentro de círculo, não interseção. -->
+      <svg width="252" height="186" viewBox="0 0 252 186" aria-label="os dois troncos, e a geometria analítica contida na álgebra linear">
+        <circle cx="126" cy="52"  r="46" fill="{{C_CALC}}"></circle>
+        <circle cx="126" cy="126" r="56" fill="{{C_ALG}}"></circle>
+        <circle cx="126" cy="140" r="34" fill="none" stroke="{{C_GEO}}"
+                stroke-width="2.2" stroke-dasharray="3 3"></circle>
+        <text x="126" y="46" fill="#fff" font-size="11" font-weight="600"
               text-anchor="middle" dominant-baseline="central"
               font-family="Inter,sans-serif"
-              style="mix-blend-mode:normal;paint-order:stroke;stroke:#0a1424;stroke-width:2.5px">CÁLCULO</text>
-        <text x="88" y="128" fill="#fff" font-size="11" font-weight="600"
+              style="paint-order:stroke;stroke:#0a1424;stroke-width:2.5px">CÁLCULO</text>
+        <text x="126" y="100" fill="#fff" font-size="11" font-weight="600"
               text-anchor="middle" dominant-baseline="central"
               font-family="Inter,sans-serif"
-              style="mix-blend-mode:normal;paint-order:stroke;stroke:#0a1424;stroke-width:2.5px">ÁLGEBRA</text>
-        <text x="164" y="128" fill="#fff" font-size="11" font-weight="600"
+              style="paint-order:stroke;stroke:#0a1424;stroke-width:2.5px">ÁLGEBRA LINEAR</text>
+        <text x="126" y="140" fill="#fff" font-size="10" font-weight="600"
               text-anchor="middle" dominant-baseline="central"
               font-family="Inter,sans-serif"
-              style="mix-blend-mode:normal;paint-order:stroke;stroke:#0a1424;stroke-width:2.5px">GEOMETRIA</text>
+              style="paint-order:stroke;stroke:#0a1424;stroke-width:2.5px">GEOM. ANALÍTICA</text>
       </svg>
-      <div class="cap">A cor <b>soma como luz soma</b>.<br>
-        cálculo + álgebra = amarelo · cálculo + geometria = magenta ·
-        álgebra + geometria = ciano</div>
+      <div class="cap"><b>Dois troncos</b>, e a geometria analítica <b>dentro</b>
+        da álgebra linear — é a região dela onde existe <b>produto interno</b>,
+        que é o que dá distância e ângulo, e portanto figura.<br>
+        Em <b>qualquer</b> dimensão: o limite de três é da ilustração, que precisa
+        caber no papel, nunca da estrutura.</div>
     </div>
     <div class="formas">
       <svg width="46" height="24"><rect x="1" y="1" width="44" height="22" rx="11" ry="11"
@@ -518,15 +580,17 @@ svg.focado .no.alvo text{font-weight:600}
       <svg width="46" height="24"><polygon points="8,1 38,1 45,12 38,23 8,23 1,12"
         fill="none" stroke="{{C_ALG}}" stroke-width="2.6"></polygon></svg>
       <span><b>Álgebra Linear</b> — hexágono</span>
-      <svg width="46" height="24"><rect x="1" y="1" width="44" height="22"
-        fill="none" stroke="{{C_GEO}}" stroke-width="2.6"></rect></svg>
-      <span><b>Geometria Analítica</b> — cantos vivos</span>
+      <svg width="46" height="24"><polygon points="8,1 38,1 45,12 38,23 8,23 1,12"
+        fill="none" stroke="{{C_ALG}}" stroke-width="2.6"></polygon><polygon
+        points="12,5 34,5 39,12 34,19 12,19 5,12"
+        fill="none" stroke="{{C_GEO}}" stroke-width="1.5"></polygon></svg>
+      <span><b>Geometria Analítica</b> — contorno duplo: está <b>dentro</b> da álgebra linear</span>
       <svg width="46" height="24"><polygon points="7,1 39,1 45,6 45,18 39,23 7,23 1,18 1,6"
-        fill="none" stroke="#a9ffff" stroke-width="2.6"></polygon></svg>
+        fill="none" stroke="#f8d66a" stroke-width="2.6"></polygon></svg>
       <span><b>Dois troncos</b> — cantos chanfrados, cor somada</span>
       <svg width="46" height="24"><rect x="1" y="1" width="44" height="22" rx="6"
         fill="none" stroke="#c9a266" stroke-width="2.6"></rect></svg>
-      <span><b>A base</b> — anterior aos três</span>
+      <span><b>A base</b> — anterior aos dois</span>
     </div>
     <div id="painel">
       <div class="vazio">Nenhuma matéria escolhida.<br><br>
@@ -539,7 +603,7 @@ svg.focado .no.alvo text{font-weight:600}
 <footer>
   <span>{{N_NOS}} matérias · {{N_ARESTAS}} dependências · {{N_CAMADAS}} camadas</span>
   <span>cruzamentos de aresta: <b>{{CRUZ_ANTES}} → {{CRUZ_DEPOIS}}</b> (§1.1 da norma de diagramas)</span>
-  <span>seta cheia = definição · seta fraca = ordem do livro · tracejada = sem obra no acervo</span>
+  <span>seta cheia = definição · fraca = ordem do livro · pontilhada = orientação acadêmica · tracejada = sem obra no acervo</span>
   <span class="licenca">© 2026 Mateus Alkimim · conteúdo sob <a href="https://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a> · código sob MIT</span>
 </footer>
 
@@ -581,7 +645,8 @@ function acender(id){
   painel.innerHTML =
     '<h2>' + n.rotulo + '</h2>' +
     '<div class="ramo">' + (n.dom.length ? n.dom.map(d => D.troncos[d]).join(' + ')
-        : 'a base — anterior aos três troncos') + ' · camada ' + n.camada + '</div>' +
+        : 'a base — anterior aos dois troncos') + ' · camada ' + n.camada +
+        (n.geo ? ' · <b class="marca-geo">geometria analítica</b>' : '') + '</div>' +
     '<div class="nota" style="font-size:11.5px;color:var(--muted);margin-bottom:12px">' +
         n.dom_fonte + '</div>' +
     '<div class="nota">' + n.nota + '</div>' +

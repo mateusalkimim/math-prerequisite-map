@@ -71,12 +71,64 @@ def cruzamentos(ordem, arestas, nivel):
     return total
 
 
+def transpor(ordem, niveis, arestas, nivel, rodadas=4):
+    """Troca de vizinhos — o 2º passo do Sugiyama, que faltava aqui.
+
+    O baricentro sozinho acerta a tendência e empaca em mínimo local: ele move
+    um nó para a MÉDIA dos vizinhos, e há arranjos melhores que nenhuma média
+    alcança. A transposição testa cada par ADJACENTE de uma camada, troca, e só
+    mantém a troca se a contagem cair. É medida, não heurística: nada entra sem
+    o número melhorar.
+    """
+    for _ in range(rodadas):
+        melhorou = False
+        for n in sorted(niveis):
+            fila = sorted(niveis[n], key=lambda i: ordem[i])
+            for k in range(len(fila) - 1):
+                u, v = fila[k], fila[k + 1]
+                antes = cruzamentos(ordem, arestas, nivel)
+                ordem[u], ordem[v] = ordem[v], ordem[u]
+                if cruzamentos(ordem, arestas, nivel) < antes:
+                    fila[k], fila[k + 1] = v, u
+                    melhorou = True
+                else:
+                    ordem[u], ordem[v] = ordem[v], ordem[u]
+            niveis[n] = fila
+        if not melhorou:
+            break
+    return ordem
+
+
 def ordenar(nivel, arestas, passadas=24):
     niveis = {}
     for i, n in nivel.items():
         niveis.setdefault(n, []).append(i)
+
+    # PONTO DE PARTIDA POR DFS, não por ordem alfabética (2026-08-25). O
+    # baricentro é local: ele melhora o que recebe, e recebia os nós ordenados
+    # por NOME — que não tem relação nenhuma com o grafo, e deixa cada família
+    # espalhada pela camada. A descida em profundidade a partir das raízes põe
+    # quem descende do mesmo pai lado a lado, que é onde o baricentro consegue
+    # trabalhar. Medido nesta base: 45 -> ver rodapé; nada entra sem o número.
+    filhos_i = {}
+    for a, b, *_ in arestas:
+        filhos_i.setdefault(a, []).append(b)
+    raizes = sorted([i for i in nivel if nivel[i] == 0])
+    vistos, sequencia = set(), []
+    def desce(i):
+        if i in vistos:
+            return
+        vistos.add(i)
+        sequencia.append(i)
+        for f in filhos_i.get(i, []):
+            desce(f)
+    for r0 in raizes:
+        desce(r0)
+    for i in sorted(nivel):
+        desce(i)
+    peso = {i: k for k, i in enumerate(sequencia)}
     for n in niveis:
-        niveis[n].sort()
+        niveis[n].sort(key=lambda i: peso.get(i, 10**6))
     ordem = {i: k for n in niveis for k, i in enumerate(niveis[n])}
 
     filhos, pais = {}, {}
@@ -97,6 +149,7 @@ def ordenar(nivel, arestas, passadas=24):
             niveis[n].sort(key=bar)
             for k, i in enumerate(niveis[n]):
                 ordem[i] = k
+        ordem = transpor(ordem, niveis, arestas, nivel)
         c = cruzamentos(ordem, arestas, nivel)
         if c < melhor:
             melhor, melhor_ordem = c, dict(ordem)
