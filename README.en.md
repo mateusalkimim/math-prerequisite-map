@@ -1,5 +1,5 @@
 <!-- idioma: linha gerada por i18n.py -->
-*[Leia em português](README.md)*
+*[Leia em português](README.en.md)*
 
 # The map of subjects — the logical order of the basic cycle
 
