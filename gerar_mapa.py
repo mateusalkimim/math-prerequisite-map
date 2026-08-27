@@ -51,13 +51,31 @@ TRONCOS = {
 }
 
 # A LÓGICA PRIMORDIAL, que faltava (2026-08-25). O mapa nomeava os troncos e não
-# dizia o que eles SÃO. A série inteira se organiza sobre isto — a
-# `norma-de-notacao.md` §1: o arco GAAL fala do que é LINEAR, o arco do cálculo
-# fala do que é CONSTANTE, e é por isso que um não se apoia no outro.
-# A cor codificava o tronco; ninguém decodificava a razão dele.
+# dizia o que eles SÃO. A cor codificava o tronco; ninguém decodificava a razão.
+#
+# CORRIGIDA EM 2026-08-26 (emenda ratificada da `norma-de-notacao.md` §1.2c).
+# Até aqui isto dizia "o cálculo fala do que é CONSTANTE, a álgebra linear do
+# que é LINEAR". O segundo rótulo é a definição do livro e fica. O primeiro
+# estava errado por TIPO: "linear" é propriedade verificável de um mapa
+# (T(x+y)=T(x)+T(y) e T(ax)=aT(x)); "constante" não nomeia o que o cálculo
+# estuda — nomeia o caso degenerado que ele existe para detectar a ausência.
+#
+# Pior, os dois rótulos não eram irmãos: a derivada É um operador linear, e ser
+# derivável É ser localmente linear — f(a+h) = f(a) + L(h) + o(|h|), onde f(a)
+# é a CONSTANTE e L é a parte LINEAR. Eram o termo 0 e o termo 1 da mesma
+# expansão, não dois reinos. A constante desceu de assunto do arco para ZERO DO
+# INSTRUMENTO: ker D, o que a derivada não enxerga (e daí o "+C" da integral).
+#
+# A independência dos arcos SOBREVIVE, com outro fundamento: é curricular e
+# vale em UMA VARIÁVEL. Em várias, a derivada vira matriz e os arcos se fundem
+# — ver os três nós que já moram nos dois troncos (geom_dif, analise_func,
+# topologia), que são o teto medido desta dicotomia.
 NATUREZA = {
-    "calculo":  ("C", "constante", "o que é constante, e o que muda perto de um ponto"),
-    "algebra":  ("L", "linear",    "o que é linear — soma e escala preservadas"),
+    "calculo":  ("C", "o que acontece perto de um ponto",
+                 "o que acontece perto de um ponto — e a constante é o zero do "
+                 "instrumento: ker D, o que a derivada não vê"),
+    "algebra":  ("L", "o que se preserva — soma e escala",
+                 "o que se preserva: soma e escala, exatamente, em todo o domínio"),
 }
 # O azul da geometria vira o traço da REGIÃO, não de um tronco: é o contorno
 # interno que marca, dentro do verde, o que é geometria analítica.
@@ -77,8 +95,8 @@ def _hx(rgb):
 
 RAMOS = {
     "base":      ("o tronco — anterior aos dois", "#c9a266"),
-    "calculo":   ("cálculo · o que é CONSTANTE",  _hx(TRONCOS["calculo"][0])),
-    "algebra":   ("álgebra linear · o que é LINEAR", _hx(TRONCOS["algebra"][0])),
+    "calculo":   ("cálculo · PERTO DE UM PONTO",  _hx(TRONCOS["calculo"][0])),
+    "algebra":   ("álgebra linear · O QUE SE PRESERVA", _hx(TRONCOS["algebra"][0])),
     "geometria": ("geometria analítica — dentro da álgebra linear", _hx(COR_REGIAO)),
     "fronteira": ("fronteira — sem obra no acervo", "#7c88a1"),
 }
@@ -155,9 +173,15 @@ def badges(doms, L, A):
 
     No Nuke um nó carrega no canto um disco com letra dizendo o que ele TEM:
     A de animação, E de expressão, C de clone. O rótulo não muda; a informação
-    entra por fora. Aqui a letra diz a NATUREZA da matéria — C de constante,
-    L de linear — e é o único lugar da página onde a tese aparece no próprio nó,
-    e não só na legenda.
+    entra por fora. Aqui a letra diz o TRONCO da matéria — C de cálculo, L de
+    álgebra linear.
+
+    ATÉ 2026-08-26 a letra dizia a NATUREZA ("C de constante, L de linear") e
+    este docstring afirmava ser o único lugar da página onde a tese aparecia no
+    próprio nó. A emenda da `norma-de-notacao.md` §1.2c derrubou aquele par de
+    rótulos, e nenhum par de INICIAIS o substitui — "preserva" e "perto de um
+    ponto" começam com a mesma letra. A natureza passou inteira para o painel,
+    e esta afirmação sai daqui em vez de ficar mentindo.
 
     A base fica SEM marca de propósito: ela não é nem uma coisa nem outra, é
     anterior às duas. Marcar tudo diria que tudo se classifica.
@@ -359,8 +383,10 @@ def gerar():
         "ramos": {k: v[0] for k, v in RAMOS.items()},
         "troncos": {k: v[1] for k, v in TRONCOS.items()},
         # a natureza vai ao painel: clicar num nó passa a dizer se ele é do que
-        # é CONSTANTE ou do que é LINEAR, não só a que tronco pertence
-        "natureza": {k: f"o que é {v[1]}" for k, v in NATUREZA.items()},
+        # se PRESERVA ou do que acontece PERTO DE UM PONTO, não só a que tronco
+        # pertence. A frase já vem pronta de NATUREZA (2026-08-26) — antes era
+        # montada aqui com um "o que é {...}" que a redação nova quebraria.
+        "natureza": {k: v[1] for k, v in NATUREZA.items()},
     }
 
     combos = sorted({tuple(sorted(DOMINIOS[n[0]][0])) for n in NOS})
@@ -707,9 +733,14 @@ svg.focado .no.alvo text{font-weight:600}
               font-family="Inter,sans-serif"
               style="paint-order:stroke;stroke:#0a1424;stroke-width:2.5px">GEOM. ANALÍTICA</text>
       </svg>
-      <div class="cap"><b>O cálculo fala do que é constante</b>; a álgebra
-        linear, <b>do que é linear</b>. São dois assuntos, e nenhum se apoia no
-        outro — é por isso que a série é uma árvore, e não uma fila.<br><br>
+      <div class="cap"><b>A álgebra linear fala do que se preserva</b> — soma e
+        escala, exatamente, em todo o domínio; o <b>cálculo</b>, do que acontece
+        <b>perto de um ponto</b>. Na ordem de estudo nenhum cobra o outro, e é
+        por isso que a série é uma árvore, e não uma fila.<br><br>
+        Independentes de <b>ordem</b>, não de natureza: a derivada é ela própria
+        um operador linear, e derivar é achar a melhor aproximação linear perto
+        do ponto. Em várias variáveis a derivada vira <b>matriz</b> e os dois se
+        fundem — e é lá que mora a geometria da imagem.<br><br>
         E a geometria analítica fica <b>dentro</b>
         da álgebra linear — é a região dela onde existe <b>produto interno</b>,
         que é o que dá distância e ângulo, e portanto figura.<br>
