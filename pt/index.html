@@ -1,0 +1,746 @@
+<!doctype html>
+<html lang="pt-BR"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>O mapa das matérias — Hipátia</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0a1424; --sup:#111e34; --sup2:#16233f; --borda:#2a3d5e;
+  --ink:#f0e4cc; --ink2:#ded2ba; --muted:#8b98b3;
+  --ouro:#c9a266; --ouro-claro:#d4af6a; --terracota:#c56a45;
+  --serif:"Cormorant Garamond",Georgia,serif;
+  --sans:"Inter",system-ui,sans-serif;
+}
+html[data-tema="claro"]{
+  --bg:#f3f5f9; --sup:#ffffff; --sup2:#eef1f7; --borda:#d9e0ec;
+  --ink:#16233f; --ink2:#2b3a58; --muted:#7c88a1;
+  --ouro:#a9713f; --ouro-claro:#8f5e33; --terracota:#b35430;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);
+     font-size:15px;line-height:1.5}
+header{padding:18px 26px 12px;border-bottom:1px solid var(--borda)}
+h1{font-family:var(--serif);font-weight:600;font-size:30px;margin:0 0 2px;
+   letter-spacing:.01em}
+.sub{color:var(--muted);font-size:13px;max-width:74ch}
+.sub b{color:var(--ink2);font-weight:500}
+.barra{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-top:12px}
+input[type=search]{background:var(--sup);border:1px solid var(--borda);
+  color:var(--ink);border-radius:8px;padding:7px 11px;font:inherit;font-size:13px;
+  min-width:220px}
+button{background:var(--sup);border:1px solid var(--borda);color:var(--ink2);
+  border-radius:8px;padding:7px 12px;font:inherit;font-size:13px;cursor:pointer}
+button:hover{border-color:var(--ouro);color:var(--ink)}
+kbd{font:inherit;font-size:11px;border:1px solid var(--borda);border-radius:4px;
+    padding:1px 5px;margin-left:5px;color:var(--muted);background:var(--fundo)}
+.chips{display:flex;gap:14px;flex-wrap:wrap;font-size:12px;color:var(--muted)}
+.chip{display:inline-flex;align-items:center;gap:6px}
+.chip i{width:11px;height:11px;border-radius:3px;display:inline-block}
+main{display:flex;gap:0;align-items:stretch}
+#palco{flex:1;overflow:hidden;position:relative;cursor:grab;touch-action:none;
+       height:calc(100vh - 210px);min-height:340px}
+#palco.arrastando{cursor:grabbing}
+svg{display:block;max-height:none}
+aside{width:330px;flex:none;border-left:1px solid var(--borda);padding:18px 20px;
+      overflow-y:auto;height:calc(100vh - 210px);min-height:340px;background:var(--sup)}
+/* A COLUNA DE PROPRIEDADES (2026-08-25). Raciocínio do Nuke aplicado ao mapa:
+   seleciona-se um nó e ele abre o painel de propriedades DELE, numa coluna
+   própria. Antes isto vivia espremido embaixo do Venn, no fim de uma coluna
+   que o leitor já tinha percorrido — e o texto mais longo da página ficava no
+   pior lugar dela.
+   ORDEM (correção do operador): o TEXTO vem primeiro, encostado no mapa, e as
+   figuras ficam na ponta. Quem clica num nó olha para o lado e lê; a chave de
+   cores e formas é consulta ocasional, e consulta ocasional mora mais longe.
+   Fica SEMPRE aberta, mesmo vazia: coluna que aparece e some faz o mapa saltar
+   de largura a cada clique, e o leitor perde o nó que estava olhando.
+   UM POR VEZ, por decisão do operador — o Properties Bin do Nuke empilha, este
+   não. */
+#propriedades{width:390px;flex:none;border-left:1px solid var(--borda);
+      padding:18px 22px;overflow-y:auto;height:calc(100vh - 210px);
+      min-height:340px;background:var(--fundo)}
+#propriedades h2{font-family:var(--serif);font-size:25px;margin:0 0 2px;font-weight:600}
+#propriedades .ramo{font-size:12px;color:var(--muted);text-transform:uppercase;
+      letter-spacing:.08em;margin-bottom:14px}
+#propriedades h3{font-size:11.5px;text-transform:uppercase;letter-spacing:.08em;
+      color:var(--muted);margin:18px 0 6px;font-weight:600}
+#propriedades .verbete{color:var(--ink2);font-size:14px;line-height:1.55;margin:0 0 2px}
+#propriedades .campo{margin-bottom:14px}
+#propriedades .campo b{display:block;font-size:11.5px;text-transform:uppercase;
+      letter-spacing:.06em;color:var(--ouro-claro);font-weight:600;margin-bottom:3px}
+.proc{margin-top:20px;padding-top:10px;border-top:1px solid var(--borda);
+      font-size:11px;color:var(--muted);line-height:1.5}
+.sem-texto{font-size:12.5px;color:var(--muted);font-style:italic}
+/* só aparece quando as colunas estão EMPILHADAS: no lado a lado o mapa nunca
+   sai de vista, e um botão para "voltar" ao que está ali seria ruído. */
+#ao-mapa{display:none}
+@media (max-width: 1199px){
+  #ao-mapa{display:inline-flex;align-items:center;gap:6px;margin-bottom:12px;
+    background:var(--sup);border:1px solid var(--borda);color:var(--ink2);
+    border-radius:8px;padding:8px 12px;font:inherit;font-size:13px;cursor:pointer}
+  #ao-mapa:hover{border-color:var(--ouro);color:var(--ink)}
+}
+aside h2{font-family:var(--serif);font-size:23px;margin:0 0 2px;font-weight:600}
+aside .ramo{font-size:12px;color:var(--muted);text-transform:uppercase;
+            letter-spacing:.08em;margin-bottom:10px}
+aside .nota{color:var(--ink2);font-size:14px;margin-bottom:16px}
+aside h3{font-size:12px;text-transform:uppercase;letter-spacing:.08em;
+         color:var(--muted);margin:16px 0 7px;font-weight:600}
+.pre{border-left:2px solid var(--borda);padding:5px 0 5px 10px;margin-bottom:9px}
+.pre b{font-weight:500;font-size:14px}
+.pre .fonte{display:block;color:var(--muted);font-size:11.5px;margin-top:2px}
+.marca-geo{color:#78c4ff;font-weight:600}
+.pre.w-definicao{border-left-color:var(--ouro)}
+.pre.w-ordem{border-left-color:var(--borda)}
+.pre.w-orientacao{border-left-color:var(--ouro);border-left-style:dotted}
+.pre.w-fronteira{border-left-color:var(--terracota);border-left-style:dashed}
+.vazio{color:var(--muted);font-size:13px}
+footer{padding:9px 26px;border-top:1px solid var(--borda);color:var(--muted);
+       font-size:11.5px;display:flex;gap:18px;flex-wrap:wrap}
+footer a{color:inherit;text-decoration:underline;text-underline-offset:2px}
+footer .licenca{margin-left:auto}
+/* --- o grafo --- */
+.aresta{fill:none;stroke:var(--ouro);stroke-width:1.6;opacity:.75}
+.aresta.w-ordem{stroke-width:1.1;opacity:.42}
+/* orientação: pontilhada CURTA — mais presente que a fronteira (há uma pessoa
+   responsável e uma data), menos que a ordem (não se abre o livro para
+   conferir). O tracejado longo continua sendo só da fronteira. */
+.aresta.w-orientacao{stroke-width:1.25;stroke-dasharray:2 3;opacity:.6}
+.aresta.w-fronteira{stroke:var(--muted);stroke-width:1.1;stroke-dasharray:5 4;opacity:.5}
+
+/* A REGIÃO GEOMÉTRICA — contorno dentro do contorno. Não tem preenchimento:
+   se tivesse, competiria com a cor do tronco, e a região não é outro tronco. */
+.regiao-geo > *{fill:none;stroke:#78c4ff;stroke-width:1.3;opacity:.85}
+svg.focado .no:not(.acesa) .regiao-geo > *{opacity:.18}
+/* AS MARCAS DE CANTO (2026-08-25) — o gesto dos nós do Nuke: um disco com
+   letra dizendo o que a matéria É, sem tocar no rótulo. C de constante,
+   L de linear. Ficam discretas até o nó entrar em foco. */
+.badge circle{stroke:none;opacity:.85}
+.badge text{font-family:var(--sans);font-size:11px;font-weight:700;
+            fill:#0a1424;pointer-events:none}
+.badge-calculo circle{fill:#f44e3e}
+.badge-algebra circle{fill:#3ac848}
+svg.focado .no:not(.acesa) .badge{opacity:.15}
+.no:hover .badge circle{opacity:1}
+.no > :first-child{fill:var(--sup);stroke:var(--borda);stroke-width:1.7}
+.no text{fill:var(--ink);font-family:var(--sans);font-size:12.5px;font-weight:500;
+         text-anchor:middle;pointer-events:none}
+.no{cursor:pointer}
+.no:hover > :first-child{stroke-width:2.6}
+.ramo-fronteira > :first-child{stroke-dasharray:5 4}
+.ramo-fronteira text{fill:var(--muted)}
+.dom-base > :first-child{stroke:#c9a266}
+html[data-tema="claro"] .dom-base > :first-child{stroke:#c9a266}
+.dom-algebra > :first-child{stroke:#3ac848}
+html[data-tema="claro"] .dom-algebra > :first-child{stroke:#3ac848}
+.dom-algebra-calculo > :first-child{stroke:#ffff86}
+html[data-tema="claro"] .dom-algebra-calculo > :first-child{stroke:#978b43}
+.dom-calculo > :first-child{stroke:#f44e3e}
+html[data-tema="claro"] .dom-calculo > :first-child{stroke:#f44e3e}
+/* =======================================================================
+   MOBILE (2026-08-24). Antes disto o mapa era inusável no telefone: o aside
+   de 330px fixos comia 85% de uma tela de 390, sobrando ~155px para o grafo,
+   e ainda transbordava para fora da janela. O cabeçalho tomava 40% da altura
+   antes de mostrar qualquer coisa.
+
+   A escolha: em tela estreita o mapa vira a tela inteira e o painel lateral
+   desce para baixo dele, virando leitura em coluna. Não se esconde nada — a
+   §1.5 da casa é information hiding, não information deleting.
+   ======================================================================= */
+/* ENTRE O TELEFONE E A TELA LARGA (2026-08-25). Com a coluna de propriedades
+   são 330+390 = 720px de coluna FIXA: numa tela de 900px sobrariam 180px de
+   mapa, que não é mapa nenhum. Aqui o mapa fica inteiro em cima e as duas
+   colunas descem.
+   É bloco PRÓPRIO, e não uma subida do breakpoint de 860: aquele carrega
+   ajustes de DEDO (input a 16px para o iOS não dar zoom, alvo de toque de
+   40px) que não têm o que fazer numa tela de mouse. */
+@media (min-width: 861px) and (max-width: 1199px){
+  main{flex-direction:column}
+  #palco{flex:none;height:60vh;min-height:320px;width:100%}
+  aside,#propriedades{width:100%;flex:none;height:auto;min-height:0;
+        border-left:0;border-top:1px solid var(--borda)}
+}
+
+@media (max-width: 860px){
+  body{font-size:15px}
+  header{padding:12px 14px 10px}
+  h1{font-size:22px}
+  /* a explicação longa vira resumo: o texto inteiro fica no título do
+     elemento e no painel, não sumiu */
+  .sub{font-size:12.5px;max-width:none;
+       display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;
+       overflow:hidden}
+  .barra{gap:8px;margin-top:10px}
+  input[type=search]{min-width:0;flex:1 1 100%;padding:10px 12px;font-size:16px}
+  button{padding:10px 13px}          /* alvo de toque: 40px de altura */
+  .chips{width:100%;gap:10px 12px;font-size:11.5px}
+
+  main{flex-direction:column}
+  /* flex:none é ESSENCIAL: com flex:1 o flex-basis vence o height em coluna,
+     e o palco crescia até a altura nativa do SVG (medido: 1614px), empurrando
+     o mapa inteiro para fora da tela. */
+  /* UM DEDO ROLA A PÁGINA, DOIS MOVEM O MAPA (2026-08-25). Com
+     touch-action:none o palco engolia o gesto vertical, e como ele ocupa o
+     MEIO da tela (medido: 439px de 844 no celular retrato), não sobrava por
+     onde rolar: as colunas de texto e de figuras existiam no DOM e eram
+     inalcançáveis. Padrão de mapa embutido em página: o gesto primário do
+     celular é rolar. O mapa continua inteiro com dois dedos e com
+     "ajustar à tela". */
+  #palco{flex:none;height:58vh;min-height:280px;width:100%;touch-action:pan-y}
+  aside{width:100%;flex:none;height:auto;min-height:0;max-height:none;
+        border-left:0;border-top:1px solid var(--borda);padding:16px 14px}
+  #propriedades{width:100%;flex:none;height:auto;min-height:0;
+        border-left:0;border-top:1px solid var(--borda);padding:16px 14px}
+  .rgb svg{width:100%;height:auto;max-width:252px}
+  .formas{font-size:13px}
+}
+
+/* telefone estreito de verdade */
+@media (max-width: 430px){
+  h1{font-size:20px}
+  .chips{font-size:11px;gap:8px 10px}
+  #palco{flex:none;height:52vh}
+}
+
+/* deitado: a tela é baixa, então o mapa toma o que sobra e o painel rola */
+@media (max-width: 860px) and (orientation: landscape){
+  #palco{flex:none;height:76vh}
+  .sub{display:none}
+}
+
+/* a moldura do conjunto da aritmética — tracejada porque é agrupamento, não
+   dependência: nenhuma seta entra ou sai dela */
+.grupo-aritmetica rect{fill:rgba(201,162,102,.05);stroke:var(--ouro);
+  stroke-width:1.3;stroke-dasharray:7 5;opacity:.65}
+.grupo-aritmetica text{fill:var(--ouro-claro);font-size:13px;font-weight:600;
+  letter-spacing:.02em;font-family:Inter,sans-serif;opacity:1}
+svg.focado .grupo-aritmetica{opacity:.2}
+
+/* --- os dois troncos, e a região contida num deles --- */
+.rgb{background:#0a1424;border:1px solid var(--borda);border-radius:10px;
+     padding:12px 10px 8px;margin-bottom:18px}
+.rgb svg{display:block;margin:0 auto}
+.rgb circle{mix-blend-mode:screen}
+.rgb .cap{color:var(--ink2);font-size:11.5px;text-align:center;margin-top:6px;line-height:1.4}
+.formas{display:grid;grid-template-columns:auto 1fr;gap:9px 10px;align-items:center;
+        font-size:12.5px;color:var(--ink2);margin-bottom:18px}
+.formas b{color:var(--ink);font-weight:600}
+.formas svg{display:block}
+/* apagado, não sumido — §1.5 information hiding */
+svg.focado .no{opacity:.16}
+svg.focado .aresta{opacity:.07}
+svg.focado .no.acesa{opacity:1}
+svg.focado .aresta.acesa{opacity:.95;stroke-width:2.2}
+svg.focado .no.alvo > :first-child{stroke-width:3.4}
+svg.focado .no.alvo text{font-weight:600}
+</style></head><body>
+
+<header>
+  <h1>O mapa das matérias</h1>
+  <div class="sub">A ordem <b>lógica</b> — não a histórica, não a curricular.
+    A direção é declarada uma vez e não se mistura: <b>de cima para baixo</b>,
+    o pré-requisito sempre acima de quem o exige. Clique numa matéria para
+    acender a cadeia inteira que a sustenta, até a linguagem dos conjuntos.<br>
+    <b>Dois troncos, e eles não se apoiam um no outro</b>: a álgebra linear fala
+    do que é <b>linear</b> — soma e escala preservadas; o cálculo fala do que é
+    <b>constante</b>, e do que muda perto de um ponto. Cada matéria carrega no
+    canto a marca do seu: <b>L</b> ou <b>C</b>.</div>
+  <div class="barra">
+    <input type="search" id="busca" placeholder="procurar matéria… (ex.: limite)" autocomplete="off">
+    <button id="limpar">limpar</button>
+    <button id="ajustar" title="reenquadra o mapa inteiro na tela — atalho: F">ajustar à tela <kbd>F</kbd></button>
+    <button id="tema">tema claro</button>
+    <span class="chips"><span class="chip"><i style="background:#c9a266"></i>o tronco — anterior aos dois</span><span class="chip"><i style="background:#f44e3e"></i>cálculo · PERTO DE UM PONTO</span><span class="chip"><i style="background:#3ac848"></i>álgebra linear · O QUE SE PRESERVA</span><span class="chip"><i style="background:#78c4ff"></i>geometria analítica — dentro da álgebra linear</span><span class="chip"><i style="background:#7c88a1"></i>fronteira — sem obra no acervo</span></span>
+  </div>
+</header>
+
+<main>
+  <div id="palco">
+    <svg id="grafo" viewBox="0 0 1629 1906" width="1629" height="1906"
+         xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <marker id="seta-definicao" viewBox="0 0 8 8" refX="7" refY="4"
+                markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+          <path d="M0,0 L8,4 L0,8 z" fill="var(--ouro)"></path></marker>
+        <marker id="seta-ordem" viewBox="0 0 8 8" refX="7" refY="4"
+                markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+          <path d="M0,0 L8,4 L0,8 z" fill="var(--ouro)" opacity=".55"></path></marker>
+        <marker id="seta-orientacao" viewBox="0 0 8 8" refX="7" refY="4"
+                markerWidth="6.5" markerHeight="6.5" orient="auto-start-reverse">
+          <path d="M0,0 L8,4 L0,8 z" fill="var(--ouro)" opacity=".75"></path></marker>
+        <marker id="seta-fronteira" viewBox="0 0 8 8" refX="7" refY="4"
+                markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+          <path d="M0,0 L8,4 L0,8 z" fill="var(--muted)"></path></marker>
+      </defs>
+      <polyline class="aresta w-orientacao" points="728.5,106.0 728.5,135.0 574.5,135.0 574.5,194.0" data-de="conjuntos" data-para="conj_num" marker-end="url(#seta-orientacao)"></polyline>
+<polyline class="aresta w-orientacao" points="728.5,106.0 728.5,140.0 918.5,140.0 918.5,194.0" data-de="conjuntos" data-para="contagem" marker-end="url(#seta-orientacao)"></polyline>
+<polyline class="aresta w-orientacao" points="728.5,106.0 728.5,145.0 746.5,145.0 746.5,194.0" data-de="conjuntos" data-para="relacoes" marker-end="url(#seta-orientacao)"></polyline>
+<polyline class="aresta w-orientacao" points="574.5,252.0 574.5,296.0 803.0,296.0 803.0,340.0" data-de="conj_num" data-para="aritmetica" marker-end="url(#seta-orientacao)"></polyline>
+<polyline class="aresta w-orientacao" points="746.5,252.0 746.5,315.5 699.0,315.5 699.0,369.0 699.0,447.0 687.5,447.0 687.5,515.0 687.5,593.0 710.5,593.0 710.5,661.0 710.5,739.0 687.5,739.0 687.5,807.0 687.5,870.5 613.0,870.5 613.0,924.0" data-de="relacoes" data-para="funcoes" marker-end="url(#seta-orientacao)"></polyline>
+<polyline class="aresta w-orientacao" points="746.5,252.0 746.5,320.5 930.0,320.5 930.0,369.0 930.0,452.0 1298.5,452.0 1298.5,515.0 1298.5,598.0 987.5,598.0 987.5,661.0 987.5,744.0 1149.5,744.0 1149.5,807.0 1149.5,875.5 1039.0,875.5 1039.0,924.0" data-de="relacoes" data-para="coord_plano" marker-end="url(#seta-orientacao)"></polyline>
+<polyline class="aresta w-orientacao" points="900.5,106.0 900.5,165.0 1090.5,165.0 1090.5,194.0" data-de="geom_plana" data-para="geom_espacial" marker-end="url(#seta-orientacao)"></polyline>
+<polyline class="aresta w-orientacao" points="900.5,106.0 900.5,149.5 470.5,149.5 470.5,223.0 470.5,281.0 676.0,281.0 676.0,369.0 676.0,427.0 479.5,427.0 479.5,515.0 479.5,573.0 641.5,573.0 641.5,661.0 641.5,704.5 560.5,704.5 560.5,778.0" data-de="geom_plana" data-para="trigonometria" marker-end="url(#seta-orientacao)"></polyline>
+<polyline class="aresta w-orientacao" points="1090.5,252.0 1090.5,300.5 953.0,300.5 953.0,369.0 953.0,432.0 1321.5,432.0 1321.5,515.0 1321.5,578.0 1010.5,578.0 1010.5,661.0 1010.5,724.0 1172.5,724.0 1172.5,807.0 1172.5,870.0 1143.0,870.0 1143.0,953.0 1143.0,1001.5 1206.0,1001.5 1206.0,1070.0" data-de="geom_espacial" data-para="coord_espaco" marker-end="url(#seta-orientacao)"></polyline>
+<polyline class="aresta w-ordem" points="918.5,252.0 918.5,305.5 907.0,305.5 907.0,369.0 907.0,437.0 1275.5,437.0 1275.5,515.0 1275.5,583.0 941.5,583.0 941.5,661.0 941.5,729.0 918.5,729.0 918.5,807.0 918.5,875.0 763.0,875.0 763.0,953.0 763.0,1006.5 826.0,1006.5 826.0,1070.0" data-de="contagem" data-para="determinante" marker-end="url(#seta-ordem)"></polyline>
+<polyline class="aresta w-ordem" points="803.0,398.0 803.0,442.0 791.5,442.0 791.5,486.0" data-de="aritmetica" data-para="operacoes" marker-end="url(#seta-ordem)"></polyline>
+<polyline class="aresta w-ordem" points="803.0,398.0 803.0,447.0 583.5,447.0 583.5,486.0" data-de="aritmetica" data-para="fracoes" marker-end="url(#seta-ordem)"></polyline>
+<polyline class="aresta w-ordem" points="803.0,398.0 803.0,452.0 375.5,452.0 375.5,486.0" data-de="aritmetica" data-para="potencias" marker-end="url(#seta-ordem)"></polyline>
+<polyline class="aresta w-ordem" points="803.0,398.0 803.0,457.0 1171.5,457.0 1171.5,486.0" data-de="aritmetica" data-para="negativos" marker-end="url(#seta-ordem)"></polyline>
+<polyline class="aresta w-ordem" points="803.0,398.0 803.0,427.0 963.5,427.0 963.5,486.0" data-de="aritmetica" data-para="fatoracao" marker-end="url(#seta-ordem)"></polyline>
+<polyline class="aresta w-ordem" points="791.5,544.0 791.5,578.0 814.5,578.0 814.5,632.0" data-de="operacoes" data-para="algebra_elem" marker-end="url(#seta-ordem)"></polyline>
+<polyline class="aresta w-ordem" points="963.5,544.0 963.5,583.0 814.5,583.0 814.5,632.0" data-de="fatoracao" data-para="algebra_elem" marker-end="url(#seta-ordem)"></polyline>
+<polyline class="aresta w-ordem" points="583.5,544.0 583.5,602.5 664.5,602.5 664.5,661.0 664.5,719.5 560.5,719.5 560.5,778.0" data-de="fracoes" data-para="trigonometria" marker-end="url(#seta-ordem)"></polyline>
+<polyline class="aresta w-ordem" points="1171.5,544.0 1171.5,607.5 918.5,607.5 918.5,661.0 918.5,724.5 814.5,724.5 814.5,778.0" data-de="negativos" data-para="reais" marker-end="url(#seta-ordem)"></polyline>
+<polyline class="aresta w-ordem" points="1171.5,544.0 1171.5,612.5 964.5,612.5 964.5,661.0 964.5,744.0 1126.5,744.0 1126.5,807.0 1126.5,875.5 1039.0,875.5 1039.0,924.0" data-de="negativos" data-para="coord_plano" marker-end="url(#seta-ordem)"></polyline>
+<polyline class="aresta w-ordem" points="375.5,544.0 375.5,617.5 618.5,617.5 618.5,661.0 618.5,749.0 456.5,749.0 456.5,807.0 456.5,895.0 486.0,895.0 486.0,953.0 486.0,1041.0 355.0,1041.0 355.0,1099.0 355.0,1172.5 278.0,1172.5 278.0,1216.0" data-de="potencias" data-para="exp_log" marker-end="url(#seta-ordem)"></polyline>
+<polyline class="aresta w-ordem" points="583.5,544.0 583.5,587.5 687.5,587.5 687.5,661.0 687.5,719.0 664.5,719.0 664.5,807.0 664.5,850.5 613.0,850.5 613.0,924.0" data-de="fracoes" data-para="funcoes" marker-end="url(#seta-ordem)"></polyline>
+<polyline class="aresta w-ordem" points="803.0,398.0 803.0,446.5 1067.5,446.5 1067.5,515.0 1067.5,563.5 814.5,563.5 814.5,632.0" data-de="aritmetica" data-para="algebra_elem" marker-end="url(#seta-ordem)"></polyline>
+<polyline class="aresta w-ordem" points="814.5,690.0 814.5,729.0 560.5,729.0 560.5,778.0" data-de="algebra_elem" data-para="trigonometria" marker-end="url(#seta-ordem)"></polyline>
+<polyline class="aresta w-ordem" points="814.5,690.0 814.5,778.0" data-de="algebra_elem" data-para="reais" marker-end="url(#seta-ordem)"></polyline>
+<polyline class="aresta w-ordem" points="560.5,836.0 560.5,885.0 613.0,885.0 613.0,924.0" data-de="trigonometria" data-para="funcoes" marker-end="url(#seta-ordem)"></polyline>
+<polyline class="aresta w-definicao" points="814.5,836.0 814.5,890.0 613.0,890.0 613.0,924.0" data-de="reais" data-para="funcoes" marker-end="url(#seta-definicao)"></polyline>
+<polyline class="aresta w-definicao" points="613.0,982.0 613.0,1041.0 482.0,1041.0 482.0,1070.0" data-de="funcoes" data-para="limite" marker-end="url(#seta-definicao)"></polyline>
+<polyline class="aresta w-definicao" points="814.5,836.0 814.5,879.5 717.0,879.5 717.0,953.0 717.0,996.5 482.0,996.5 482.0,1070.0" data-de="reais" data-para="limite" marker-end="url(#seta-definicao)"></polyline>
+<polyline class="aresta w-ordem" points="482.0,1128.0 482.0,1162.0 740.0,1162.0 740.0,1216.0" data-de="limite" data-para="sequencias" marker-end="url(#seta-ordem)"></polyline>
+<polyline class="aresta w-definicao" points="482.0,1128.0 482.0,1167.0 278.0,1167.0 278.0,1216.0" data-de="limite" data-para="exp_log" marker-end="url(#seta-definicao)"></polyline>
+<polyline class="aresta w-definicao" points="482.0,1128.0 482.0,1186.5 382.0,1186.5 382.0,1245.0 382.0,1303.5 445.0,1303.5 445.0,1362.0" data-de="limite" data-para="derivada" marker-end="url(#seta-definicao)"></polyline>
+<polyline class="aresta w-definicao" points="445.0,1420.0 445.0,1469.0 124.0,1469.0 124.0,1508.0" data-de="derivada" data-para="regra_cadeia" marker-end="url(#seta-definicao)"></polyline>
+<polyline class="aresta w-definicao" points="445.0,1420.0 445.0,1474.0 296.0,1474.0 296.0,1508.0" data-de="derivada" data-para="inversa" marker-end="url(#seta-definicao)"></polyline>
+<polyline class="aresta w-ordem" points="278.0,1274.0 278.0,1333.0 445.0,1333.0 445.0,1362.0" data-de="exp_log" data-para="derivada" marker-end="url(#seta-ordem)"></polyline>
+<polyline class="aresta w-definicao" points="445.0,1420.0 445.0,1449.0 676.0,1449.0 676.0,1508.0" data-de="derivada" data-para="variacao" marker-end="url(#seta-definicao)"></polyline>
+<polyline class="aresta w-definicao" points="445.0,1420.0 445.0,1454.0 468.0,1454.0 468.0,1508.0" data-de="derivada" data-para="primitiva" marker-end="url(#seta-definicao)"></polyline>
+<polyline class="aresta w-definicao" points="482.0,1128.0 482.0,1181.5 405.0,1181.5 405.0,1245.0 405.0,1313.0 549.0,1313.0 549.0,1391.0 549.0,1459.0 780.0,1459.0 780.0,1537.0 780.0,1590.5 631.0,1590.5 631.0,1654.0" data-de="limite" data-para="integral" marker-end="url(#seta-definicao)"></polyline>
+<polyline class="aresta w-definicao" points="468.0,1566.0 468.0,1610.0 631.0,1610.0 631.0,1654.0" data-de="primitiva" data-para="integral" marker-end="url(#seta-definicao)"></polyline>
+<polyline class="aresta w-ordem" points="468.0,1566.0 468.0,1615.0 423.0,1615.0 423.0,1654.0" data-de="primitiva" data-para="tecnicas_int" marker-end="url(#seta-ordem)"></polyline>
+<polyline class="aresta w-definicao" points="124.0,1566.0 124.0,1620.0 423.0,1620.0 423.0,1654.0" data-de="regra_cadeia" data-para="tecnicas_int" marker-end="url(#seta-definicao)"></polyline>
+<polyline class="aresta w-ordem" points="631.0,1712.0 631.0,1771.0 814.5,1771.0 814.5,1800.0" data-de="integral" data-para="polares" marker-end="url(#seta-ordem)"></polyline>
+<polyline class="aresta w-definicao" points="560.5,836.0 560.5,879.5 509.0,879.5 509.0,953.0 509.0,1011.0 378.0,1011.0 378.0,1099.0 378.0,1157.0 428.0,1157.0 428.0,1245.0 428.0,1303.0 572.0,1303.0 572.0,1391.0 572.0,1449.0 803.0,1449.0 803.0,1537.0 803.0,1595.0 735.0,1595.0 735.0,1683.0 735.0,1726.5 814.5,1726.5 814.5,1800.0" data-de="trigonometria" data-para="polares" marker-end="url(#seta-definicao)"></polyline>
+<polyline class="aresta w-definicao" points="814.5,836.0 814.5,870.0 1039.0,870.0 1039.0,924.0" data-de="reais" data-para="coord_plano" marker-end="url(#seta-definicao)"></polyline>
+<polyline class="aresta w-definicao" points="1039.0,982.0 1039.0,1021.0 654.0,1021.0 654.0,1070.0" data-de="coord_plano" data-para="reta" marker-end="url(#seta-definicao)"></polyline>
+<polyline class="aresta w-ordem" points="814.5,690.0 814.5,748.5 710.5,748.5 710.5,807.0 710.5,880.0 740.0,880.0 740.0,953.0 740.0,1011.5 654.0,1011.5 654.0,1070.0" data-de="algebra_elem" data-para="reta" marker-end="url(#seta-ordem)"></polyline>
+<polyline class="aresta w-ordem" points="654.0,1128.0 654.0,1177.0 532.0,1177.0 532.0,1216.0" data-de="reta" data-para="conicas" marker-end="url(#seta-ordem)"></polyline>
+<polyline class="aresta w-ordem" points="1039.0,982.0 1039.0,1036.0 1034.0,1036.0 1034.0,1070.0" data-de="coord_plano" data-para="vetores" marker-end="url(#seta-ordem)"></polyline>
+<polyline class="aresta w-ordem" points="1039.0,982.0 1039.0,1041.0 1206.0,1041.0 1206.0,1070.0" data-de="coord_plano" data-para="coord_espaco" marker-end="url(#seta-ordem)"></polyline>
+<polyline class="aresta w-definicao" points="1206.0,1128.0 1206.0,1157.0 1351.0,1157.0 1351.0,1216.0" data-de="coord_espaco" data-para="plano_eq" marker-end="url(#seta-definicao)"></polyline>
+<polyline class="aresta w-definicao" points="1034.0,1128.0 1034.0,1162.0 1351.0,1162.0 1351.0,1216.0" data-de="vetores" data-para="plano_eq" marker-end="url(#seta-definicao)"></polyline>
+<polyline class="aresta w-ordem" points="1022.5,836.0 1022.5,875.0 867.0,875.0 867.0,924.0" data-de="sistemas" data-para="matrizes" marker-end="url(#seta-ordem)"></polyline>
+<polyline class="aresta w-ordem" points="814.5,690.0 814.5,734.0 1022.5,734.0 1022.5,778.0" data-de="algebra_elem" data-para="sistemas" marker-end="url(#seta-ordem)"></polyline>
+<polyline class="aresta w-definicao" points="867.0,982.0 867.0,1031.0 826.0,1031.0 826.0,1070.0" data-de="matrizes" data-para="determinante" marker-end="url(#seta-definicao)"></polyline>
+<polyline class="aresta w-ordem" points="1034.0,1128.0 1034.0,1182.0 971.0,1182.0 971.0,1216.0" data-de="vetores" data-para="esp_vetorial" marker-end="url(#seta-ordem)"></polyline>
+<polyline class="aresta w-definicao" points="971.0,1274.0 971.0,1333.0 1102.0,1333.0 1102.0,1362.0" data-de="esp_vetorial" data-para="base_dim" marker-end="url(#seta-definicao)"></polyline>
+<polyline class="aresta w-definicao" points="971.0,1274.0 971.0,1317.5 1206.0,1317.5 1206.0,1391.0 1206.0,1434.5 1297.0,1434.5 1297.0,1508.0" data-de="esp_vetorial" data-para="transf_lin" marker-end="url(#seta-definicao)"></polyline>
+<polyline class="aresta w-definicao" points="867.0,982.0 867.0,1030.5 930.0,1030.5 930.0,1099.0 930.0,1162.0 867.0,1162.0 867.0,1245.0 867.0,1308.0 826.0,1308.0 826.0,1391.0 826.0,1439.5 1297.0,1439.5 1297.0,1508.0" data-de="matrizes" data-para="transf_lin" marker-end="url(#seta-definicao)"></polyline>
+<polyline class="aresta w-definicao" points="1102.0,1420.0 1102.0,1459.0 1297.0,1459.0 1297.0,1508.0" data-de="base_dim" data-para="transf_lin" marker-end="url(#seta-definicao)"></polyline>
+<polyline class="aresta w-definicao" points="1034.0,1128.0 1034.0,1172.0 1143.0,1172.0 1143.0,1216.0" data-de="vetores" data-para="prod_interno" marker-end="url(#seta-definicao)"></polyline>
+<polyline class="aresta w-definicao" points="1297.0,1566.0 1297.0,1615.0 862.0,1615.0 862.0,1654.0" data-de="transf_lin" data-para="autovalores" marker-end="url(#seta-definicao)"></polyline>
+<polyline class="aresta w-definicao" points="826.0,1128.0 826.0,1196.5 636.0,1196.5 636.0,1245.0 636.0,1328.0 618.0,1328.0 618.0,1391.0 618.0,1474.0 849.0,1474.0 849.0,1537.0 849.0,1605.5 862.0,1605.5 862.0,1654.0" data-de="determinante" data-para="autovalores" marker-end="url(#seta-definicao)"></polyline>
+<polyline class="aresta w-ordem" points="532.0,1274.0 532.0,1347.5 595.0,1347.5 595.0,1391.0 595.0,1479.0 826.0,1479.0 826.0,1537.0 826.0,1625.0 758.0,1625.0 758.0,1683.0 758.0,1756.5 986.5,1756.5 986.5,1800.0" data-de="conicas" data-para="formas_quad" marker-end="url(#seta-ordem)"></polyline>
+<polyline class="aresta w-definicao" points="862.0,1712.0 862.0,1741.0 986.5,1741.0 986.5,1800.0" data-de="autovalores" data-para="formas_quad" marker-end="url(#seta-definicao)"></polyline>
+<polyline class="aresta w-fronteira" points="445.0,1420.0 445.0,1454.0 1505.0,1454.0 1505.0,1508.0" data-de="derivada" data-para="varias_var" marker-end="url(#seta-fronteira)"></polyline>
+<polyline class="aresta w-fronteira" points="1034.0,1128.0 1034.0,1181.5 1247.0,1181.5 1247.0,1245.0 1247.0,1313.0 1252.0,1313.0 1252.0,1391.0 1252.0,1444.5 1505.0,1444.5 1505.0,1508.0" data-de="vetores" data-para="varias_var" marker-end="url(#seta-fronteira)"></polyline>
+<polyline class="aresta w-fronteira" points="631.0,1712.0 631.0,1756.0 642.5,1756.0 642.5,1800.0" data-de="integral" data-para="edo" marker-end="url(#seta-fronteira)"></polyline>
+<polyline class="aresta w-fronteira" points="445.0,1420.0 445.0,1483.5 572.0,1483.5 572.0,1537.0 572.0,1615.0 527.0,1615.0 527.0,1683.0 527.0,1746.5 642.5,1746.5 642.5,1800.0" data-de="derivada" data-para="edo" marker-end="url(#seta-fronteira)"></polyline>
+<polyline class="aresta w-fronteira" points="482.0,1128.0 482.0,1196.5 844.0,1196.5 844.0,1245.0 844.0,1313.5 722.0,1313.5 722.0,1362.0" data-de="limite" data-para="analise_real" marker-end="url(#seta-fronteira)"></polyline>
+<polyline class="aresta w-fronteira" points="740.0,1274.0 740.0,1333.0 722.0,1333.0 722.0,1362.0" data-de="sequencias" data-para="analise_real" marker-end="url(#seta-fronteira)"></polyline>
+<polyline class="aresta w-fronteira" points="971.0,1274.0 971.0,1303.0 930.0,1303.0 930.0,1362.0" data-de="esp_vetorial" data-para="algebra_abs" marker-end="url(#seta-fronteira)"></polyline>
+<polyline class="aresta w-fronteira" points="722.0,1420.0 722.0,1454.0 953.0,1454.0 953.0,1508.0" data-de="analise_real" data-para="topologia" marker-end="url(#seta-fronteira)"></polyline>
+<polyline class="aresta w-fronteira" points="722.0,1420.0 722.0,1459.0 1125.0,1459.0 1125.0,1508.0" data-de="analise_real" data-para="medida" marker-end="url(#seta-fronteira)"></polyline>
+<polyline class="aresta w-fronteira" points="1505.0,1566.0 1505.0,1610.0 1206.0,1610.0 1206.0,1654.0" data-de="varias_var" data-para="geom_dif" marker-end="url(#seta-fronteira)"></polyline>
+<polyline class="aresta w-fronteira" points="1297.0,1566.0 1297.0,1615.0 1206.0,1615.0 1206.0,1654.0" data-de="transf_lin" data-para="geom_dif" marker-end="url(#seta-fronteira)"></polyline>
+<polyline class="aresta w-fronteira" points="953.0,1566.0 953.0,1620.0 1034.0,1620.0 1034.0,1654.0" data-de="topologia" data-para="analise_func" marker-end="url(#seta-fronteira)"></polyline>
+<polyline class="aresta w-fronteira" points="1125.0,1566.0 1125.0,1625.0 1034.0,1625.0 1034.0,1654.0" data-de="medida" data-para="analise_func" marker-end="url(#seta-fronteira)"></polyline>
+<polyline class="aresta w-fronteira" points="971.0,1274.0 971.0,1317.5 1229.0,1317.5 1229.0,1391.0 1229.0,1449.0 1401.0,1449.0 1401.0,1537.0 1401.0,1580.5 1034.0,1580.5 1034.0,1654.0" data-de="esp_vetorial" data-para="analise_func" marker-end="url(#seta-fronteira)"></polyline>
+<g class="no ramo-base dom-base" data-id="aritmetica" data-dom="base" transform="translate(727.0,340.0)"><rect width="152" height="58" rx="8"></rect><text x="76.0" y="26.5">Aritmética</text><text x="76.0" y="41.5">e as operações</text></g>
+<g class="no ramo-base dom-base" data-id="conjuntos" data-dom="base" transform="translate(652.5,48.0)"><rect width="152" height="58" rx="29.0" ry="29.0"></rect><text x="76.0" y="34.0">Conjuntos</text></g>
+<g class="no ramo-base dom-base" data-id="conj_num" data-dom="base" transform="translate(498.5,194.0)"><rect width="152" height="58" rx="8"></rect><text x="76.0" y="26.5">Conjuntos</text><text x="76.0" y="41.5">numéricos</text></g>
+<g class="no ramo-base dom-base" data-id="contagem" data-dom="base" transform="translate(842.5,194.0)"><rect width="152" height="58" rx="8"></rect><text x="76.0" y="26.5">Problemas</text><text x="76.0" y="41.5">de contagem</text></g>
+<g class="no ramo-base dom-base" data-id="relacoes" data-dom="base" transform="translate(670.5,194.0)"><rect width="152" height="58" rx="8"></rect><text x="76.0" y="26.5">Relações</text><text x="76.0" y="41.5">e o par ordenado</text></g>
+<g class="no ramo-base dom-base" data-id="geom_plana" data-dom="base" transform="translate(824.5,48.0)"><rect width="152" height="58" rx="29.0" ry="29.0"></rect><text x="76.0" y="26.5">Geometria</text><text x="76.0" y="41.5">plana</text></g>
+<g class="no ramo-base dom-base" data-id="geom_espacial" data-dom="base" transform="translate(1014.5,194.0)"><rect width="152" height="58" rx="8"></rect><text x="76.0" y="26.5">Geometria</text><text x="76.0" y="41.5">espacial</text></g>
+<g class="no ramo-base dom-base" data-id="operacoes" data-dom="base" transform="translate(715.5,486.0)"><rect width="152" height="58" rx="8"></rect><text x="76.0" y="26.5">Soma e produto</text><text x="76.0" y="41.5">e seus inversos</text></g>
+<g class="no ramo-base dom-base" data-id="fracoes" data-dom="base" transform="translate(507.5,486.0)"><rect width="152" height="58" rx="8"></rect><text x="76.0" y="26.5">Frações</text><text x="76.0" y="41.5">e proporção</text></g>
+<g class="no ramo-base dom-base" data-id="potencias" data-dom="base" transform="translate(299.5,486.0)"><rect width="152" height="58" rx="8"></rect><text x="76.0" y="26.5">Potência, raiz</text><text x="76.0" y="41.5">e logaritmo</text></g>
+<g class="no ramo-base dom-base" data-id="negativos" data-dom="base" transform="translate(1095.5,486.0)"><rect width="152" height="58" rx="8"></rect><text x="76.0" y="26.5">Negativos</text><text x="76.0" y="41.5">e a reta</text></g>
+<g class="no ramo-base dom-base" data-id="fatoracao" data-dom="base" transform="translate(887.5,486.0)"><rect width="152" height="58" rx="8"></rect><text x="76.0" y="26.5">Divisibilidade</text><text x="76.0" y="41.5">e fatoração</text></g>
+<g class="no ramo-base dom-base" data-id="algebra_elem" data-dom="base" transform="translate(738.5,632.0)"><rect width="152" height="58" rx="8"></rect><text x="76.0" y="26.5">Álgebra</text><text x="76.0" y="41.5">elementar</text></g>
+<g class="no ramo-base dom-base" data-id="trigonometria" data-dom="base" transform="translate(484.5,778.0)"><rect width="152" height="58" rx="8"></rect><text x="76.0" y="34.0">Trigonometria</text></g>
+<g class="no ramo-base dom-base" data-id="reais" data-dom="base" transform="translate(738.5,778.0)"><rect width="152" height="58" rx="8"></rect><text x="76.0" y="34.0">Números reais</text></g>
+<g class="no ramo-base dom-base" data-id="funcoes" data-dom="base" transform="translate(537.0,924.0)"><rect width="152" height="58" rx="8"></rect><text x="76.0" y="34.0">Funções</text></g>
+<g class="no ramo-calculo dom-calculo" data-id="limite" data-dom="calculo" transform="translate(406.0,1070.0)"><rect width="152" height="58" rx="29.0" ry="29.0"></rect><g class="badge badge-calculo"><circle cx="141.5" cy="10.5" r="8.5"></circle><text x="141.5" y="14.1" text-anchor="middle">C</text></g><text x="76.0" y="26.5">Limite</text><text x="76.0" y="41.5">e continuidade</text></g>
+<g class="no ramo-calculo dom-calculo" data-id="sequencias" data-dom="calculo" transform="translate(664.0,1216.0)"><rect width="152" height="58" rx="29.0" ry="29.0"></rect><g class="badge badge-calculo"><circle cx="141.5" cy="10.5" r="8.5"></circle><text x="141.5" y="14.1" text-anchor="middle">C</text></g><text x="76.0" y="34.0">Sequências</text></g>
+<g class="no ramo-calculo dom-calculo" data-id="exp_log" data-dom="calculo" transform="translate(202.0,1216.0)"><rect width="152" height="58" rx="29.0" ry="29.0"></rect><g class="badge badge-calculo"><circle cx="141.5" cy="10.5" r="8.5"></circle><text x="141.5" y="14.1" text-anchor="middle">C</text></g><text x="76.0" y="26.5">Exponencial</text><text x="76.0" y="41.5">e logaritmo</text></g>
+<g class="no ramo-calculo dom-calculo" data-id="derivada" data-dom="calculo" transform="translate(369.0,1362.0)"><rect width="152" height="58" rx="29.0" ry="29.0"></rect><g class="badge badge-calculo"><circle cx="141.5" cy="10.5" r="8.5"></circle><text x="141.5" y="14.1" text-anchor="middle">C</text></g><text x="76.0" y="34.0">Derivada</text></g>
+<g class="no ramo-calculo dom-calculo" data-id="regra_cadeia" data-dom="calculo" transform="translate(48.0,1508.0)"><rect width="152" height="58" rx="29.0" ry="29.0"></rect><g class="badge badge-calculo"><circle cx="141.5" cy="10.5" r="8.5"></circle><text x="141.5" y="14.1" text-anchor="middle">C</text></g><text x="76.0" y="34.0">Regra da cadeia</text></g>
+<g class="no ramo-calculo dom-calculo" data-id="inversa" data-dom="calculo" transform="translate(220.0,1508.0)"><rect width="152" height="58" rx="29.0" ry="29.0"></rect><g class="badge badge-calculo"><circle cx="141.5" cy="10.5" r="8.5"></circle><text x="141.5" y="14.1" text-anchor="middle">C</text></g><text x="76.0" y="34.0">Funções inversas</text></g>
+<g class="no ramo-calculo dom-calculo" data-id="variacao" data-dom="calculo" transform="translate(600.0,1508.0)"><rect width="152" height="58" rx="29.0" ry="29.0"></rect><g class="badge badge-calculo"><circle cx="141.5" cy="10.5" r="8.5"></circle><text x="141.5" y="14.1" text-anchor="middle">C</text></g><text x="76.0" y="26.5">Estudo da variação</text><text x="76.0" y="41.5">(TVM)</text></g>
+<g class="no ramo-calculo dom-calculo" data-id="primitiva" data-dom="calculo" transform="translate(392.0,1508.0)"><rect width="152" height="58" rx="29.0" ry="29.0"></rect><g class="badge badge-calculo"><circle cx="141.5" cy="10.5" r="8.5"></circle><text x="141.5" y="14.1" text-anchor="middle">C</text></g><text x="76.0" y="34.0">Primitivas</text></g>
+<g class="no ramo-calculo dom-calculo" data-id="integral" data-dom="calculo" transform="translate(555.0,1654.0)"><rect width="152" height="58" rx="29.0" ry="29.0"></rect><g class="badge badge-calculo"><circle cx="141.5" cy="10.5" r="8.5"></circle><text x="141.5" y="14.1" text-anchor="middle">C</text></g><text x="76.0" y="26.5">Integral</text><text x="76.0" y="41.5">de Riemann</text></g>
+<g class="no ramo-calculo dom-calculo" data-id="tecnicas_int" data-dom="calculo" transform="translate(347.0,1654.0)"><rect width="152" height="58" rx="29.0" ry="29.0"></rect><g class="badge badge-calculo"><circle cx="141.5" cy="10.5" r="8.5"></circle><text x="141.5" y="14.1" text-anchor="middle">C</text></g><text x="76.0" y="26.5">Técnicas</text><text x="76.0" y="41.5">de primitivação</text></g>
+<g class="no ramo-calculo dom-calculo" data-id="polares" data-dom="calculo" transform="translate(738.5,1800.0)"><rect width="152" height="58" rx="29.0" ry="29.0"></rect><g class="badge badge-calculo"><circle cx="141.5" cy="10.5" r="8.5"></circle><text x="141.5" y="14.1" text-anchor="middle">C</text></g><text x="76.0" y="26.5">Coordenadas polares</text><text x="76.0" y="41.5">e aplicações</text></g>
+<g class="no ramo-geometria dom-algebra na-regiao" data-id="coord_plano" data-dom="algebra" transform="translate(963.0,924.0)"><polygon points="15,0 137,0 152,29.0 137,58 15,58 0,29.0"></polygon><g class="regiao-geo" transform="translate(5,5)"><polygon points="12,0 130,0 142,24.0 130,48 12,48 0,24.0"></polygon></g><g class="badge badge-algebra"><circle cx="141.5" cy="10.5" r="8.5"></circle><text x="141.5" y="14.1" text-anchor="middle">L</text></g><text x="76.0" y="26.5">Coordenadas</text><text x="76.0" y="41.5">no plano</text></g>
+<g class="no ramo-geometria dom-algebra na-regiao" data-id="reta" data-dom="algebra" transform="translate(578.0,1070.0)"><polygon points="15,0 137,0 152,29.0 137,58 15,58 0,29.0"></polygon><g class="regiao-geo" transform="translate(5,5)"><polygon points="12,0 130,0 142,24.0 130,48 12,48 0,24.0"></polygon></g><g class="badge badge-algebra"><circle cx="141.5" cy="10.5" r="8.5"></circle><text x="141.5" y="14.1" text-anchor="middle">L</text></g><text x="76.0" y="34.0">Equações da reta</text></g>
+<g class="no ramo-geometria dom-algebra na-regiao" data-id="conicas" data-dom="algebra" transform="translate(456.0,1216.0)"><polygon points="15,0 137,0 152,29.0 137,58 15,58 0,29.0"></polygon><g class="regiao-geo" transform="translate(5,5)"><polygon points="12,0 130,0 142,24.0 130,48 12,48 0,24.0"></polygon></g><g class="badge badge-algebra"><circle cx="141.5" cy="10.5" r="8.5"></circle><text x="141.5" y="14.1" text-anchor="middle">L</text></g><text x="76.0" y="34.0">Cônicas</text></g>
+<g class="no ramo-geometria dom-algebra na-regiao" data-id="coord_espaco" data-dom="algebra" transform="translate(1130.0,1070.0)"><polygon points="15,0 137,0 152,29.0 137,58 15,58 0,29.0"></polygon><g class="regiao-geo" transform="translate(5,5)"><polygon points="12,0 130,0 142,24.0 130,48 12,48 0,24.0"></polygon></g><g class="badge badge-algebra"><circle cx="141.5" cy="10.5" r="8.5"></circle><text x="141.5" y="14.1" text-anchor="middle">L</text></g><text x="76.0" y="26.5">Coordenadas</text><text x="76.0" y="41.5">no espaço</text></g>
+<g class="no ramo-geometria dom-algebra na-regiao" data-id="vetores" data-dom="algebra" transform="translate(958.0,1070.0)"><polygon points="15,0 137,0 152,29.0 137,58 15,58 0,29.0"></polygon><g class="regiao-geo" transform="translate(5,5)"><polygon points="12,0 130,0 142,24.0 130,48 12,48 0,24.0"></polygon></g><g class="badge badge-algebra"><circle cx="141.5" cy="10.5" r="8.5"></circle><text x="141.5" y="14.1" text-anchor="middle">L</text></g><text x="76.0" y="34.0">Vetores</text></g>
+<g class="no ramo-geometria dom-algebra na-regiao" data-id="plano_eq" data-dom="algebra" transform="translate(1275.0,1216.0)"><polygon points="15,0 137,0 152,29.0 137,58 15,58 0,29.0"></polygon><g class="regiao-geo" transform="translate(5,5)"><polygon points="12,0 130,0 142,24.0 130,48 12,48 0,24.0"></polygon></g><g class="badge badge-algebra"><circle cx="141.5" cy="10.5" r="8.5"></circle><text x="141.5" y="14.1" text-anchor="middle">L</text></g><text x="76.0" y="34.0">Equação do plano</text></g>
+<g class="no ramo-algebra dom-algebra" data-id="matrizes" data-dom="algebra" transform="translate(791.0,924.0)"><polygon points="15,0 137,0 152,29.0 137,58 15,58 0,29.0"></polygon><g class="badge badge-algebra"><circle cx="141.5" cy="10.5" r="8.5"></circle><text x="141.5" y="14.1" text-anchor="middle">L</text></g><text x="76.0" y="34.0">Matrizes</text></g>
+<g class="no ramo-algebra dom-algebra" data-id="sistemas" data-dom="algebra" transform="translate(946.5,778.0)"><polygon points="15,0 137,0 152,29.0 137,58 15,58 0,29.0"></polygon><g class="badge badge-algebra"><circle cx="141.5" cy="10.5" r="8.5"></circle><text x="141.5" y="14.1" text-anchor="middle">L</text></g><text x="76.0" y="34.0">Sistemas lineares</text></g>
+<g class="no ramo-algebra dom-algebra" data-id="determinante" data-dom="algebra" transform="translate(750.0,1070.0)"><polygon points="15,0 137,0 152,29.0 137,58 15,58 0,29.0"></polygon><g class="badge badge-algebra"><circle cx="141.5" cy="10.5" r="8.5"></circle><text x="141.5" y="14.1" text-anchor="middle">L</text></g><text x="76.0" y="34.0">Determinantes</text></g>
+<g class="no ramo-algebra dom-algebra" data-id="esp_vetorial" data-dom="algebra" transform="translate(895.0,1216.0)"><polygon points="15,0 137,0 152,29.0 137,58 15,58 0,29.0"></polygon><g class="badge badge-algebra"><circle cx="141.5" cy="10.5" r="8.5"></circle><text x="141.5" y="14.1" text-anchor="middle">L</text></g><text x="76.0" y="34.0">Espaços vetoriais</text></g>
+<g class="no ramo-algebra dom-algebra" data-id="base_dim" data-dom="algebra" transform="translate(1026.0,1362.0)"><polygon points="15,0 137,0 152,29.0 137,58 15,58 0,29.0"></polygon><g class="badge badge-algebra"><circle cx="141.5" cy="10.5" r="8.5"></circle><text x="141.5" y="14.1" text-anchor="middle">L</text></g><text x="76.0" y="34.0">Base e dimensão</text></g>
+<g class="no ramo-algebra dom-algebra" data-id="transf_lin" data-dom="algebra" transform="translate(1221.0,1508.0)"><polygon points="15,0 137,0 152,29.0 137,58 15,58 0,29.0"></polygon><g class="badge badge-algebra"><circle cx="141.5" cy="10.5" r="8.5"></circle><text x="141.5" y="14.1" text-anchor="middle">L</text></g><text x="76.0" y="26.5">Transformações</text><text x="76.0" y="41.5">lineares</text></g>
+<g class="no ramo-algebra dom-algebra na-regiao" data-id="prod_interno" data-dom="algebra" transform="translate(1067.0,1216.0)"><polygon points="15,0 137,0 152,29.0 137,58 15,58 0,29.0"></polygon><g class="regiao-geo" transform="translate(5,5)"><polygon points="12,0 130,0 142,24.0 130,48 12,48 0,24.0"></polygon></g><g class="badge badge-algebra"><circle cx="141.5" cy="10.5" r="8.5"></circle><text x="141.5" y="14.1" text-anchor="middle">L</text></g><text x="76.0" y="34.0">Produto interno</text></g>
+<g class="no ramo-algebra dom-algebra" data-id="autovalores" data-dom="algebra" transform="translate(786.0,1654.0)"><polygon points="15,0 137,0 152,29.0 137,58 15,58 0,29.0"></polygon><g class="badge badge-algebra"><circle cx="141.5" cy="10.5" r="8.5"></circle><text x="141.5" y="14.1" text-anchor="middle">L</text></g><text x="76.0" y="26.5">Autovalores</text><text x="76.0" y="41.5">e autovetores</text></g>
+<g class="no ramo-algebra dom-algebra na-regiao" data-id="formas_quad" data-dom="algebra" transform="translate(910.5,1800.0)"><polygon points="15,0 137,0 152,29.0 137,58 15,58 0,29.0"></polygon><g class="regiao-geo" transform="translate(5,5)"><polygon points="12,0 130,0 142,24.0 130,48 12,48 0,24.0"></polygon></g><g class="badge badge-algebra"><circle cx="141.5" cy="10.5" r="8.5"></circle><text x="141.5" y="14.1" text-anchor="middle">L</text></g><text x="76.0" y="26.5">Formas quadráticas</text><text x="76.0" y="41.5">e quádricas</text></g>
+<g class="no ramo-fronteira dom-calculo" data-id="varias_var" data-dom="calculo" transform="translate(1429.0,1508.0)"><rect width="152" height="58" rx="29.0" ry="29.0"></rect><g class="badge badge-calculo"><circle cx="141.5" cy="10.5" r="8.5"></circle><text x="141.5" y="14.1" text-anchor="middle">C</text></g><text x="76.0" y="26.5">Cálculo de</text><text x="76.0" y="41.5">várias variáveis</text></g>
+<g class="no ramo-fronteira dom-calculo" data-id="edo" data-dom="calculo" transform="translate(566.5,1800.0)"><rect width="152" height="58" rx="29.0" ry="29.0"></rect><g class="badge badge-calculo"><circle cx="141.5" cy="10.5" r="8.5"></circle><text x="141.5" y="14.1" text-anchor="middle">C</text></g><text x="76.0" y="26.5">Equações</text><text x="76.0" y="41.5">diferenciais</text></g>
+<g class="no ramo-fronteira dom-calculo" data-id="analise_real" data-dom="calculo" transform="translate(646.0,1362.0)"><rect width="152" height="58" rx="29.0" ry="29.0"></rect><g class="badge badge-calculo"><circle cx="141.5" cy="10.5" r="8.5"></circle><text x="141.5" y="14.1" text-anchor="middle">C</text></g><text x="76.0" y="34.0">Análise real</text></g>
+<g class="no ramo-fronteira dom-algebra" data-id="algebra_abs" data-dom="algebra" transform="translate(854.0,1362.0)"><polygon points="15,0 137,0 152,29.0 137,58 15,58 0,29.0"></polygon><g class="badge badge-algebra"><circle cx="141.5" cy="10.5" r="8.5"></circle><text x="141.5" y="14.1" text-anchor="middle">L</text></g><text x="76.0" y="34.0">Álgebra abstrata</text></g>
+<g class="no ramo-fronteira dom-algebra-calculo" data-id="topologia" data-dom="algebra-calculo" transform="translate(877.0,1508.0)"><polygon points="11,0 141,0 152,11 152,47 141,58 11,58 0,47 0,11"></polygon><g class="badge badge-algebra"><circle cx="141.5" cy="10.5" r="8.5"></circle><text x="141.5" y="14.1" text-anchor="middle">L</text></g><g class="badge badge-calculo"><circle cx="141.5" cy="30.5" r="8.5"></circle><text x="141.5" y="34.1" text-anchor="middle">C</text></g><text x="76.0" y="34.0">Topologia</text></g>
+<g class="no ramo-fronteira dom-calculo" data-id="medida" data-dom="calculo" transform="translate(1049.0,1508.0)"><rect width="152" height="58" rx="29.0" ry="29.0"></rect><g class="badge badge-calculo"><circle cx="141.5" cy="10.5" r="8.5"></circle><text x="141.5" y="14.1" text-anchor="middle">C</text></g><text x="76.0" y="26.5">Medida</text><text x="76.0" y="41.5">e integração</text></g>
+<g class="no ramo-fronteira dom-algebra-calculo na-regiao" data-id="geom_dif" data-dom="algebra-calculo" transform="translate(1130.0,1654.0)"><polygon points="11,0 141,0 152,11 152,47 141,58 11,58 0,47 0,11"></polygon><g class="regiao-geo" transform="translate(5,5)"><polygon points="8,0 134,0 142,8 142,40 134,48 8,48 0,40 0,8"></polygon></g><g class="badge badge-algebra"><circle cx="141.5" cy="10.5" r="8.5"></circle><text x="141.5" y="14.1" text-anchor="middle">L</text></g><g class="badge badge-calculo"><circle cx="141.5" cy="30.5" r="8.5"></circle><text x="141.5" y="34.1" text-anchor="middle">C</text></g><text x="76.0" y="26.5">Geometria</text><text x="76.0" y="41.5">diferencial</text></g>
+<g class="no ramo-fronteira dom-algebra-calculo" data-id="analise_func" data-dom="algebra-calculo" transform="translate(958.0,1654.0)"><polygon points="11,0 141,0 152,11 152,47 141,58 11,58 0,47 0,11"></polygon><g class="badge badge-algebra"><circle cx="141.5" cy="10.5" r="8.5"></circle><text x="141.5" y="14.1" text-anchor="middle">L</text></g><g class="badge badge-calculo"><circle cx="141.5" cy="30.5" r="8.5"></circle><text x="141.5" y="34.1" text-anchor="middle">C</text></g><text x="76.0" y="34.0">Análise funcional</text></g>
+    </svg>
+  </div>
+  <section id="propriedades">
+    <button id="ao-mapa" type="button">↑ voltar ao mapa</button>
+    <div id="painel">
+      <div class="vazio">Nenhuma matéria escolhida.<br><br>
+        Clique numa caixa do mapa — ou procure pelo nome — para ver o que ela é,
+        por que existe, onde aparece no mundo, onde se costuma travar, e
+        <b>de onde veio cada seta</b>.</div>
+    </div>
+  </section>
+
+  <aside>
+    <div class="rgb">
+      <!-- 2026-08-24: círculos MAIORES (r 42 -> 56) e o rótulo no CENTRO de
+           cada um. Os centros ficam na zona PURA — a distância entre dois
+           centros (66 e 68) é maior que o raio, então nenhum rótulo cai sobre
+           cor misturada, que é o que faria o nome mentir sobre a cor. -->
+      <!-- 2026-08-25: eram três círculos que se cruzavam, em soma de luz. A
+           orientação desta data desfez o terceiro tronco, e o desenho passou a
+           dizer o que a matemática diz: a geometria analítica está DENTRO da
+           álgebra linear — é a região dela onde há produto interno. Círculo
+           dentro de círculo, não interseção. -->
+      <svg width="252" height="186" viewBox="0 0 252 186" aria-label="os dois troncos, e a geometria analítica contida na álgebra linear">
+        <circle cx="126" cy="52"  r="46" fill="#f44e3e"></circle>
+        <circle cx="126" cy="126" r="56" fill="#3ac848"></circle>
+        <circle cx="126" cy="140" r="34" fill="none" stroke="#78c4ff"
+                stroke-width="2.2" stroke-dasharray="3 3"></circle>
+        <text x="126" y="46" fill="#fff" font-size="11" font-weight="600"
+              text-anchor="middle" dominant-baseline="central"
+              font-family="Inter,sans-serif"
+              style="paint-order:stroke;stroke:#0a1424;stroke-width:2.5px">CÁLCULO</text>
+        <text x="126" y="100" fill="#fff" font-size="11" font-weight="600"
+              text-anchor="middle" dominant-baseline="central"
+              font-family="Inter,sans-serif"
+              style="paint-order:stroke;stroke:#0a1424;stroke-width:2.5px">ÁLGEBRA LINEAR</text>
+        <text x="126" y="140" fill="#fff" font-size="10" font-weight="600"
+              text-anchor="middle" dominant-baseline="central"
+              font-family="Inter,sans-serif"
+              style="paint-order:stroke;stroke:#0a1424;stroke-width:2.5px">GEOM. ANALÍTICA</text>
+      </svg>
+      <div class="cap"><b>A álgebra linear fala do que se preserva</b> — soma e
+        escala, exatamente, em todo o domínio; o <b>cálculo</b>, do que acontece
+        <b>perto de um ponto</b>. Na ordem de estudo nenhum cobra o outro, e é
+        por isso que a série é uma árvore, e não uma fila.<br><br>
+        Independentes de <b>ordem</b>, não de natureza: a derivada é ela própria
+        um operador linear, e derivar é achar a melhor aproximação linear perto
+        do ponto. Em várias variáveis a derivada vira <b>matriz</b> e os dois se
+        fundem — e é lá que mora a geometria da imagem.<br><br>
+        E a geometria analítica fica <b>dentro</b>
+        da álgebra linear — é a região dela onde existe <b>produto interno</b>,
+        que é o que dá distância e ângulo, e portanto figura.<br>
+        Em <b>qualquer</b> dimensão: o limite de três é da ilustração, que precisa
+        caber no papel, nunca da estrutura.</div>
+    </div>
+    <div class="formas">
+      <svg width="46" height="24"><rect x="1" y="1" width="44" height="22" rx="11" ry="11"
+        fill="none" stroke="#f44e3e" stroke-width="2.6"></rect></svg>
+      <span><b>Cálculo</b> — laterais arredondadas</span>
+      <svg width="46" height="24"><polygon points="8,1 38,1 45,12 38,23 8,23 1,12"
+        fill="none" stroke="#3ac848" stroke-width="2.6"></polygon></svg>
+      <span><b>Álgebra Linear</b> — hexágono</span>
+      <svg width="46" height="24"><polygon points="8,1 38,1 45,12 38,23 8,23 1,12"
+        fill="none" stroke="#3ac848" stroke-width="2.6"></polygon><polygon
+        points="12,5 34,5 39,12 34,19 12,19 5,12"
+        fill="none" stroke="#78c4ff" stroke-width="1.5"></polygon></svg>
+      <span><b>Geometria Analítica</b> — contorno duplo: está <b>dentro</b> da álgebra linear</span>
+      <svg width="46" height="24"><polygon points="7,1 39,1 45,6 45,18 39,23 7,23 1,18 1,6"
+        fill="none" stroke="#f8d66a" stroke-width="2.6"></polygon></svg>
+      <span><b>Dois troncos</b> — cantos chanfrados, cor somada</span>
+      <svg width="46" height="24"><rect x="1" y="1" width="44" height="22" rx="6"
+        fill="none" stroke="#c9a266" stroke-width="2.6"></rect></svg>
+      <span><b>A base</b> — anterior aos dois, e por isso <b>sem marca</b></span>
+      <svg width="46" height="24"><circle cx="13" cy="12" r="8.5" fill="#f44e3e"></circle>
+        <text x="13" y="15.6" text-anchor="middle" font-size="11" font-weight="700"
+          font-family="Inter,sans-serif" fill="#0a1424">C</text>
+        <circle cx="33" cy="12" r="8.5" fill="#3ac848"></circle>
+        <text x="33" y="15.6" text-anchor="middle" font-size="11" font-weight="700"
+          font-family="Inter,sans-serif" fill="#0a1424">L</text></svg>
+      <span><b>A marca de canto</b> — <b>C</b> de constante, <b>L</b> de linear:
+        a matéria diz a que tronco pertence sem depender da cor</span>
+    </div>
+  </aside>
+</main>
+
+<footer>
+  <span>50 matérias · 78 dependências · 13 camadas</span>
+  <span>cruzamentos de aresta: <b>102 → 41</b> (§1.1 da norma de diagramas)</span>
+  <span>seta cheia = definição · fraca = ordem do livro · pontilhada = orientação acadêmica · tracejada = sem obra no acervo</span>
+  <span class="licenca">© 2026 Mateus Alkimim · conteúdo sob <a href="https://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a> · código sob MIT</span>
+</footer>
+
+<script>
+const D = {"verbetes": {"formas_quad": {"o_que_e": "Expressões ou superfícies definidas por equações polinomiais de grau dois.", "por_que_existe": "Para descrever e resolver problemas geométricos e físicos envolvendo curvas e superfícies de segunda ordem, como trajetórias de projéteis ou formas de objetos.", "onde_aparece": "No design de óculos, onde as lentes são frequentemente curvas de forma quadrática para corrigir a visão.", "onde_se_trava": "Confundir as propriedades das formas quadráticas em diferentes dimensões, como aplicar diretamente conceitos de cônicas a superfícies tridimensionais.", "procedencia": {"modelo": "phi-4", "onde": "local (Delfos)", "data": "2026-08-25", "revisado_por_humano": false, "onde_aparece_suspeito": false, "suspeita": ""}}, "aritmetica": {"o_que_e": "Aritmética é o estudo de números e operações básicas como contar, somar e multiplicar.", "por_que_existe": "Surgiu da necessidade de quantificar e manipular números para resolver problemas cotidianos, como contagem de objetos e cálculo de trocas comerciais.", "onde_aparece": "A aritmética está presente em serviços bancários, onde são calculadas faturas e juros, e em planilhas que somam colunas de dados.", "onde_se_trava": "Erro comum é confundir as operações inversas, como pensar que subtrair não é a mesma coisa que somar o oposto.", "procedencia": {"modelo": "phi-4", "onde": "local (Delfos)", "data": "2026-08-25", "revisado_por_humano": false, "onde_aparece_suspeito": false, "suspeita": ""}}, "conjuntos": {"o_que_e": "Conjuntos são coleções de objetos, chamados elementos, que podem ser agrupados e manipulados de acordo com regras específicas.", "por_que_existe": "Antes da formalização dos conjuntos, não havia uma maneira rigorosa de discutir agrupamentos de objetos e suas propriedades, o que era necessário para o desenvolvimento da matemática moderna.", "onde_aparece": "Conjuntos são usados em bancos para organizar categorias de clientes e em sistemas de recomendação para agrupar produtos similares.", "onde_se_trava": "Um erro comum é confundir a pertinência de um elemento a um conjunto com a igualdade entre conjuntos, não percebendo que dois conjuntos podem ser diferentes mesmo que contenham os mesmos elementos.", "procedencia": {"modelo": "phi-4", "onde": "local (Delfos)", "data": "2026-08-25", "revisado_por_humano": false, "onde_aparece_suspeito": false, "suspeita": ""}}, "conj_num": {"o_que_e": "Conjuntos numéricos são agrupamentos de números que seguem regras específicas, como os naturais, inteiros, racionais e reais, cada um ampliando o anterior para resolver limitações.", "por_que_existe": "Surgiram para resolver problemas que números mais simples não podiam, como representar o oposto (inteiros), o inverso (racionais) e fechar lacunas (reais).", "onde_aparece": "Em sistemas de banco, ao calcular juros compostos, onde a precisão numérica dos reais é essencial para evitar erros financeiros.", "onde_se_trava": "Estudantes frequentemente confundem a inclusão de um conjunto no outro, não percebendo que, por exemplo, todos os inteiros são racionais, mas nem todos os racionais são inteiros.", "procedencia": {"modelo": "phi-4", "onde": "local (Delfos)", "data": "2026-08-25", "revisado_por_humano": false, "onde_aparece_suspeito": false, "suspeita": ""}}, "contagem": {"o_que_e": "Estudo de métodos para contar elementos em conjuntos sem enumerá-los explicitamente.", "por_que_existe": "Para resolver problemas que envolvem a organização e combinação de objetos, como distribuir prêmios ou arranjar pessoas em filas.", "onde_aparece": "Em jogos de cartas, onde se calcula as possibilidades de formar mãos específicas.", "onde_se_trava": "Confundir a ordem dos elementos como irrelevante em situações onde ela é crucial, como na formação de palavras.", "procedencia": {"modelo": "phi-4", "onde": "local (Delfos)", "data": "2026-08-25", "revisado_por_humano": false, "onde_aparece_suspeito": false, "suspeita": ""}}, "relacoes": {"o_que_e": "Um par ordenado é uma sequência de dois elementos, onde a ordem importa, formando um vínculo entre elementos de dois conjuntos.", "por_que_existe": "Antes do conceito de par ordenado, não havia uma maneira estruturada de associar elementos de dois conjuntos de forma que a ordem fosse significativa, essencial para a definição de funções e coordenadas.", "onde_aparece": "Em sistemas de coordenadas geográficas, onde a latitude e a longitude formam um par ordenado para localizar pontos no globo terrestre.", "onde_se_trava": "Estudantes frequentemente confundem a importância da ordem, tratando (a, b) como igual a (b, a), o que não é verdade.", "procedencia": {"modelo": "phi-4", "onde": "local (Delfos)", "data": "2026-08-25", "revisado_por_humano": false, "onde_aparece_suspeito": false, "suspeita": ""}}, "geom_plana": {"o_que_e": "o estudo das formas e figuras no plano, considerando comprimento e largura.", "por_que_existe": "para resolver problemas de medição e construção de formas bidimensionais, como calcular áreas e perímetros.", "onde_aparece": "no cálculo de áreas de terrenos para construção civil ou no desenho técnico de peças planas.", "onde_se_trava": "confundindo ângulos internos e externos de polígonos ou não aplicando corretamente fórmulas de área.", "procedencia": {"modelo": "phi-4", "onde": "local (Delfos)", "data": "2026-08-25", "revisado_por_humano": false, "onde_aparece_suspeito": false, "suspeita": ""}}, "geom_espacial": {"o_que_e": "o estudo de formas tridimensionais, como cubos e esferas, e como medir seu volume.", "por_que_existe": "para resolver problemas de construção e engenharia, que requerem compreensão de objetos tridimensionais.", "onde_aparece": "na modelagem 3D para design de produtos e arquitetura, onde é necessário calcular volumes e superfícies.", "onde_se_trava": "ao confundir medidas de área e volume, como aplicar fórmulas bidimensionais a sólidos tridimensionais.", "procedencia": {"modelo": "phi-4", "onde": "local (Delfos)", "data": "2026-08-25", "revisado_por_humano": false, "onde_aparece_suspeito": false, "suspeita": ""}}, "operacoes": {"o_que_e": "Soma e produto são operações básicas de adição e multiplicação, respectivamente, e seus inversos são subtração e divisão, que envolvem adicionar o oposto e multiplicar pelo inverso.", "por_que_existe": "Antes da formalização dessas operações, resolver problemas envolvendo quantidades desconhecidas ou comparar valores era complexo e impreciso.", "onde_aparece": "Na planilha, ao somar uma coluna de números ou calcular médias, e ao multiplicar valores para encontrar totais ou taxas.", "onde_se_trava": "Os estudantes frequentemente confundem subtrair com simplesmente \"tirar\" um número de outro, sem considerar o conceito de adicionar o oposto.", "procedencia": {"modelo": "phi-4", "onde": "local (Delfos)", "data": "2026-08-25", "revisado_por_humano": false, "onde_aparece_suspeito": false, "suspeita": ""}}, "fracoes": {"o_que_e": "Frações representam partes de um todo e proporção é a relação entre duas grandezas quantitativas.", "por_que_existe": "Antes da fração, não havia como expressar partes de um todo ou comparar quantidades de forma precisa.", "onde_aparece": "Na culinária, ao ajustar receitas para diferentes quantidades de pessoas.", "onde_se_trava": "Confundir fração com decimal, ou não entender como manipular frações em operações.", "procedencia": {"modelo": "phi-4", "onde": "local (Delfos)", "data": "2026-08-25", "revisado_por_humano": false, "onde_aparece_suspeito": false, "suspeita": ""}}, "potencias": {"o_que_e": "A potência é uma operação que eleva um número (base) a um expoente, resultando em um produto de multiplicações repetidas da base. A raiz é a operação inversa que, dado um número, encontra a base que, elevada a um determinado expoente, resulta nesse número. O logaritmo é a operação inversa que, dado um número e uma base, encontra o expoente necessário para que a base elevada a esse expoente resulte no número dado.", "por_que_existe": "Antes da formalização da potência, raiz e logaritmo, era difícil resolver problemas que envolviam crescimento exponencial, como juros compostos ou crescimento populacional, de forma eficiente e precisa.", "onde_aparece": "A potência, raiz e logaritmo são usadas em finanças para calcular juros compostos, em ciências para modelar crescimento exponencial de populações ou reações químicas, e em tecnologia para escalonar a complexidade de algoritmos.", "onde_se_trava": "Um erro comum é confundir a potência com a multiplicação repetida, ou a raiz com a divisão, não entendendo que a potência envolve multiplicação de uma base por si mesma um número de vezes igual ao expoente.", "procedencia": {"modelo": "phi-4", "onde": "local (Delfos)", "data": "2026-08-25", "revisado_por_humano": false, "onde_aparece_suspeito": false, "suspeita": ""}}, "negativos": {"o_que_e": "Números negativos são aqueles que representam valores abaixo de zero, organizados em uma linha numérica que inclui zero e se estende para ambos os lados.", "por_que_existe": "Surgiu da necessidade de representar dívidas, perdas, e temperaturas abaixo de zero, que não podiam ser expressas apenas com números positivos.", "onde_aparece": "No controle de temperatura em sistemas de ar-condicionado, onde é necessário ajustar e monitorar valores abaixo de zero.", "onde_se_trava": "Os estudantes frequentemente têm dificuldade em entender a adição e subtração de números negativos, especialmente quando envolve mudanças de sinal.", "procedencia": {"modelo": "phi-4", "onde": "local (Delfos)", "data": "2026-08-25", "revisado_por_humano": false, "onde_aparece_suspeito": false, "suspeita": ""}}, "fatoracao": {"o_que_e": "Divisibilidade é a propriedade de um número ser dividido exatamente por outro, sem resto, e fatoração é a decomposição de um número em seus fatores primos.", "por_que_existe": "Antes da divisibilidade e fatoração, resolver problemas de divisão de recursos ou simplificação de frações era complexo e impreciso.", "onde_aparece": "No cálculo de frações em planilhas, onde a simplificação de números é necessária para resultados precisos.", "onde_se_trava": "Erro comum é confundir divisibilidade com divisão, não reconhecendo que um número pode ter múltiplos divisores.", "procedencia": {"modelo": "phi-4", "onde": "local (Delfos)", "data": "2026-08-25", "revisado_por_humano": false, "onde_aparece_suspeito": false, "suspeita": ""}}, "algebra_elem": {"o_que_e": "o estudo de expressões e equações usando letras para representar números desconhecidos ou variáveis.", "por_que_existe": "antes da álgebra, resolver problemas envolvendo números desconhecidos era limitado a casos específicos, sem uma abordagem geral.", "onde_aparece": "em planilhas, ao criar fórmulas que calculam automaticamente valores com base em variáveis de entrada.", "onde_se_trava": "confundir a manipulação de letras com números, esquecendo que as regras de operações devem ser aplicadas logicamente.", "procedencia": {"modelo": "phi-4", "onde": "local (Delfos)", "data": "2026-08-25", "revisado_por_humano": false, "onde_aparece_suspeito": false, "suspeita": ""}}, "trigonometria": {"o_que_e": "Estudo das razões entre os lados de triângulos, especialmente no contexto de ângulos e funções trigonométricas.", "por_que_existe": "Surgiu da necessidade de calcular distâncias e ângulos em navegação e astronomia, onde não era possível medir diretamente.", "onde_aparece": "Utilizada em sistemas de radar e sonar para determinar a posição de objetos a partir de ângulos e distâncias.", "onde_se_trava": "Erro comum é confundir as funções seno, cosseno e tangente, especialmente ao aplicá-las em triângulos não retângulos.", "procedencia": {"modelo": "phi-4", "onde": "local (Delfos)", "data": "2026-08-25", "revisado_por_humano": false, "onde_aparece_suspeito": false, "suspeita": ""}}, "reais": {"o_que_e": "Conjunto de números que inclui todos os números racionais e irracionais, formando um sistema completo e ordenado.", "por_que_existe": "Para resolver problemas que envolvem medições contínuas e precisas, como comprimento, área e volume, que não podem ser expressos apenas com números racionais.", "onde_aparece": "Na modelagem de fenômenos físicos, como a previsão do tempo, onde variáveis como temperatura e pressão são representadas por números reais.", "onde_se_trava": "Confundir números reais com números racionais, ignorando a existência de números irracionais como a raiz quadrada de 2.", "procedencia": {"modelo": "phi-4", "onde": "local (Delfos)", "data": "2026-08-25", "revisado_por_humano": false, "onde_aparece_suspeito": false, "suspeita": ""}}, "funcoes": {"o_que_e": "Uma função é uma relação que associa a cada elemento de um conjunto um único elemento de outro conjunto.", "por_que_existe": "Surgiu da necessidade de modelar situações onde cada entrada tem uma saída única, como taxas de câmbio ou fórmulas científicas.", "onde_aparece": "Em planilhas, quando uma coluna calcula valores com base em outra, como calcular impostos a partir de vendas.", "onde_se_trava": "Confundir uma função com uma relação arbitrária, esquecendo que cada entrada deve ter uma saída única.", "procedencia": {"modelo": "phi-4", "onde": "local (Delfos)", "data": "2026-08-25", "revisado_por_humano": false, "onde_aparece_suspeito": false, "suspeita": ""}}, "limite": {"o_que_e": "o comportamento de uma função quando o argumento se aproxima de um valor, e se a função não tem saltos nesse ponto.", "por_que_existe": "para resolver problemas de aproximação e estabilidade em funções, como determinar valores próximos sem cálculos exatos.", "onde_aparece": "em sistemas de controle automático, onde se ajusta a resposta de máquinas em tempo real para evitar oscilações.", "onde_se_trava": "ao confundir o limite de uma função com o valor da função no ponto, ou ao não considerar a existência de limites laterais.", "procedencia": {"modelo": "phi-4", "onde": "local (Delfos)", "data": "2026-08-25", "revisado_por_humano": false, "onde_aparece_suspeito": false, "suspeita": ""}}, "sequencias": {"o_que_e": "uma sequência é uma lista ordenada de números, onde cada número é chamado de termo, e a posição do termo é dada por um número natural.", "por_que_existe": "sequências surgiram para estudar padrões e regularidades em conjuntos de números, permitindo a análise de tendências e comportamentos ao longo de uma progressão.", "onde_aparece": "sequências são usadas em planilhas para calcular previsões financeiras, onde cada termo representa um valor futuro baseado em uma regra de progressão.", "onde_se_trava": "estudantes frequentemente confundem a definição de uma sequência com a de uma função, esquecendo que uma sequência é específica para números naturais como índices.", "procedencia": {"modelo": "phi-4", "onde": "local (Delfos)", "data": "2026-08-25", "revisado_por_humano": false, "onde_aparece_suspeito": false, "suspeita": ""}}, "exp_log": {"o_que_e": "A exponencial é uma função que eleva uma base a um expoente real, enquanto o logaritmo é a operação inversa que determina o expoente necessário para a base atingir um determinado valor.", "por_que_existe": "Antes da formalização da exponencial e do logaritmo, não havia uma maneira eficiente de lidar com crescimentos rápidos, como juros compostos, ou de resolver equações envolvendo potências de forma prática.", "onde_aparece": "No cálculo de juros compostos em bancos, onde a quantia de dinheiro cresce exponencialmente ao longo do tempo, e no ajuste de níveis de som em aparelhos de áudio, onde o logaritmo é usado para converter escalas lineares em escalas logarítmicas.", "onde_se_trava": "Os estudantes frequentemente confundem as propriedades dos logaritmos, como a regra do produto, soma e divisão, e têm dificuldade em entender a relação entre exponenciais e logaritmos como inversos.", "procedencia": {"modelo": "phi-4", "onde": "local (Delfos)", "data": "2026-08-25", "revisado_por_humano": false, "onde_aparece_suspeito": false, "suspeita": ""}}, "derivada": {"o_que_e": "A derivada mede a taxa de variação de uma função em relação a uma variável, representando a inclinação da reta tangente ao gráfico da função no ponto considerado.", "por_que_existe": "Antes da introdução da derivada, não havia uma maneira precisa de quantificar como uma quantidade variava instantaneamente em relação a outra, limitando o estudo de movimentos e crescimentos contínuos.", "onde_aparece": "Na previsão do tempo, a derivada é usada para calcular a velocidade e aceleração do vento, permitindo prever mudanças climáticas e fenômenos meteorológicos.", "onde_se_trava": "Estudantes frequentemente confundem a derivada com a diferença finita, não compreendendo que a derivada é um limite, o que leva a erros ao calcular taxas de variação instantâneas.", "procedencia": {"modelo": "phi-4", "onde": "local (Delfos)", "data": "2026-08-25", "revisado_por_humano": false, "onde_aparece_suspeito": false, "suspeita": ""}}, "regra_cadeia": {"o_que_e": "A regra da cadeia é um método para calcular a derivada de uma função composta, que é a derivada de uma função aplicada a outra função.", "por_que_existe": "Antes da regra da cadeia, não havia uma maneira sistemática de encontrar a derivada de funções compostas, o que limitava a análise de sistemas complexos.", "onde_aparece": "Na otimização de algoritmos de machine learning, onde a regra da cadeia é usada para calcular gradientes em redes neurais.", "onde_se_trava": "Os estudantes frequentemente confundem a ordem das derivadas das funções interna e externa, aplicando incorretamente a regra.", "procedencia": {"modelo": "phi-4", "onde": "local (Delfos)", "data": "2026-08-25", "revisado_por_humano": false, "onde_aparece_suspeito": false, "suspeita": ""}}, "inversa": {"o_que_e": "Uma função inversa é aquela que, aplicada à saída de uma função original, retorna o valor original de entrada.", "por_que_existe": "Surgiu para resolver problemas onde é necessário reverter o efeito de uma função, como encontrar a raiz quadrada ou o logaritmo de um número.", "onde_aparece": "No cálculo de impostos, onde se deseja determinar a renda original a partir do valor tributado.", "onde_se_trava": "Confundir a inversa de uma função com a função original, especialmente quando a função não é bijetiva (um para um e sobre).", "procedencia": {"modelo": "phi-4", "onde": "local (Delfos)", "data": "2026-08-25", "revisado_por_humano": false, "onde_aparece_suspeito": false, "suspeita": ""}}, "variacao": {"o_que_e": "Estudo de como uma função varia, identificando crescimento, decrescimento, pontos de inflexão e máximos e mínimos.", "por_que_existe": "Antes, não havia uma maneira sistemática de analisar como as quantidades mudam, o que era necessário para otimizar processos e resolver problemas de máximos e mínimos.", "onde_aparece": "Em sistemas de controle automático, onde é crucial entender como as variáveis mudam para ajustar processos em tempo real.", "onde_se_trava": "Confundir a interpretação gráfica da concavidade com a identificação correta de máximos e mínimos.", "procedencia": {"modelo": "phi-4", "onde": "local (Delfos)", "data": "2026-08-25", "revisado_por_humano": false, "onde_aparece_suspeito": false, "suspeita": ""}}, "primitiva": {"o_que_e": "a função que, quando derivada, resulta na função original.", "por_que_existe": "para calcular áreas sob curvas e resolver equações diferenciais, problemas que não podiam ser resolvidos apenas com derivadas.", "onde_aparece": "no cálculo de juros compostos ao longo do tempo, onde a taxa de crescimento é conhecida.", "onde_se_trava": "confundir primitivas com integrais, esquecendo que primitivas são funções antiderivadas, não valores numéricos.", "procedencia": {"modelo": "phi-4", "onde": "local (Delfos)", "data": "2026-08-25", "revisado_por_humano": false, "onde_aparece_suspeito": false, "suspeita": ""}}, "integral": {"o_que_e": "A integral de Riemann é uma maneira de calcular a área sob a curva de uma função contínua, aproximando-a com somas de retângulos finos.", "por_que_existe": "Antes da integral de Riemann, não havia um método rigoroso para calcular áreas sob curvas complexas, limitando a análise de fenômenos físicos e matemáticos.", "onde_aparece": "Em engenharia, para calcular cargas distribuídas ao longo de estruturas, e em economia, para determinar a área sob curvas de demanda e oferta.", "onde_se_trava": "Alunos frequentemente têm dificuldade em entender como a soma de retângulos finos se aproxima da área real à medida que o número de retângulos aumenta.", "procedencia": {"modelo": "phi-4", "onde": "local (Delfos)", "data": "2026-08-25", "revisado_por_humano": false, "onde_aparece_suspeito": false, "suspeita": ""}}, "tecnicas_int": {"o_que_e": "Técnicas de primitivação são métodos para encontrar antiderivadas de funções complexas, dividindo-as em partes mais simples ou expressando-as como somas de frações parciais.", "por_que_existe": "Antes dessas técnicas, integrar funções complexas diretamente era impossível ou muito difícil, limitando o uso do cálculo em aplicações práticas.", "onde_aparece": "Técnicas de primitivação são usadas em engenharia para calcular áreas sob curvas complexas, como no projeto de estruturas ou no cálculo de volumes de fluidos.", "onde_se_trava": "Estudantes frequentemente cometem erros na aplicação da regra da substituição, especialmente ao escolher a função adequada para substituir, ou na decomposição de frações parciais, ao não identificar corretamente os termos.", "procedencia": {"modelo": "phi-4", "onde": "local (Delfos)", "data": "2026-08-25", "revisado_por_humano": false, "onde_aparece_suspeito": false, "suspeita": ""}}, "polares": {"o_que_e": "um sistema de coordenadas que usa distância e ângulo para localizar pontos no plano, diferente das coordenadas cartesianas que usam eixos x e y.", "por_que_existe": "para resolver problemas que são mais naturais em termos de ângulos e distâncias, como aqueles envolvendo circunferências e espirais, onde o uso de coordenadas cartesianas seria complicado.", "onde_aparece": "no design de antenas de rádio e televisão, onde a orientação e a distância da antena em relação a um ponto central são cruciais para a cobertura de sinal.", "onde_se_trava": "ao confundir a conversão entre coordenadas polares e cartesianas, especialmente ao calcular ângulos e distâncias em contextos práticos.", "procedencia": {"modelo": "phi-4", "onde": "local (Delfos)", "data": "2026-08-25", "revisado_por_humano": false, "onde_aparece_suspeito": false, "suspeita": ""}}, "coord_plano": {"o_que_e": "o sistema que localiza pontos no plano através de dois números, representando distâncias perpendiculares a dois eixos fixos.", "por_que_existe": "permitiu a representação gráfica de relações matemáticas e facilitou o estudo de geometria através de cálculos numéricos.", "onde_aparece": "no design gráfico, para posicionar elementos em uma tela ou página de forma precisa.", "onde_se_trava": "confundir a origem dos eixos com o ponto de referência zero, ou não entender a importância da ordem dos números no par.", "procedencia": {"modelo": "phi-4", "onde": "local (Delfos)", "data": "2026-08-25", "revisado_por_humano": false, "onde_aparece_suspeito": false, "suspeita": ""}}, "reta": {"o_que_e": "uma equação que relaciona x e y de forma linear, representando uma reta no plano cartesiano.", "por_que_existe": "para descrever relações proporcionais entre duas variáveis, como taxas de crescimento ou declínio.", "onde_aparece": "no cálculo de trajetórias em jogos eletrônicos, onde a posição de um objeto é ajustada linearmente.", "onde_se_trava": "confundindo a inclinação da reta com a interceptação, ou interpretando mal o sinal da inclinação.", "procedencia": {"modelo": "phi-4", "onde": "local (Delfos)", "data": "2026-08-25", "revisado_por_humano": false, "onde_aparece_suspeito": false, "suspeita": ""}}, "conicas": {"o_que_e": "Curvas planas definidas por equações quadráticas, incluindo circunferência, elipse, hipérbole e parábola.", "por_que_existe": "Surgiu da necessidade de descrever e analisar trajetórias e formas naturais, como o movimento de corpos celestes e o foco de lentes.", "onde_aparece": "No design de antenas parabólicas para melhorar a recepção de sinais de televisão e rádio.", "onde_se_trava": "Confundir as condições que definem cada cônica, como misturar os critérios de focos e diretrizes.", "procedencia": {"modelo": "phi-4", "onde": "local (Delfos)", "data": "2026-08-25", "revisado_por_humano": false, "onde_aparece_suspeito": false, "suspeita": ""}}, "coord_espaco": {"o_que_e": "a representação de um ponto no espaço tridimensional usando três valores numéricos.", "por_que_existe": "para descrever e manipular objetos em um espaço de três dimensões, como o mundo físico ao nosso redor.", "onde_aparece": "no design de jogos de vídeo tridimensionais, onde os objetos são posicionados e movidos no espaço virtual.", "onde_se_trava": "confundindo a ordem das coordenadas, levando a posições erradas no espaço.", "procedencia": {"modelo": "phi-4", "onde": "local (Delfos)", "data": "2026-08-25", "revisado_por_humano": false, "onde_aparece_suspeito": false, "suspeita": ""}}, "vetores": {"o_que_e": "Um vetor é uma quantidade que tem magnitude e direção, representado por uma flecha que pode ser somada a outros vetores e multiplicada por escalares.", "por_que_existe": "Antes da formalização dos vetores, não havia uma maneira sistemática de lidar com quantidades que dependem de direção e magnitude, como forças e velocidades, em um contexto matemático.", "onde_aparece": "Vetores são usados em física para representar forças e velocidades, e em engenharia para analisar estruturas e movimentos.", "onde_se_trava": "Estudantes frequentemente confundem vetores com apenas uma lista de números, esquecendo-se de sua direção e propriedades de operação.", "procedencia": {"modelo": "phi-4", "onde": "local (Delfos)", "data": "2026-08-25", "revisado_por_humano": false, "onde_aparece_suspeito": false, "suspeita": ""}}, "plano_eq": {"o_que_e": "uma equação que define uma superfície plana no espaço tridimensional, onde todos os pontos satisfazem uma relação linear entre suas coordenadas.", "por_que_existe": "para determinar a posição exata de uma superfície plana em um espaço tridimensional, permitindo a representação de fenômenos físicos e construções geométricas.", "onde_aparece": "no projeto de arquitetura, onde é necessário calcular e desenhar superfícies planas de edifícios e estruturas.", "onde_se_trava": "ao confundir a equação do plano com uma equação quadrática, não percebendo que não há termos de grau superior a um.", "procedencia": {"modelo": "phi-4", "onde": "local (Delfos)", "data": "2026-08-25", "revisado_por_humano": false, "onde_aparece_suspeito": false, "suspeita": ""}}, "matrizes": {"o_que_e": "uma tabela retangular de números que representa um sistema de equações lineares.", "por_que_existe": "para resolver sistemas de equações lineares de forma organizada e eficiente.", "onde_aparece": "no cálculo de transformações em gráficos de computador e na análise de dados em estatística.", "onde_se_trava": "confundindo a multiplicação de matrizes com a multiplicação escalar.", "procedencia": {"modelo": "phi-4", "onde": "local (Delfos)", "data": "2026-08-25", "revisado_por_humano": false, "onde_aparece_suspeito": false, "suspeita": ""}}, "sistemas": {"o_que_e": "um conjunto de equações com várias incógnitas, que busca encontrar valores que satisfaçam todas ao mesmo tempo.", "por_que_existe": "antes, resolver problemas com múltiplas variáveis era complexo e propenso a erros, sem uma abordagem sistemática.", "onde_aparece": "na otimização de redes de distribuição de energia, garantindo eficiência e estabilidade no fornecimento.", "onde_se_trava": "confundir a solução única com múltiplas soluções ou nenhuma, sem verificar a consistência do sistema.", "procedencia": {"modelo": "phi-4", "onde": "local (Delfos)", "data": "2026-08-25", "revisado_por_humano": false, "onde_aparece_suspeito": false, "suspeita": ""}}, "determinante": {"o_que_e": "Um número associado a uma matriz que indica se a matriz é invertível e, se for, ajuda a encontrar a inversa.", "por_que_existe": "Antes de determinantes, resolver sistemas de equações lineares era complexo e não havia uma maneira direta de verificar se uma matriz tem inversa.", "onde_aparece": "No cálculo de volumes em geometria, na análise de estabilidade de sistemas dinâmicos e na determinação de se um sistema de equações tem solução única.", "onde_se_trava": "Confundir o determinante com a soma dos elementos da matriz ou não entender que ele só se aplica a matrizes quadradas.", "procedencia": {"modelo": "phi-4", "onde": "local (Delfos)", "data": "2026-08-25", "revisado_por_humano": false, "onde_aparece_suspeito": false, "suspeita": ""}}, "esp_vetorial": {"o_que_e": "Um conjunto de vetores que, além de permitir a adição e a multiplicação por escalar, satisfaz axiomas específicos como a existência de um vetor nulo e inversos aditivos.", "por_que_existe": "Antes da formalização dos espaços vetoriais, operações com vetores eram limitadas e não tinham uma estrutura unificada que permitisse generalizar conceitos como linearidade em diferentes contextos matemáticos.", "onde_aparece": "Na modelagem de sistemas de equações lineares, onde as soluções são representadas como combinações lineares de vetores, como em métodos de otimização e análise de dados.", "onde_se_trava": "Compreender que a adição de vetores e a multiplicação por escalar devem respeitar todos os axiomas simultaneamente, e não apenas a soma e a escala individualmente.", "procedencia": {"modelo": "phi-4", "onde": "local (Delfos)", "data": "2026-08-25", "revisado_por_humano": false, "onde_aparece_suspeito": false, "suspeita": ""}}, "base_dim": {"o_que_e": "a base é um conjunto de vetores que permite expressar qualquer vetor do espaço como uma combinação linear única; a dimensão é o número de vetores na base.", "por_que_existe": "antes da definição de base, não havia uma maneira sistemática de representar e manipular vetores em espaços de alta dimensão.", "onde_aparece": "no processamento de sinais, onde a base harmônica é usada para decompor sinais em componentes de frequência.", "onde_se_trava": "confundir base com qualquer conjunto de vetores linearmente independentes, sem verificar se cobre todo o espaço.", "procedencia": {"modelo": "phi-4", "onde": "local (Delfos)", "data": "2026-08-25", "revisado_por_humano": false, "onde_aparece_suspeito": false, "suspeita": ""}}, "transf_lin": {"o_que_e": "uma função que, aplicada a vetores, preserva a soma e a multiplicação por escalares, mantendo a estrutura do espaço vetorial.", "por_que_existe": "antes da formalização das transformações lineares, não havia uma maneira sistemática de estudar como operações matemáticas afetam sistemas de equações ou espaços multidimensionais.", "onde_aparece": "no cálculo de rotações e escalonamentos em gráficos de computador, onde a transformação linear ajusta as posições dos pontos no espaço.", "onde_se_trava": "ao confundir transformações lineares com funções não lineares, como quadráticas, que não respeitam a propriedade de preservar a soma e a escala.", "procedencia": {"modelo": "phi-4", "onde": "local (Delfos)", "data": "2026-08-25", "revisado_por_humano": false, "onde_aparece_suspeito": false, "suspeita": ""}}, "prod_interno": {"o_que_e": "operação que calcula o ângulo e a projeção de um vetor sobre outro, em qualquer dimensão.", "por_que_existe": "para medir ângulos e distâncias em espaços multidimensionais, facilitando o entendimento de relações entre vetores.", "onde_aparece": "na navegação por satélite, onde calcula distâncias e ângulos entre pontos no espaço tridimensional.", "onde_se_trava": "confundir o produto interno com a multiplicação escalar, ignorando a orientação dos vetores.", "procedencia": {"modelo": "phi-4", "onde": "local (Delfos)", "data": "2026-08-25", "revisado_por_humano": false, "onde_aparece_suspeito": false, "suspeita": ""}}, "autovalores": {"o_que_e": "Autovalores são escalares que indicam como uma transformação linear estica ou comprime vetores ao longo de certas direções, chamadas autovetores.", "por_que_existe": "Surgiu da necessidade de simplificar a análise de sistemas dinâmicos e resolver equações diferenciais, onde as transformações lineares são comuns.", "onde_aparece": "Usado em análise de dados para redução de dimensionalidade, como no algoritmo de análise de componentes principais (PCA), que organiza dados em dimensões mais simples.", "onde_se_trava": "Estudantes frequentemente confundem autovalores com escalares arbitrários, não percebendo que eles são específicos para autovetores de uma transformação linear.", "procedencia": {"modelo": "phi-4", "onde": "local (Delfos)", "data": "2026-08-25", "revisado_por_humano": false, "onde_aparece_suspeito": false, "suspeita": ""}}, "varias_var": {"o_que_e": "O cálculo de várias variáveis estuda como funções dependem de múltiplas variáveis e como essas dependências mudam, usando ferramentas como derivadas parciais e gradientes.", "por_que_existe": "Antes do cálculo de várias variáveis, era difícil analisar fenômenos naturais e engenharia que dependem de mais de uma variável, como o comportamento de sistemas físicos complexos.", "onde_aparece": "Na otimização de redes neurais em aprendizado de máquina, onde múltiplas variáveis de peso são ajustadas para minimizar erros de previsão.", "onde_se_trava": "Estudantes frequentemente confundem derivadas parciais com derivadas totais, não percebendo que cada derivada parcial considera uma variável enquanto mantém as outras constantes.", "procedencia": {"modelo": "phi-4", "onde": "local (Delfos)", "data": "2026-08-25", "revisado_por_humano": false, "onde_aparece_suspeito": false, "suspeita": ""}}, "edo": {"o_que_e": "uma equação que relaciona uma função e suas derivadas, buscando encontrar essa função.", "por_que_existe": "para modelar fenômenos dinâmicos, como o movimento de corpos ou a variação de populações, que não podem ser descritos apenas por equações algébricas.", "onde_aparece": "no controle de sistemas automáticos, como o ajuste de temperatura em um ar-condicionado.", "onde_se_trava": "confundir a ordem da equação com a ordem da derivada, levando a soluções incorretas.", "procedencia": {"modelo": "phi-4", "onde": "local (Delfos)", "data": "2026-08-25", "revisado_por_humano": false, "onde_aparece_suspeito": false, "suspeita": ""}}, "analise_real": {"o_que_e": "Análise real é o estudo rigoroso de funções reais, focando em limites, continuidade e derivadas, com provas formais de propriedades e teoremas.", "por_que_existe": "Antes da análise real, conceitos como limite e continuidade eram intuitivos, mas careciam de rigor matemático, levando a paradoxos e inconsistências.", "onde_aparece": "A análise real é fundamental em algoritmos de otimização em engenharia e ciência de dados, onde precisão e confiabilidade são cruciais.", "onde_se_trava": "Estudantes frequentemente têm dificuldade em entender a necessidade de rigor em limites e continuidade, confiando em intuição em vez de provas formais.", "procedencia": {"modelo": "phi-4", "onde": "local (Delfos)", "data": "2026-08-25", "revisado_por_humano": false, "onde_aparece_suspeito": false, "suspeita": ""}}, "algebra_abs": {"o_que_e": "Álgebra abstrata estuda estruturas algébricas como grupos, anéis e corpos, que são conjuntos com operações definidas que seguem certas propriedades.", "por_que_existe": "Surgiu da necessidade de generalizar conceitos de álgebra para entender e resolver problemas em diferentes áreas matemáticas e científicas, como teoria dos números e geometria.", "onde_aparece": "Na criptografia, onde a segurança dos dados depende de operações em estruturas algébricas complexas, como grupos cíclicos e campos finitos.", "onde_se_trava": "Estudantes frequentemente têm dificuldade em entender a abstração e a generalização dos conceitos, confundindo-os com exemplos específicos como números reais ou inteiros.", "procedencia": {"modelo": "phi-4", "onde": "local (Delfos)", "data": "2026-08-25", "revisado_por_humano": false, "onde_aparece_suspeito": false, "suspeita": ""}}, "topologia": {"o_que_e": "estudo de propriedades de espaços que são preservadas sob deformações contínuas, como esticar ou dobrar, sem rasgar ou colar.", "por_que_existe": "para entender conceitos como continuidade e limites em contextos mais gerais do que os números reais, permitindo análise em espaços complexos.", "onde_aparece": "em algoritmos de reconhecimento de padrões, onde a forma é mais importante que a posição ou o tamanho exato.", "onde_se_trava": "confundir topologia com geometria, esquecendo que a topologia não considera medidas como distância ou ângulo.", "procedencia": {"modelo": "phi-4", "onde": "local (Delfos)", "data": "2026-08-25", "revisado_por_humano": false, "onde_aparece_suspeito": false, "suspeita": ""}}, "medida": {"o_que_e": "a integral que aguenta funções e conjuntos não contínuos ou com infinitos em pequenas partes.", "por_que_existe": "para calcular áreas e volumes sob curvas e superfícies que não são bem comportadas, como funções com infinitos em pontos isolados.", "onde_aparece": "na análise de sinais e processamento de dados, onde é necessário lidar com funções que têm comportamentos complexos ou descontínuos.", "onde_se_trava": "ao confundir a necessidade de condições de contínua com a capacidade de lidar com funções mais gerais, como pensar que todas as integrais precisam de funções contínuas.", "procedencia": {"modelo": "phi-4", "onde": "local (Delfos)", "data": "2026-08-25", "revisado_por_humano": false, "onde_aparece_suspeito": false, "suspeita": ""}}, "geom_dif": {"o_que_e": "estudo de curvas e superfícies usando técnicas de cálculo, focando em propriedades locais como curvatura e torsão.", "por_que_existe": "para entender e descrever a forma e o comportamento de objetos tridimensionais, como esferas e cilindros, que não são planos.", "onde_aparece": "na engenharia para projetar peças complexas de automóveis e aviões, garantindo que sejam aerodinâmicas e eficientes.", "onde_se_trava": "ao confundir curvatura local com curvatura global, como achar que uma esfera tem a mesma curvatura em todos os pontos.", "procedencia": {"modelo": "phi-4", "onde": "local (Delfos)", "data": "2026-08-25", "revisado_por_humano": false, "onde_aparece_suspeito": false, "suspeita": ""}}, "analise_func": {"o_que_e": "Estuda espaços vetoriais com estruturas adicionais, como normas e produtos internos, permitindo análise de funções.", "por_que_existe": "Surgiu para generalizar conceitos de Cálculo e Álgebra Linear, lidando com funções em espaços infinitos.", "onde_aparece": "Utilizada em processamento de sinais, onde analisa e manipula sinais contínuos e discretos.", "onde_se_trava": "Confundir normas e produtos internos, não percebendo suas diferenças e aplicações específicas.", "procedencia": {"modelo": "phi-4", "onde": "local (Delfos)", "data": "2026-08-25", "revisado_por_humano": false, "onde_aparece_suspeito": false, "suspeita": ""}}}, "nos": {"aritmetica": {"rotulo": "Aritmética e as operações", "ramo": "base", "nota": "contar, somar, multiplicar — a operação antes da letra", "camada": 2, "dom": [], "geo": false, "dom_fonte": "anterior aos dois — nenhum curso a ensina, todos a exigem"}, "conjuntos": {"rotulo": "Conjuntos", "ramo": "base", "nota": "pertencer, conter, unir, cortar — a língua em que o resto é dito", "camada": 0, "dom": [], "geo": false, "dom_fonte": "anterior a tudo: é a língua em que o resto é dito"}, "conj_num": {"rotulo": "Conjuntos numéricos", "ramo": "base", "nota": "ℕ ⊂ ℤ ⊂ ℚ ⊂ ℝ — cada um existe porque o anterior não bastava: o inteiro dá o oposto, o racional dá o inverso, o real fecha os buracos", "camada": 1, "dom": [], "geo": false, "dom_fonte": "anterior aos dois — que números existem, antes de operar com eles"}, "contagem": {"rotulo": "Problemas de contagem", "ramo": "base", "nota": "quantos são, sem listar um a um — o raciocínio combinatório", "camada": 1, "dom": [], "geo": false, "dom_fonte": "anterior aos dois — o raciocínio combinatório, que o determinante cobra"}, "relacoes": {"rotulo": "Relações e o par ordenado", "ramo": "base", "nota": "o vínculo entre dois conjuntos; a função é o caso com unicidade", "camada": 1, "dom": [], "geo": false, "dom_fonte": "anterior aos dois — o par ordenado, raiz comum da função e do plano"}, "geom_plana": {"rotulo": "Geometria plana", "ramo": "base", "nota": "a figura de duas dimensões — comprimento e largura", "camada": 0, "dom": [], "geo": false, "dom_fonte": "anterior aos dois — a figura antes da coordenada"}, "geom_espacial": {"rotulo": "Geometria espacial", "ramo": "base", "nota": "o sólido de três dimensões — e o volume", "camada": 1, "dom": [], "geo": false, "dom_fonte": "anterior aos dois — o sólido antes da terceira coordenada"}, "operacoes": {"rotulo": "Soma e produto e seus inversos", "ramo": "base", "nota": "duas operações, não quatro: subtrair é somar o oposto, dividir é multiplicar pelo inverso", "camada": 3, "dom": [], "geo": false, "dom_fonte": "pilar da aritmética — as propriedades que a letra vai herdar"}, "fracoes": {"rotulo": "Frações e proporção", "ramo": "base", "nota": "a parte do todo, a razão entre duas grandezas, a regra de três", "camada": 3, "dom": [], "geo": false, "dom_fonte": "pilar da aritmética — razão e proporção, que a trigonometria cobra"}, "potencias": {"rotulo": "Potência, raiz e logaritmo", "ramo": "base", "nota": "a operação com DUAS inversas: a raiz acha a base, o logaritmo acha o expoente", "camada": 3, "dom": [], "geo": false, "dom_fonte": "pilar da aritmética — a operação de duas inversas; o log nasce aqui"}, "negativos": {"rotulo": "Negativos e a reta", "ramo": "base", "nota": "o sinal, a ordem e a distância — os números postos em fila", "camada": 3, "dom": [], "geo": false, "dom_fonte": "pilar da aritmética — a reta ordenada, que os reais completam"}, "fatoracao": {"rotulo": "Divisibilidade e fatoração", "ramo": "base", "nota": "primos, o que divide o quê, e por que isso simplifica", "camada": 3, "dom": [], "geo": false, "dom_fonte": "pilar da aritmética — o que permite simplificar sem mudar o valor"}, "algebra_elem": {"rotulo": "Álgebra elementar", "ramo": "base", "nota": "a letra no lugar do número", "camada": 4, "dom": [], "geo": false, "dom_fonte": "anterior aos dois"}, "trigonometria": {"rotulo": "Trigonometria", "ramo": "base", "nota": "razão entre lados de um triângulo", "camada": 5, "dom": [], "geo": false, "dom_fonte": "anterior aos dois; mora na geometria plana, GUI §2.2 a retoma como função"}, "reais": {"rotulo": "Números reais", "ramo": "base", "nota": "o corpo ordenado completo onde tudo se passa", "camada": 5, "dom": [], "geo": false, "dom_fonte": "anterior aos dois; GUI cap. 1 a formaliza antes de tudo"}, "funcoes": {"rotulo": "Funções", "ramo": "base", "nota": "leva número em número", "camada": 6, "dom": [], "geo": false, "dom_fonte": "anterior aos dois; é o objeto que os dois manipulam"}, "limite": {"rotulo": "Limite e continuidade", "ramo": "calculo", "nota": "para onde a função tende, e quando não salta", "camada": 7, "dom": ["calculo"], "geo": false, "dom_fonte": "GUI cap. 3"}, "sequencias": {"rotulo": "Sequências", "ramo": "calculo", "nota": "limite ao longo dos naturais", "camada": 8, "dom": ["calculo"], "geo": false, "dom_fonte": "GUI §4.3"}, "exp_log": {"rotulo": "Exponencial e logaritmo", "ramo": "calculo", "nota": "a potência de expoente real, e sua inversa", "camada": 8, "dom": ["calculo"], "geo": false, "dom_fonte": "GUI cap. 6 — a FUNÇÃO de expoente real; a operação ficou na base"}, "derivada": {"rotulo": "Derivada", "ramo": "calculo", "nota": "a taxa de variação — definida como um limite", "camada": 9, "dom": ["calculo"], "geo": false, "dom_fonte": "GUI cap. 7"}, "regra_cadeia": {"rotulo": "Regra da cadeia", "ramo": "calculo", "nota": "a derivada da composta", "camada": 10, "dom": ["calculo"], "geo": false, "dom_fonte": "GUI §7.10"}, "inversa": {"rotulo": "Funções inversas", "ramo": "calculo", "nota": "desfazer a função, e derivar o desfazimento", "camada": 10, "dom": ["calculo"], "geo": false, "dom_fonte": "GUI cap. 8"}, "variacao": {"rotulo": "Estudo da variação (TVM)", "ramo": "calculo", "nota": "crescimento, concavidade, máximos e mínimos", "camada": 10, "dom": ["calculo"], "geo": false, "dom_fonte": "GUI cap. 9"}, "primitiva": {"rotulo": "Primitivas", "ramo": "calculo", "nota": "a operação que desfaz a derivada", "camada": 10, "dom": ["calculo"], "geo": false, "dom_fonte": "GUI cap. 10"}, "integral": {"rotulo": "Integral de Riemann", "ramo": "calculo", "nota": "a soma que vira área, e o teorema fundamental", "camada": 11, "dom": ["calculo"], "geo": false, "dom_fonte": "GUI cap. 11"}, "tecnicas_int": {"rotulo": "Técnicas de primitivação", "ramo": "calculo", "nota": "partes, substituição, frações parciais", "camada": 11, "dom": ["calculo"], "geo": false, "dom_fonte": "GUI cap. 12"}, "polares": {"rotulo": "Coordenadas polares e aplicações", "ramo": "calculo", "nota": "volume, comprimento de curva, área polar", "camada": 12, "dom": ["calculo"], "geo": false, "dom_fonte": "GUI cap. 13"}, "coord_plano": {"rotulo": "Coordenadas no plano", "ramo": "geometria", "nota": "o par ordenado que vira ponto", "camada": 6, "dom": ["algebra"], "geo": true, "dom_fonte": "ELO 'Coordenadas no Plano' — o par ordenado num espaço de dimensão 2"}, "reta": {"rotulo": "Equações da reta", "ramo": "geometria", "nota": "a reta como conjunto de soluções", "camada": 7, "dom": ["algebra"], "geo": true, "dom_fonte": "ELO 'As Equações da Reta' — o subespaço de dimensão 1, transladado"}, "conicas": {"rotulo": "Cônicas", "ramo": "geometria", "nota": "circunferência, elipse, hipérbole, parábola", "camada": 8, "dom": ["algebra"], "geo": true, "dom_fonte": "ELO — o grau dois no plano; a diagonalização as classifica"}, "coord_espaco": {"rotulo": "Coordenadas no espaço", "ramo": "geometria", "nota": "a terceira coordenada", "camada": 7, "dom": ["algebra"], "geo": true, "dom_fonte": "ELO 'Coordenadas no Espaço' — a mesma coisa em dimensão 3"}, "vetores": {"rotulo": "Vetores", "ramo": "geometria", "nota": "a flecha com soma e escala", "camada": 7, "dom": ["algebra"], "geo": true, "dom_fonte": "ELO trata o vetor dentro da geometria e CAL o axiomatiza — o título do Elon carrega os dois nomes porque é uma coisa só"}, "plano_eq": {"rotulo": "Equação do plano", "ramo": "geometria", "nota": "a superfície de grau um", "camada": 8, "dom": ["algebra"], "geo": true, "dom_fonte": "ELO 'Equação do Plano' — definido pelo vetor normal, que é produto interno"}, "matrizes": {"rotulo": "Matrizes", "ramo": "algebra", "nota": "a tabela que guarda o sistema", "camada": 6, "dom": ["algebra"], "geo": false, "dom_fonte": "ELO/CAL"}, "sistemas": {"rotulo": "Sistemas lineares", "ramo": "algebra", "nota": "muitas equações, uma solução (ou nenhuma)", "camada": 5, "dom": ["algebra"], "geo": false, "dom_fonte": "ELO/CAL"}, "determinante": {"rotulo": "Determinantes", "ramo": "algebra", "nota": "o número que diz se inverte", "camada": 7, "dom": ["algebra"], "geo": false, "dom_fonte": "ELO 'Determinantes'"}, "esp_vetorial": {"rotulo": "Espaços vetoriais", "ramo": "algebra", "nota": "o vetor sem a flecha: só os axiomas", "camada": 8, "dom": ["algebra"], "geo": false, "dom_fonte": "CAL — o vetor sem a flecha: fora da região geométrica, porque sem produto interno não há distância nem ângulo"}, "base_dim": {"rotulo": "Base e dimensão", "ramo": "algebra", "nota": "as coordenadas de volta, agora escolhidas", "camada": 9, "dom": ["algebra"], "geo": false, "dom_fonte": "CAL — base e dimensão"}, "transf_lin": {"rotulo": "Transformações lineares", "ramo": "algebra", "nota": "a função que respeita soma e escala", "camada": 10, "dom": ["algebra"], "geo": false, "dom_fonte": "ELO 'Transformações Lineares'"}, "prod_interno": {"rotulo": "Produto interno", "ramo": "algebra", "nota": "ângulo e comprimento dentro do espaço", "camada": 8, "dom": ["algebra"], "geo": true, "dom_fonte": "É O OPERADOR QUE FABRICA A GEOMETRIA DENTRO DA ÁLGEBRA: dele saem distância e ângulo, em qualquer dimensão"}, "autovalores": {"rotulo": "Autovalores e autovetores", "ramo": "algebra", "nota": "as direções que a transformação só estica", "camada": 11, "dom": ["algebra"], "geo": false, "dom_fonte": "CAL — autovalores e autovetores"}, "formas_quad": {"rotulo": "Formas quadráticas e quádricas", "ramo": "algebra", "nota": "o grau dois em qualquer dimensão", "camada": 12, "dom": ["algebra"], "geo": true, "dom_fonte": "ELO trata quádricas e as diagonaliza por autovalores"}, "varias_var": {"rotulo": "Cálculo de várias variáveis", "ramo": "fronteira", "nota": "derivada parcial, gradiente, a jacobiana", "camada": 10, "dom": ["calculo"], "geo": false, "dom_fonte": "Cálculo II/III — pertence ao cálculo mesmo dependendo de vetores"}, "edo": {"rotulo": "Equações diferenciais", "ramo": "fronteira", "nota": "a equação cuja incógnita é uma função", "camada": 12, "dom": ["calculo"], "geo": false, "dom_fonte": "Cálculo/EDO"}, "analise_real": {"rotulo": "Análise real", "ramo": "fronteira", "nota": "o cálculo refeito com demonstração", "camada": 9, "dom": ["calculo"], "geo": false, "dom_fonte": "o cálculo refeito com demonstração"}, "algebra_abs": {"rotulo": "Álgebra abstrata", "ramo": "fronteira", "nota": "grupo, anel, corpo", "camada": 9, "dom": ["algebra"], "geo": false, "dom_fonte": "generaliza a estrutura da álgebra linear"}, "topologia": {"rotulo": "Topologia", "ramo": "fronteira", "nota": "vizinhança sem distância", "camada": 10, "dom": ["algebra", "calculo"], "geo": false, "dom_fonte": "a vizinhança SEM distância — é o que sobra da geometria quando se tira o produto interno, e por isso fica FORA da região"}, "medida": {"rotulo": "Medida e integração", "ramo": "fronteira", "nota": "a integral que aguenta o patológico", "camada": 10, "dom": ["calculo"], "geo": false, "dom_fonte": "a integral de Lebesgue, dentro da análise"}, "geom_dif": {"rotulo": "Geometria diferencial", "ramo": "fronteira", "nota": "cálculo sobre superfícies curvas", "camada": 11, "dom": ["algebra", "calculo"], "geo": true, "dom_fonte": "cálculo sobre superfície curva — e a superfície tem métrica"}, "analise_func": {"rotulo": "Análise funcional", "ramo": "fronteira", "nota": "espaços vetoriais de dimensão infinita", "camada": 11, "dom": ["algebra", "calculo"], "geo": false, "dom_fonte": "espaço vetorial de dimensão infinita, com análise por cima"}}, "arestas": [{"de": "conjuntos", "para": "conj_num", "w": "orientacao", "fonte": "orientação acadêmica, 2026-08-25 — conjunto numérico é, antes de tudo, um conjunto"}, {"de": "conjuntos", "para": "contagem", "w": "orientacao", "fonte": "orientação acadêmica, 2026-08-25 — contar é contar os elementos de um conjunto"}, {"de": "conjuntos", "para": "relacoes", "w": "orientacao", "fonte": "orientação acadêmica, 2026-08-25 — a relação é um subconjunto do produto cartesiano"}, {"de": "conj_num", "para": "aritmetica", "w": "orientacao", "fonte": "orientação acadêmica, 2026-08-25 — a operação precisa saber sobre QUE números ela opera"}, {"de": "relacoes", "para": "funcoes", "w": "orientacao", "fonte": "orientação acadêmica, 2026-08-25 — função é a relação em que cada entrada tem uma saída só"}, {"de": "relacoes", "para": "coord_plano", "w": "orientacao", "fonte": "orientação acadêmica, 2026-08-25 — o par ordenado do produto cartesiano É o ponto do plano"}, {"de": "geom_plana", "para": "geom_espacial", "w": "orientacao", "fonte": "orientação acadêmica, 2026-08-25 — o sólido acrescenta a terceira dimensão à figura plana"}, {"de": "geom_plana", "para": "trigonometria", "w": "orientacao", "fonte": "orientação acadêmica, 2026-08-25 — a razão é entre os lados de um triângulo, que é figura plana"}, {"de": "geom_espacial", "para": "coord_espaco", "w": "orientacao", "fonte": "orientação acadêmica, 2026-08-25 — o espaço de três dimensões antes de receber coordenadas"}, {"de": "contagem", "para": "determinante", "w": "ordem", "fonte": "seminario-determinantes — o determinante é a soma sobre as permutações"}, {"de": "aritmetica", "para": "operacoes", "w": "ordem", "fonte": "hipatia/norma-de-notacao.md §1 — o arco do cálculo exige aritmética com FAMILIARIDADE, não com \"já vi\""}, {"de": "aritmetica", "para": "fracoes", "w": "ordem", "fonte": "hipatia/norma-de-notacao.md §1 · seminario-calculo-0, folha 2"}, {"de": "aritmetica", "para": "potencias", "w": "ordem", "fonte": "hipatia/norma-de-notacao.md §1 · seminario-calculo-0, folha 2"}, {"de": "aritmetica", "para": "negativos", "w": "ordem", "fonte": "hipatia/norma-de-notacao.md §1 · seminario-calculo-0, folha 2"}, {"de": "aritmetica", "para": "fatoracao", "w": "ordem", "fonte": "hipatia/norma-de-notacao.md §1 · seminario-calculo-0, folha 2"}, {"de": "operacoes", "para": "algebra_elem", "w": "ordem", "fonte": "mapa-genealogia, fig-3-base · a letra obedece às MESMAS propriedades: comutativa, associativa, distributiva"}, {"de": "fatoracao", "para": "algebra_elem", "w": "ordem", "fonte": "seminario-calculo-0, folha 9 — fatorar é o que revela ou esconde um buraco no domínio"}, {"de": "fracoes", "para": "trigonometria", "w": "ordem", "fonte": "trigonometria é RAZÃO entre lados: sem fração, o seno não tem sentido"}, {"de": "negativos", "para": "reais", "w": "ordem", "fonte": "GUI cap. 1 — a reta ordenada é o que os reais completam"}, {"de": "negativos", "para": "coord_plano", "w": "ordem", "fonte": "seminario-geometria, Estação 3 — o eixo tem lado negativo, e o observador fica na origem"}, {"de": "potencias", "para": "exp_log", "w": "ordem", "fonte": "seminario-calculo-0 — a potência de expoente racional antes da de expoente real; o limite é o que atravessa"}, {"de": "fracoes", "para": "funcoes", "w": "ordem", "fonte": "seminario-calculo-0, folha 9 — a função escrita como quociente, e o domínio que ela perde"}, {"de": "aritmetica", "para": "algebra_elem", "w": "ordem", "fonte": "mapa-genealogia, fig-3-base · BOY caps. 1-3 (contagem antes da equação)"}, {"de": "algebra_elem", "para": "trigonometria", "w": "ordem", "fonte": "mapa-genealogia, fig-3-base"}, {"de": "algebra_elem", "para": "reais", "w": "ordem", "fonte": "GUI cap. 1 (racionais §1.1 antes dos reais §1.2)"}, {"de": "trigonometria", "para": "funcoes", "w": "ordem", "fonte": "GUI §2.2 define seno e cosseno como funções"}, {"de": "reais", "para": "funcoes", "w": "definicao", "fonte": "GUI §2.1 — função de uma variável REAL a valores reais"}, {"de": "funcoes", "para": "limite", "w": "definicao", "fonte": "GUI §3.3 define limite de uma função"}, {"de": "reais", "para": "limite", "w": "definicao", "fonte": "GUI §3.3 — o ε e o δ são reais"}, {"de": "limite", "para": "sequencias", "w": "ordem", "fonte": "GUI §4.3-4.4 (sequência depois do limite; §4.4 liga os dois)"}, {"de": "limite", "para": "exp_log", "w": "definicao", "fonte": "GUI §6.3 — o limite define a potência de expoente real"}, {"de": "limite", "para": "derivada", "w": "definicao", "fonte": "GUI §7.2 — a derivada É um limite"}, {"de": "derivada", "para": "regra_cadeia", "w": "definicao", "fonte": "GUI §7.10 — derivada da função composta"}, {"de": "derivada", "para": "inversa", "w": "definicao", "fonte": "GUI §8.2 — derivada da função inversa"}, {"de": "exp_log", "para": "derivada", "w": "ordem", "fonte": "GUI §7.4 deriva e^x e ln x"}, {"de": "derivada", "para": "variacao", "w": "definicao", "fonte": "GUI §9.1 — o TVM é enunciado sobre a derivada"}, {"de": "derivada", "para": "primitiva", "w": "definicao", "fonte": "GUI §10.2 — primitiva é definida por 'F' = f'"}, {"de": "limite", "para": "integral", "w": "definicao", "fonte": "GUI §11.3 — a integral é o limite das somas de Riemann"}, {"de": "primitiva", "para": "integral", "w": "definicao", "fonte": "GUI §11.5 — o 1º teorema fundamental liga as duas"}, {"de": "primitiva", "para": "tecnicas_int", "w": "ordem", "fonte": "GUI cap. 12 vem depois do cap. 10"}, {"de": "regra_cadeia", "para": "tecnicas_int", "w": "definicao", "fonte": "GUI §12.4 — a mudança de variável É a regra da cadeia ao contrário"}, {"de": "integral", "para": "polares", "w": "ordem", "fonte": "GUI cap. 13 — aplicações da integral"}, {"de": "trigonometria", "para": "polares", "w": "definicao", "fonte": "GUI §13.7 — a coordenada polar é ângulo e raio"}, {"de": "reais", "para": "coord_plano", "w": "definicao", "fonte": "ELO 'Coordenadas no Plano' — o par de reais"}, {"de": "coord_plano", "para": "reta", "w": "definicao", "fonte": "ELO 'As Equações da Reta'"}, {"de": "algebra_elem", "para": "reta", "w": "ordem", "fonte": "ELO — a equação da reta é álgebra elementar em duas letras"}, {"de": "reta", "para": "conicas", "w": "ordem", "fonte": "ELO — circunferência e hipérbole depois da reta"}, {"de": "coord_plano", "para": "vetores", "w": "ordem", "fonte": "ELO 'Vetores' depois de 'Coordenadas'"}, {"de": "coord_plano", "para": "coord_espaco", "w": "ordem", "fonte": "ELO 'Coordenadas no Espaço'"}, {"de": "coord_espaco", "para": "plano_eq", "w": "definicao", "fonte": "ELO 'Equação do Plano' — três coordenadas"}, {"de": "vetores", "para": "plano_eq", "w": "definicao", "fonte": "ELO — o plano pelo vetor normal"}, {"de": "sistemas", "para": "matrizes", "w": "ordem", "fonte": "ELO — a matriz aparece com o sistema"}, {"de": "algebra_elem", "para": "sistemas", "w": "ordem", "fonte": "ELO/CAL — sistema é equação com muitas letras"}, {"de": "matrizes", "para": "determinante", "w": "definicao", "fonte": "ELO 'Determinantes' — o determinante é DE uma matriz"}, {"de": "vetores", "para": "esp_vetorial", "w": "ordem", "fonte": "CAL — o espaço vetorial generaliza o vetor (classe B)"}, {"de": "esp_vetorial", "para": "base_dim", "w": "definicao", "fonte": "CAL — base é definida dentro do espaço vetorial (classe B)"}, {"de": "esp_vetorial", "para": "transf_lin", "w": "definicao", "fonte": "ELO 'Transformações Lineares' — entre espaços"}, {"de": "matrizes", "para": "transf_lin", "w": "definicao", "fonte": "ELO — a matriz representa a transformação numa base"}, {"de": "base_dim", "para": "transf_lin", "w": "definicao", "fonte": "ELO/CAL — a representação exige a base escolhida"}, {"de": "vetores", "para": "prod_interno", "w": "definicao", "fonte": "ELO 'Distância de um Ponto a uma Reta' usa o produto"}, {"de": "transf_lin", "para": "autovalores", "w": "definicao", "fonte": "CAL — autovalor é da transformação (classe B)"}, {"de": "determinante", "para": "autovalores", "w": "definicao", "fonte": "CAL — o polinômio característico é um determinante (classe B)"}, {"de": "conicas", "para": "formas_quad", "w": "ordem", "fonte": "ELO 'Formas Quadráticas' depois das cônicas"}, {"de": "autovalores", "para": "formas_quad", "w": "definicao", "fonte": "ELO 'Completando Quadrados' — diagonalizar a forma"}, {"de": "derivada", "para": "varias_var", "w": "fronteira", "fonte": "sem obra no acervo (Guidorizzi v.1 para em uma variável)"}, {"de": "vetores", "para": "varias_var", "w": "fronteira", "fonte": "sem obra no acervo"}, {"de": "integral", "para": "edo", "w": "fronteira", "fonte": "sem obra no acervo"}, {"de": "derivada", "para": "edo", "w": "fronteira", "fonte": "sem obra no acervo"}, {"de": "limite", "para": "analise_real", "w": "fronteira", "fonte": "sem obra no acervo"}, {"de": "sequencias", "para": "analise_real", "w": "fronteira", "fonte": "sem obra no acervo"}, {"de": "esp_vetorial", "para": "algebra_abs", "w": "fronteira", "fonte": "sem obra no acervo"}, {"de": "analise_real", "para": "topologia", "w": "fronteira", "fonte": "sem obra no acervo"}, {"de": "analise_real", "para": "medida", "w": "fronteira", "fonte": "sem obra no acervo"}, {"de": "varias_var", "para": "geom_dif", "w": "fronteira", "fonte": "sem obra no acervo"}, {"de": "transf_lin", "para": "geom_dif", "w": "fronteira", "fonte": "sem obra no acervo"}, {"de": "topologia", "para": "analise_func", "w": "fronteira", "fonte": "sem obra no acervo"}, {"de": "medida", "para": "analise_func", "w": "fronteira", "fonte": "sem obra no acervo"}, {"de": "esp_vetorial", "para": "analise_func", "w": "fronteira", "fonte": "sem obra no acervo"}], "cruz": {"antes": 102, "depois": 41}, "ramos": {"base": "o tronco — anterior aos dois", "calculo": "cálculo · PERTO DE UM PONTO", "algebra": "álgebra linear · O QUE SE PRESERVA", "geometria": "geometria analítica — dentro da álgebra linear", "fronteira": "fronteira — sem obra no acervo"}, "troncos": {"calculo": "Cálculo (I, II, III)", "algebra": "Álgebra Linear"}, "natureza": {"calculo": "o que acontece perto de um ponto", "algebra": "o que se preserva — soma e escala"}};
+const svg = document.getElementById('grafo');
+const palco = document.getElementById('palco');
+const painel = document.getElementById('painel');
+
+const pais = {}, filhos = {};
+D.arestas.forEach(a => {
+  (pais[a.para] = pais[a.para] || []).push(a);
+  (filhos[a.de] = filhos[a.de] || []).push(a);
+});
+
+function ancestrais(id){
+  const vistos = new Set(), fila = [id];
+  while(fila.length){
+    const c = fila.pop();
+    (pais[c]||[]).forEach(a => { if(!vistos.has(a.de)){ vistos.add(a.de); fila.push(a.de); } });
+  }
+  return vistos;
+}
+
+const CAMPOS = [['o_que_e','o que é'], ['por_que_existe','por que existe'],
+                ['onde_aparece','onde aparece no mundo'], ['onde_se_trava','onde se trava']];
+
+function verbete(id){
+  const v = (D.verbetes||{})[id];
+  if(!v) return '<div class="sem-texto">Sem verbete escrito para esta matéria ainda.</div>';
+  const corpo = CAMPOS.filter(([k]) => v[k]).map(([k,rot]) =>
+    '<div class="campo"><b>' + rot + '</b><p class="verbete">' + esc(v[k]) + '</p></div>').join('');
+  const p = v.procedencia || {};
+  // A PROCEDÊNCIA aparece porque este mapa declara de onde vem cada seta; um
+  // texto de modelo entrando calado seria a única afirmação sem warrant aqui.
+  const proc = p.modelo
+    ? '<div class="proc">Verbete escrito por <b>' + esc(p.modelo) + '</b> (' +
+      esc(p.onde || '') + '), ' + esc(p.data || '') + ' — ' +
+      (p.revisado_por_humano ? 'revisado por leitura humana.'
+                             : '<b>ainda não revisado por leitura humana.</b>') + '</div>'
+    : '';
+  return corpo + proc;
+}
+
+function esc(t){
+  const d = document.createElement('div'); d.textContent = t; return d.innerHTML;
+}
+
+// Sem isto, clicar num nó no celular preenchia um painel FORA DA TELA — medido
+// em 2026-08-25: painel no topo 710 de um viewport de 844, e 483 de 390 no
+// deitado. O leitor tocava, nada acontecia à vista, e concluía que não havia
+// nada ali.
+function levarAoPainel(){
+  if(!empilhado()) return;
+  const alvo = document.getElementById('propriedades');
+  requestAnimationFrame(() => alvo.scrollIntoView({behavior:'smooth', block:'start'}));
+}
+
+function acender(id){
+  const anc = ancestrais(id);
+  const conjunto = new Set([...anc, id]);
+  svg.classList.add('focado');
+  svg.querySelectorAll('.no').forEach(g =>
+    g.classList.toggle('acesa', conjunto.has(g.dataset.id)));
+  svg.querySelectorAll('.no').forEach(g =>
+    g.classList.toggle('alvo', g.dataset.id === id));
+  svg.querySelectorAll('.aresta').forEach(l =>
+    l.classList.toggle('acesa', conjunto.has(l.dataset.de) && conjunto.has(l.dataset.para)));
+
+  const n = D.nos[id];
+  const diretos = (pais[id]||[]);
+  const usa = (filhos[id]||[]);
+  painel.innerHTML =
+    '<h2>' + n.rotulo + '</h2>' +
+    '<div class="ramo">' + (n.dom.length
+        ? n.dom.map(d => D.troncos[d] + ' · ' + (D.natureza[d] || '')).join('  +  ')
+        : 'a base — anterior aos dois troncos') + ' · camada ' + n.camada +
+        (n.geo ? ' · <b class="marca-geo">geometria analítica</b>' : '') + '</div>' +
+    verbete(id) +
+    '<div class="nota" style="font-size:11.5px;color:var(--muted);margin-bottom:12px">' +
+        n.dom_fonte + '</div>' +
+    '<div class="nota">' + n.nota + '</div>' +
+    '<h3>depende diretamente de</h3>' +
+    (diretos.length ? diretos.map(a =>
+      '<div class="pre w-' + a.w + '"><b>' + D.nos[a.de].rotulo + '</b>' +
+      '<span class="fonte">' + a.fonte + '</span></div>').join('')
+      : '<div class="vazio">Nada. É onde o mapa começa.</div>') +
+    '<h3>a cadeia inteira que a sustenta</h3>' +
+    '<div class="nota">' + (anc.size ? anc.size + ' matérias acesas no mapa.' :
+      'Nenhuma — esta é a raiz.') + '</div>' +
+    '<h3>abre caminho para</h3>' +
+    (usa.length ? usa.map(a => '<div class="pre w-' + a.w + '"><b>' +
+      D.nos[a.para].rotulo + '</b></div>').join('')
+      : '<div class="vazio">Ponta do mapa, por enquanto.</div>');
+}
+
+function limpar(){
+  svg.classList.remove('focado');
+  svg.querySelectorAll('.acesa,.alvo').forEach(e => e.classList.remove('acesa','alvo'));
+  painel.innerHTML = '<div class="vazio">Nenhuma matéria escolhida.<br><br>' +
+    'Clique numa caixa do mapa — ou procure pelo nome — para ver o que ela é, ' +
+    'de quais matérias ela depende, e <b>de onde veio cada seta</b>.</div>';
+}
+
+// A rolagem vai no CLIQUE, não dentro de acender(): a busca também chama
+// acender, e rolar a página a cada tecla digitada — com o teclado do celular
+// aberto — seria pior que o defeito que isto conserta.
+svg.querySelectorAll('.no').forEach(g =>
+  g.addEventListener('click', e => {
+    e.stopPropagation(); acender(g.dataset.id); levarAoPainel();
+  }));
+document.getElementById('ao-mapa').addEventListener('click', () =>
+  document.getElementById('palco').scrollIntoView({behavior:'smooth', block:'start'}));
+palco.addEventListener('click', limpar);
+document.getElementById('limpar').addEventListener('click', limpar);
+
+document.getElementById('busca').addEventListener('input', e => {
+  const q = e.target.value.trim().toLowerCase();
+  if(!q) return limpar();
+  const achado = Object.keys(D.nos).find(k =>
+    D.nos[k].rotulo.toLowerCase().includes(q));
+  if(achado) acender(achado);
+});
+
+document.getElementById('tema').addEventListener('click', e => {
+  const claro = document.documentElement.dataset.tema === 'claro';
+  document.documentElement.dataset.tema = claro ? '' : 'claro';
+  e.target.textContent = claro ? 'tema claro' : 'tema escuro';
+});
+
+/* --- zoom e arrasto: o mapa é para apontar na tela --- */
+// EMPILHADO: as colunas estão embaixo do mapa, não ao lado — o leitor não vê
+// o painel sem rolar. TOQUE-ROLA: tela de dedo, onde um dedo pertence à página
+// e não ao mapa. São perguntas diferentes e têm larguras diferentes.
+const empilhado = () => matchMedia('(max-width: 1199px)').matches;
+const toqueRolaPagina = () => matchMedia('(max-width: 860px)').matches;
+
+let z = 1, tx = 0, ty = 0, arrastando = false, x0 = 0, y0 = 0;
+function aplicar(){ svg.style.transform = `translate(${tx}px,${ty}px) scale(${z})`;
+                    svg.style.transformOrigin = '0 0'; }
+function ajustar(){
+  const r = palco.getBoundingClientRect();
+  z = Math.min(r.width / 1629, r.height / 1906) * 0.96;
+  tx = (r.width - 1629 * z) / 2; ty = (r.height - 1906 * z) / 2;
+  aplicar();
+}
+palco.addEventListener('wheel', e => {
+  e.preventDefault();
+  const r = palco.getBoundingClientRect();
+  const mx = e.clientX - r.left, my = e.clientY - r.top;
+  const k = e.deltaY < 0 ? 1.12 : 1/1.12;
+  const zn = Math.min(3, Math.max(0.15, z * k));
+  tx = mx - (mx - tx) * (zn / z); ty = my - (my - ty) * (zn / z);
+  z = zn; aplicar();
+}, {passive:false});
+palco.addEventListener('mousedown', e => {
+  arrastando = true; palco.classList.add('arrastando');
+  x0 = e.clientX - tx; y0 = e.clientY - ty;
+});
+addEventListener('mousemove', e => {
+  if(!arrastando) return;
+  tx = e.clientX - x0; ty = e.clientY - y0; aplicar();
+});
+addEventListener('mouseup', () => { arrastando = false; palco.classList.remove('arrastando'); });
+
+/* --- TOQUE (2026-08-24): sem isto o mapa não se move no telefone. Um dedo
+   arrasta; dois dedos dão pinça, com o zoom ancorado no PONTO MÉDIO entre os
+   dedos — que é o gesto que a mão espera. `touch-action:none` no palco é o que
+   impede o navegador de roubar o gesto para rolar a página. --- */
+let toqueD = 0, toqueX = 0, toqueY = 0, toqueZ = 1;
+const meio = t => ({x:(t[0].clientX + t[1].clientX)/2, y:(t[0].clientY + t[1].clientY)/2});
+const dist = t => Math.hypot(t[0].clientX - t[1].clientX, t[0].clientY - t[1].clientY);
+palco.addEventListener('touchstart', e => {
+  const t = e.touches;
+  // no celular, um dedo é da PÁGINA: quem move o mapa são dois.
+  if(t.length === 1 && !toqueRolaPagina()){
+    arrastando = true; x0 = t[0].clientX - tx; y0 = t[0].clientY - ty;
+  }
+  else if(t.length === 2){
+    arrastando = false; toqueD = dist(t); toqueZ = z;
+    const r = palco.getBoundingClientRect(), m = meio(t);
+    toqueX = m.x - r.left; toqueY = m.y - r.top;
+  }
+}, {passive:true});
+palco.addEventListener('touchmove', e => {
+  const t = e.touches;
+  if(t.length === 1 && arrastando){
+    e.preventDefault();
+    tx = t[0].clientX - x0; ty = t[0].clientY - y0; aplicar();
+  } else if(t.length === 2 && toqueD){
+    e.preventDefault();
+    const zn = Math.min(3, Math.max(0.15, toqueZ * (dist(t) / toqueD)));
+    tx = toqueX - (toqueX - tx) * (zn / z);
+    ty = toqueY - (toqueY - ty) * (zn / z);
+    z = zn;
+    // com um dedo entregue à página, o ARRASTO do mapa passa a ser de dois —
+    // sem isto o celular só conseguiria ampliar, nunca deslocar.
+    const m = meio(t), r = palco.getBoundingClientRect();
+    const mx = m.x - r.left, my = m.y - r.top;
+    tx += mx - toqueX; ty += my - toqueY;
+    toqueX = mx; toqueY = my;
+    aplicar();
+  }
+}, {passive:false});
+palco.addEventListener('touchend', e => {
+  if(e.touches.length === 0){ arrastando = false; toqueD = 0; }
+}, {passive:true});
+document.getElementById('ajustar').addEventListener('click', ajustar);
+// F DE FIT, como no Nuke. Ignorado enquanto se digita: procurar por "função"
+// reenquadraria o mapa a cada "f" batido na busca.
+addEventListener('keydown', e => {
+  const t = document.activeElement;
+  const digitando = t && (t.tagName === 'INPUT' || t.tagName === 'TEXTAREA');
+  if (digitando || e.ctrlKey || e.metaKey || e.altKey) return;
+  if (e.key === 'f' || e.key === 'F') { e.preventDefault(); ajustar(); }
+});
+addEventListener('resize', ajustar);
+ajustar();
+
+/* abrir já apontando: index.html#integral — serve para deixar o link
+   pronto antes da aula, e é como esta interação se testa sem clicar. */
+function doHash(){
+  const id = decodeURIComponent(location.hash.replace('#',''));
+  if(id && D.nos[id]) acender(id); else limpar();
+}
+addEventListener('hashchange', doHash);
+if(location.hash) doHash();
+</script>
+<!-- faixa-idioma: gerada por i18n.py, nao editar -->
+<div id="faixa-idioma" hidden style="position:fixed;top:0;left:0;right:0;
+ z-index:99;background:#c9a266;color:#0a1424;font:13px/1.4 Inter,system-ui,
+ sans-serif;padding:7px 12px;display:flex;gap:10px;justify-content:center;
+ align-items:center">
+<span>This page is in Portuguese.</span>
+<a href="../en/index.html" style="color:#0a1424;font-weight:600">Read in English</a>
+<button onclick="this.parentNode.hidden=true" aria-label="close"
+ style="background:none;border:0;color:#0a1424;cursor:pointer;font-size:15px">&times;</button>
+</div>
+<script>
+(function(){try{
+  var f=localStorage.getItem('sc-lang');
+  if(f==='pt')return;
+  var L=(navigator.languages&&navigator.languages.length)?navigator.languages
+        :[navigator.language||''];
+  var pt=false; for(var i=0;i<L.length;i++){ if(/^pt/i.test(L[i])){pt=true;break;} }
+  if(f!=='en' && pt!==false)return;
+  document.getElementById('faixa-idioma').hidden=false;
+}catch(e){}})();
+document.querySelector('#faixa-idioma a').addEventListener('click',function(){
+  try{localStorage.setItem('sc-lang','en');}catch(e){}
+});
+</script>
+</body></html>

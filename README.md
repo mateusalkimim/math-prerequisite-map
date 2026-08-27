@@ -1,3 +1,6 @@
+<!-- idioma: linha gerada por i18n.py -->
+*[Read this in English](README.en.md)*
+
 # O mapa das matérias — a ordem lógica do ciclo básico
 
 Um mapa interativo de **pré-requisitos** da matemática do ciclo básico: 50

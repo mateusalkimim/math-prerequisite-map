@@ -1,0 +1,726 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The map of subjects — Hypatia</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0a1424; --sup:#111e34; --sup2:#16233f; --borda:#2a3d5e;
+  --ink:#f0e4cc; --ink2:#ded2ba; --muted:#8b98b3;
+  --ouro:#c9a266; --ouro-claro:#d4af6a; --terracota:#c56a45;
+  --serif:"Cormorant Garamond",Georgia,serif;
+  --sans:"Inter",system-ui,sans-serif;
+}
+html[data-tema="claro"]{
+  --bg:#f3f5f9; --sup:#ffffff; --sup2:#eef1f7; --borda:#d9e0ec;
+  --ink:#16233f; --ink2:#2b3a58; --muted:#7c88a1;
+  --ouro:#a9713f; --ouro-claro:#8f5e33; --terracota:#b35430;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);
+     font-size:15px;line-height:1.5}
+header{padding:18px 26px 12px;border-bottom:1px solid var(--borda)}
+h1{font-family:var(--serif);font-weight:600;font-size:30px;margin:0 0 2px;
+   letter-spacing:.01em}
+.sub{color:var(--muted);font-size:13px;max-width:74ch}
+.sub b{color:var(--ink2);font-weight:500}
+.barra{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-top:12px}
+input[type=search]{background:var(--sup);border:1px solid var(--borda);
+  color:var(--ink);border-radius:8px;padding:7px 11px;font:inherit;font-size:13px;
+  min-width:220px}
+button{background:var(--sup);border:1px solid var(--borda);color:var(--ink2);
+  border-radius:8px;padding:7px 12px;font:inherit;font-size:13px;cursor:pointer}
+button:hover{border-color:var(--ouro);color:var(--ink)}
+kbd{font:inherit;font-size:11px;border:1px solid var(--borda);border-radius:4px;
+    padding:1px 5px;margin-left:5px;color:var(--muted);background:var(--fundo)}
+.chips{display:flex;gap:14px;flex-wrap:wrap;font-size:12px;color:var(--muted)}
+.chip{display:inline-flex;align-items:center;gap:6px}
+.chip i{width:11px;height:11px;border-radius:3px;display:inline-block}
+main{display:flex;gap:0;align-items:stretch}
+#palco{flex:1;overflow:hidden;position:relative;cursor:grab;touch-action:none;
+       height:calc(100vh - 210px);min-height:340px}
+#palco.arrastando{cursor:grabbing}
+svg{display:block;max-height:none}
+aside{width:330px;flex:none;border-left:1px solid var(--borda);padding:18px 20px;
+      overflow-y:auto;height:calc(100vh - 210px);min-height:340px;background:var(--sup)}
+/* A COLUNA DE PROPRIEDADES (2026-08-25). Raciocínio do Nuke aplicado ao mapa:
+   seleciona-se um nó e ele abre o painel de propriedades DELE, numa coluna
+   própria. Antes isto vivia espremido embaixo do Venn, no fim de uma coluna
+   que o leitor já tinha percorrido — e o texto mais longo da página ficava no
+   pior lugar dela.
+   ORDEM (correção do operador): o TEXTO vem primeiro, encostado no mapa, e as
+   figuras ficam na ponta. Quem clica num nó olha para o lado e lê; a chave de
+   cores e formas é consulta ocasional, e consulta ocasional mora mais longe.
+   Fica SEMPRE aberta, mesmo vazia: coluna que aparece e some faz o mapa saltar
+   de largura a cada clique, e o leitor perde o nó que estava olhando.
+   UM POR VEZ, por decisão do operador — o Properties Bin do Nuke empilha, este
+   não. */
+#propriedades{width:390px;flex:none;border-left:1px solid var(--borda);
+      padding:18px 22px;overflow-y:auto;height:calc(100vh - 210px);
+      min-height:340px;background:var(--fundo)}
+#propriedades h2{font-family:var(--serif);font-size:25px;margin:0 0 2px;font-weight:600}
+#propriedades .ramo{font-size:12px;color:var(--muted);text-transform:uppercase;
+      letter-spacing:.08em;margin-bottom:14px}
+#propriedades h3{font-size:11.5px;text-transform:uppercase;letter-spacing:.08em;
+      color:var(--muted);margin:18px 0 6px;font-weight:600}
+#propriedades .verbete{color:var(--ink2);font-size:14px;line-height:1.55;margin:0 0 2px}
+#propriedades .campo{margin-bottom:14px}
+#propriedades .campo b{display:block;font-size:11.5px;text-transform:uppercase;
+      letter-spacing:.06em;color:var(--ouro-claro);font-weight:600;margin-bottom:3px}
+.proc{margin-top:20px;padding-top:10px;border-top:1px solid var(--borda);
+      font-size:11px;color:var(--muted);line-height:1.5}
+.sem-texto{font-size:12.5px;color:var(--muted);font-style:italic}
+/* só aparece quando as colunas estão EMPILHADAS: no lado a lado o mapa nunca
+   sai de vista, e um botão para "voltar" ao que está ali seria ruído. */
+#ao-mapa{display:none}
+@media (max-width: 1199px){
+  #ao-mapa{display:inline-flex;align-items:center;gap:6px;margin-bottom:12px;
+    background:var(--sup);border:1px solid var(--borda);color:var(--ink2);
+    border-radius:8px;padding:8px 12px;font:inherit;font-size:13px;cursor:pointer}
+  #ao-mapa:hover{border-color:var(--ouro);color:var(--ink)}
+}
+aside h2{font-family:var(--serif);font-size:23px;margin:0 0 2px;font-weight:600}
+aside .ramo{font-size:12px;color:var(--muted);text-transform:uppercase;
+            letter-spacing:.08em;margin-bottom:10px}
+aside .nota{color:var(--ink2);font-size:14px;margin-bottom:16px}
+aside h3{font-size:12px;text-transform:uppercase;letter-spacing:.08em;
+         color:var(--muted);margin:16px 0 7px;font-weight:600}
+.pre{border-left:2px solid var(--borda);padding:5px 0 5px 10px;margin-bottom:9px}
+.pre b{font-weight:500;font-size:14px}
+.pre .fonte{display:block;color:var(--muted);font-size:11.5px;margin-top:2px}
+.marca-geo{color:#78c4ff;font-weight:600}
+.pre.w-definicao{border-left-color:var(--ouro)}
+.pre.w-ordem{border-left-color:var(--borda)}
+.pre.w-orientacao{border-left-color:var(--ouro);border-left-style:dotted}
+.pre.w-fronteira{border-left-color:var(--terracota);border-left-style:dashed}
+.vazio{color:var(--muted);font-size:13px}
+footer{padding:9px 26px;border-top:1px solid var(--borda);color:var(--muted);
+       font-size:11.5px;display:flex;gap:18px;flex-wrap:wrap}
+footer a{color:inherit;text-decoration:underline;text-underline-offset:2px}
+footer .licenca{margin-left:auto}
+/* --- o grafo --- */
+.aresta{fill:none;stroke:var(--ouro);stroke-width:1.6;opacity:.75}
+.aresta.w-ordem{stroke-width:1.1;opacity:.42}
+/* orientação: pontilhada CURTA — mais presente que a fronteira (há uma pessoa
+   responsável e uma data), menos que a ordem (não se abre o livro para
+   conferir). O tracejado longo continua sendo só da fronteira. */
+.aresta.w-orientacao{stroke-width:1.25;stroke-dasharray:2 3;opacity:.6}
+.aresta.w-fronteira{stroke:var(--muted);stroke-width:1.1;stroke-dasharray:5 4;opacity:.5}
+
+/* A REGIÃO GEOMÉTRICA — contorno dentro do contorno. Não tem preenchimento:
+   se tivesse, competiria com a cor do tronco, e a região não é outro tronco. */
+.regiao-geo > *{fill:none;stroke:#78c4ff;stroke-width:1.3;opacity:.85}
+svg.focado .no:not(.acesa) .regiao-geo > *{opacity:.18}
+/* AS MARCAS DE CANTO (2026-08-25) — o gesto dos nós do Nuke: um disco com
+   letra dizendo o que a matéria É, sem tocar no rótulo. C de constante,
+   L de linear. Ficam discretas até o nó entrar em foco. */
+.badge circle{stroke:none;opacity:.85}
+.badge text{font-family:var(--sans);font-size:11px;font-weight:700;
+            fill:#0a1424;pointer-events:none}
+.badge-calculo circle{fill:#f44e3e}
+.badge-algebra circle{fill:#3ac848}
+svg.focado .no:not(.acesa) .badge{opacity:.15}
+.no:hover .badge circle{opacity:1}
+.no > :first-child{fill:var(--sup);stroke:var(--borda);stroke-width:1.7}
+.no text{fill:var(--ink);font-family:var(--sans);font-size:12.5px;font-weight:500;
+         text-anchor:middle;pointer-events:none}
+.no{cursor:pointer}
+.no:hover > :first-child{stroke-width:2.6}
+.ramo-fronteira > :first-child{stroke-dasharray:5 4}
+.ramo-fronteira text{fill:var(--muted)}
+.dom-base > :first-child{stroke:#c9a266}
+html[data-tema="claro"] .dom-base > :first-child{stroke:#c9a266}
+.dom-algebra > :first-child{stroke:#3ac848}
+html[data-tema="claro"] .dom-algebra > :first-child{stroke:#3ac848}
+.dom-algebra-calculo > :first-child{stroke:#ffff86}
+html[data-tema="claro"] .dom-algebra-calculo > :first-child{stroke:#978b43}
+.dom-calculo > :first-child{stroke:#f44e3e}
+html[data-tema="claro"] .dom-calculo > :first-child{stroke:#f44e3e}
+/* =======================================================================
+   MOBILE (2026-08-24). Antes disto o mapa era inusável no telefone: o aside
+   de 330px fixos comia 85% de uma tela de 390, sobrando ~155px para o grafo,
+   e ainda transbordava para fora da janela. O cabeçalho tomava 40% da altura
+   antes de mostrar qualquer coisa.
+
+   A escolha: em tela estreita o mapa vira a tela inteira e o painel lateral
+   desce para baixo dele, virando leitura em coluna. Não se esconde nada — a
+   §1.5 da casa é information hiding, não information deleting.
+   ======================================================================= */
+/* ENTRE O TELEFONE E A TELA LARGA (2026-08-25). Com a coluna de propriedades
+   são 330+390 = 720px de coluna FIXA: numa tela de 900px sobrariam 180px de
+   mapa, que não é mapa nenhum. Aqui o mapa fica inteiro em cima e as duas
+   colunas descem.
+   É bloco PRÓPRIO, e não uma subida do breakpoint de 860: aquele carrega
+   ajustes de DEDO (input a 16px para o iOS não dar zoom, alvo de toque de
+   40px) que não têm o que fazer numa tela de mouse. */
+@media (min-width: 861px) and (max-width: 1199px){
+  main{flex-direction:column}
+  #palco{flex:none;height:60vh;min-height:320px;width:100%}
+  aside,#propriedades{width:100%;flex:none;height:auto;min-height:0;
+        border-left:0;border-top:1px solid var(--borda)}
+}
+
+@media (max-width: 860px){
+  body{font-size:15px}
+  header{padding:12px 14px 10px}
+  h1{font-size:22px}
+  /* a explicação longa vira resumo: o texto inteiro fica no título do
+     elemento e no painel, não sumiu */
+  .sub{font-size:12.5px;max-width:none;
+       display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;
+       overflow:hidden}
+  .barra{gap:8px;margin-top:10px}
+  input[type=search]{min-width:0;flex:1 1 100%;padding:10px 12px;font-size:16px}
+  button{padding:10px 13px}          /* alvo de toque: 40px de altura */
+  .chips{width:100%;gap:10px 12px;font-size:11.5px}
+
+  main{flex-direction:column}
+  /* flex:none é ESSENCIAL: com flex:1 o flex-basis vence o height em coluna,
+     e o palco crescia até a altura nativa do SVG (medido: 1614px), empurrando
+     o mapa inteiro para fora da tela. */
+  /* UM DEDO ROLA A PÁGINA, DOIS MOVEM O MAPA (2026-08-25). Com
+     touch-action:none o palco engolia o gesto vertical, e como ele ocupa o
+     MEIO da tela (medido: 439px de 844 no celular retrato), não sobrava por
+     onde rolar: as colunas de texto e de figuras existiam no DOM e eram
+     inalcançáveis. Padrão de mapa embutido em página: o gesto primário do
+     celular é rolar. O mapa continua inteiro com dois dedos e com
+     "ajustar à tela". */
+  #palco{flex:none;height:58vh;min-height:280px;width:100%;touch-action:pan-y}
+  aside{width:100%;flex:none;height:auto;min-height:0;max-height:none;
+        border-left:0;border-top:1px solid var(--borda);padding:16px 14px}
+  #propriedades{width:100%;flex:none;height:auto;min-height:0;
+        border-left:0;border-top:1px solid var(--borda);padding:16px 14px}
+  .rgb svg{width:100%;height:auto;max-width:252px}
+  .formas{font-size:13px}
+}
+
+/* telefone estreito de verdade */
+@media (max-width: 430px){
+  h1{font-size:20px}
+  .chips{font-size:11px;gap:8px 10px}
+  #palco{flex:none;height:52vh}
+}
+
+/* deitado: a tela é baixa, então o mapa toma o que sobra e o painel rola */
+@media (max-width: 860px) and (orientation: landscape){
+  #palco{flex:none;height:76vh}
+  .sub{display:none}
+}
+
+/* a moldura do conjunto da aritmética — tracejada porque é agrupamento, não
+   dependência: nenhuma seta entra ou sai dela */
+.grupo-aritmetica rect{fill:rgba(201,162,102,.05);stroke:var(--ouro);
+  stroke-width:1.3;stroke-dasharray:7 5;opacity:.65}
+.grupo-aritmetica text{fill:var(--ouro-claro);font-size:13px;font-weight:600;
+  letter-spacing:.02em;font-family:Inter,sans-serif;opacity:1}
+svg.focado .grupo-aritmetica{opacity:.2}
+
+/* --- os dois troncos, e a região contida num deles --- */
+.rgb{background:#0a1424;border:1px solid var(--borda);border-radius:10px;
+     padding:12px 10px 8px;margin-bottom:18px}
+.rgb svg{display:block;margin:0 auto}
+.rgb circle{mix-blend-mode:screen}
+.rgb .cap{color:var(--ink2);font-size:11.5px;text-align:center;margin-top:6px;line-height:1.4}
+.formas{display:grid;grid-template-columns:auto 1fr;gap:9px 10px;align-items:center;
+        font-size:12.5px;color:var(--ink2);margin-bottom:18px}
+.formas b{color:var(--ink);font-weight:600}
+.formas svg{display:block}
+/* apagado, não sumido — §1.5 information hiding */
+svg.focado .no{opacity:.16}
+svg.focado .aresta{opacity:.07}
+svg.focado .no.acesa{opacity:1}
+svg.focado .aresta.acesa{opacity:.95;stroke-width:2.2}
+svg.focado .no.alvo > :first-child{stroke-width:3.4}
+svg.focado .no.alvo text{font-weight:600}
+</style></head><body>
+
+<header>
+  <h1>The map of subjects</h1>
+  <div class="sub">The <b>logical</b> order — not the historical, not the curricular.  
+    The direction is declared once and not mixed: <b>from top to bottom</b>,  
+    the prerequisite is always above what requires it. Click on a subject to  
+    illuminate the entire supporting chain, up to the language of sets.<br>  
+    <b>Two trunks, and they do not lean on each other</b>: linear algebra speaks  
+    of what is <b>linear</b> — sum and scale preserved; calculus speaks of what is  
+    <b>constant</b>, and what changes near a point. Each subject carries in its  
+    corner the mark of its: <b>L</b> or <b>C</b>.</div>
+  <div class="barra">
+    <input type="search" id="busca" placeholder="search for material… (e.g., limit)" autocomplete="off">
+    <button id="limpar">Clear</button>
+    <button id="ajustar" title="reframes the entire map on the screen — shortcut: F">adjust to screen <kbd>F</kbd></button>
+    <button id="tema">clear theme</button><span class="chips"><span class="chip"><i style="background:#c9a266"></i>the trunk — prior to the two</span><span class="chip"><i style="background:#f44e3e"></i>calculus · NEAR A POINT</span><span class="chip"><i style="background:#3ac848"></i>linear algebra · WHAT IS PRESERVED</span><span class="chip"><i style="background:#78c4ff"></i>analytic geometry — within linear algebra</span><span class="chip"><i style="background:#7c88a1"></i>boundary — without work in the collection</span></span></div>
+</header>
+
+<main>
+  <div id="palco">
+    <svg id="grafo" viewBox="0 0 1629 1906" width="1629" height="1906"
+         xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <marker id="seta-definicao" viewBox="0 0 8 8" refX="7" refY="4"
+                markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+          <path d="M0,0 L8,4 L0,8 z" fill="var(--ouro)"></path></marker>
+        <marker id="seta-ordem" viewBox="0 0 8 8" refX="7" refY="4"
+                markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+          <path d="M0,0 L8,4 L0,8 z" fill="var(--ouro)" opacity=".55"></path></marker>
+        <marker id="seta-orientacao" viewBox="0 0 8 8" refX="7" refY="4"
+                markerWidth="6.5" markerHeight="6.5" orient="auto-start-reverse">
+          <path d="M0,0 L8,4 L0,8 z" fill="var(--ouro)" opacity=".75"></path></marker>
+        <marker id="seta-fronteira" viewBox="0 0 8 8" refX="7" refY="4"
+                markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+          <path d="M0,0 L8,4 L0,8 z" fill="var(--muted)"></path></marker>
+      </defs>
+      <polyline class="aresta w-orientacao" points="728.5,106.0 728.5,135.0 574.5,135.0 574.5,194.0" data-de="conjuntos" data-para="conj_num" marker-end="url(#seta-orientacao)"></polyline>
+<polyline class="aresta w-orientacao" points="728.5,106.0 728.5,140.0 918.5,140.0 918.5,194.0" data-de="conjuntos" data-para="contagem" marker-end="url(#seta-orientacao)"></polyline>
+<polyline class="aresta w-orientacao" points="728.5,106.0 728.5,145.0 746.5,145.0 746.5,194.0" data-de="conjuntos" data-para="relacoes" marker-end="url(#seta-orientacao)"></polyline>
+<polyline class="aresta w-orientacao" points="574.5,252.0 574.5,296.0 803.0,296.0 803.0,340.0" data-de="conj_num" data-para="aritmetica" marker-end="url(#seta-orientacao)"></polyline>
+<polyline class="aresta w-orientacao" points="746.5,252.0 746.5,315.5 699.0,315.5 699.0,369.0 699.0,447.0 687.5,447.0 687.5,515.0 687.5,593.0 710.5,593.0 710.5,661.0 710.5,739.0 687.5,739.0 687.5,807.0 687.5,870.5 613.0,870.5 613.0,924.0" data-de="relacoes" data-para="funcoes" marker-end="url(#seta-orientacao)"></polyline>
+<polyline class="aresta w-orientacao" points="746.5,252.0 746.5,320.5 930.0,320.5 930.0,369.0 930.0,452.0 1298.5,452.0 1298.5,515.0 1298.5,598.0 987.5,598.0 987.5,661.0 987.5,744.0 1149.5,744.0 1149.5,807.0 1149.5,875.5 1039.0,875.5 1039.0,924.0" data-de="relacoes" data-para="coord_plano" marker-end="url(#seta-orientacao)"></polyline>
+<polyline class="aresta w-orientacao" points="900.5,106.0 900.5,165.0 1090.5,165.0 1090.5,194.0" data-de="geom_plana" data-para="geom_espacial" marker-end="url(#seta-orientacao)"></polyline>
+<polyline class="aresta w-orientacao" points="900.5,106.0 900.5,149.5 470.5,149.5 470.5,223.0 470.5,281.0 676.0,281.0 676.0,369.0 676.0,427.0 479.5,427.0 479.5,515.0 479.5,573.0 641.5,573.0 641.5,661.0 641.5,704.5 560.5,704.5 560.5,778.0" data-de="geom_plana" data-para="trigonometria" marker-end="url(#seta-orientacao)"></polyline>
+<polyline class="aresta w-orientacao" points="1090.5,252.0 1090.5,300.5 953.0,300.5 953.0,369.0 953.0,432.0 1321.5,432.0 1321.5,515.0 1321.5,578.0 1010.5,578.0 1010.5,661.0 1010.5,724.0 1172.5,724.0 1172.5,807.0 1172.5,870.0 1143.0,870.0 1143.0,953.0 1143.0,1001.5 1206.0,1001.5 1206.0,1070.0" data-de="geom_espacial" data-para="coord_espaco" marker-end="url(#seta-orientacao)"></polyline>
+<polyline class="aresta w-ordem" points="918.5,252.0 918.5,305.5 907.0,305.5 907.0,369.0 907.0,437.0 1275.5,437.0 1275.5,515.0 1275.5,583.0 941.5,583.0 941.5,661.0 941.5,729.0 918.5,729.0 918.5,807.0 918.5,875.0 763.0,875.0 763.0,953.0 763.0,1006.5 826.0,1006.5 826.0,1070.0" data-de="contagem" data-para="determinante" marker-end="url(#seta-ordem)"></polyline>
+<polyline class="aresta w-ordem" points="803.0,398.0 803.0,442.0 791.5,442.0 791.5,486.0" data-de="aritmetica" data-para="operacoes" marker-end="url(#seta-ordem)"></polyline>
+<polyline class="aresta w-ordem" points="803.0,398.0 803.0,447.0 583.5,447.0 583.5,486.0" data-de="aritmetica" data-para="fracoes" marker-end="url(#seta-ordem)"></polyline>
+<polyline class="aresta w-ordem" points="803.0,398.0 803.0,452.0 375.5,452.0 375.5,486.0" data-de="aritmetica" data-para="potencias" marker-end="url(#seta-ordem)"></polyline>
+<polyline class="aresta w-ordem" points="803.0,398.0 803.0,457.0 1171.5,457.0 1171.5,486.0" data-de="aritmetica" data-para="negativos" marker-end="url(#seta-ordem)"></polyline>
+<polyline class="aresta w-ordem" points="803.0,398.0 803.0,427.0 963.5,427.0 963.5,486.0" data-de="aritmetica" data-para="fatoracao" marker-end="url(#seta-ordem)"></polyline>
+<polyline class="aresta w-ordem" points="791.5,544.0 791.5,578.0 814.5,578.0 814.5,632.0" data-de="operacoes" data-para="algebra_elem" marker-end="url(#seta-ordem)"></polyline>
+<polyline class="aresta w-ordem" points="963.5,544.0 963.5,583.0 814.5,583.0 814.5,632.0" data-de="fatoracao" data-para="algebra_elem" marker-end="url(#seta-ordem)"></polyline>
+<polyline class="aresta w-ordem" points="583.5,544.0 583.5,602.5 664.5,602.5 664.5,661.0 664.5,719.5 560.5,719.5 560.5,778.0" data-de="fracoes" data-para="trigonometria" marker-end="url(#seta-ordem)"></polyline>
+<polyline class="aresta w-ordem" points="1171.5,544.0 1171.5,607.5 918.5,607.5 918.5,661.0 918.5,724.5 814.5,724.5 814.5,778.0" data-de="negativos" data-para="reais" marker-end="url(#seta-ordem)"></polyline>
+<polyline class="aresta w-ordem" points="1171.5,544.0 1171.5,612.5 964.5,612.5 964.5,661.0 964.5,744.0 1126.5,744.0 1126.5,807.0 1126.5,875.5 1039.0,875.5 1039.0,924.0" data-de="negativos" data-para="coord_plano" marker-end="url(#seta-ordem)"></polyline>
+<polyline class="aresta w-ordem" points="375.5,544.0 375.5,617.5 618.5,617.5 618.5,661.0 618.5,749.0 456.5,749.0 456.5,807.0 456.5,895.0 486.0,895.0 486.0,953.0 486.0,1041.0 355.0,1041.0 355.0,1099.0 355.0,1172.5 278.0,1172.5 278.0,1216.0" data-de="potencias" data-para="exp_log" marker-end="url(#seta-ordem)"></polyline>
+<polyline class="aresta w-ordem" points="583.5,544.0 583.5,587.5 687.5,587.5 687.5,661.0 687.5,719.0 664.5,719.0 664.5,807.0 664.5,850.5 613.0,850.5 613.0,924.0" data-de="fracoes" data-para="funcoes" marker-end="url(#seta-ordem)"></polyline>
+<polyline class="aresta w-ordem" points="803.0,398.0 803.0,446.5 1067.5,446.5 1067.5,515.0 1067.5,563.5 814.5,563.5 814.5,632.0" data-de="aritmetica" data-para="algebra_elem" marker-end="url(#seta-ordem)"></polyline>
+<polyline class="aresta w-ordem" points="814.5,690.0 814.5,729.0 560.5,729.0 560.5,778.0" data-de="algebra_elem" data-para="trigonometria" marker-end="url(#seta-ordem)"></polyline>
+<polyline class="aresta w-ordem" points="814.5,690.0 814.5,778.0" data-de="algebra_elem" data-para="reais" marker-end="url(#seta-ordem)"></polyline>
+<polyline class="aresta w-ordem" points="560.5,836.0 560.5,885.0 613.0,885.0 613.0,924.0" data-de="trigonometria" data-para="funcoes" marker-end="url(#seta-ordem)"></polyline>
+<polyline class="aresta w-definicao" points="814.5,836.0 814.5,890.0 613.0,890.0 613.0,924.0" data-de="reais" data-para="funcoes" marker-end="url(#seta-definicao)"></polyline>
+<polyline class="aresta w-definicao" points="613.0,982.0 613.0,1041.0 482.0,1041.0 482.0,1070.0" data-de="funcoes" data-para="limite" marker-end="url(#seta-definicao)"></polyline>
+<polyline class="aresta w-definicao" points="814.5,836.0 814.5,879.5 717.0,879.5 717.0,953.0 717.0,996.5 482.0,996.5 482.0,1070.0" data-de="reais" data-para="limite" marker-end="url(#seta-definicao)"></polyline>
+<polyline class="aresta w-ordem" points="482.0,1128.0 482.0,1162.0 740.0,1162.0 740.0,1216.0" data-de="limite" data-para="sequencias" marker-end="url(#seta-ordem)"></polyline>
+<polyline class="aresta w-definicao" points="482.0,1128.0 482.0,1167.0 278.0,1167.0 278.0,1216.0" data-de="limite" data-para="exp_log" marker-end="url(#seta-definicao)"></polyline>
+<polyline class="aresta w-definicao" points="482.0,1128.0 482.0,1186.5 382.0,1186.5 382.0,1245.0 382.0,1303.5 445.0,1303.5 445.0,1362.0" data-de="limite" data-para="derivada" marker-end="url(#seta-definicao)"></polyline>
+<polyline class="aresta w-definicao" points="445.0,1420.0 445.0,1469.0 124.0,1469.0 124.0,1508.0" data-de="derivada" data-para="regra_cadeia" marker-end="url(#seta-definicao)"></polyline>
+<polyline class="aresta w-definicao" points="445.0,1420.0 445.0,1474.0 296.0,1474.0 296.0,1508.0" data-de="derivada" data-para="inversa" marker-end="url(#seta-definicao)"></polyline>
+<polyline class="aresta w-ordem" points="278.0,1274.0 278.0,1333.0 445.0,1333.0 445.0,1362.0" data-de="exp_log" data-para="derivada" marker-end="url(#seta-ordem)"></polyline>
+<polyline class="aresta w-definicao" points="445.0,1420.0 445.0,1449.0 676.0,1449.0 676.0,1508.0" data-de="derivada" data-para="variacao" marker-end="url(#seta-definicao)"></polyline>
+<polyline class="aresta w-definicao" points="445.0,1420.0 445.0,1454.0 468.0,1454.0 468.0,1508.0" data-de="derivada" data-para="primitiva" marker-end="url(#seta-definicao)"></polyline>
+<polyline class="aresta w-definicao" points="482.0,1128.0 482.0,1181.5 405.0,1181.5 405.0,1245.0 405.0,1313.0 549.0,1313.0 549.0,1391.0 549.0,1459.0 780.0,1459.0 780.0,1537.0 780.0,1590.5 631.0,1590.5 631.0,1654.0" data-de="limite" data-para="integral" marker-end="url(#seta-definicao)"></polyline>
+<polyline class="aresta w-definicao" points="468.0,1566.0 468.0,1610.0 631.0,1610.0 631.0,1654.0" data-de="primitiva" data-para="integral" marker-end="url(#seta-definicao)"></polyline>
+<polyline class="aresta w-ordem" points="468.0,1566.0 468.0,1615.0 423.0,1615.0 423.0,1654.0" data-de="primitiva" data-para="tecnicas_int" marker-end="url(#seta-ordem)"></polyline>
+<polyline class="aresta w-definicao" points="124.0,1566.0 124.0,1620.0 423.0,1620.0 423.0,1654.0" data-de="regra_cadeia" data-para="tecnicas_int" marker-end="url(#seta-definicao)"></polyline>
+<polyline class="aresta w-ordem" points="631.0,1712.0 631.0,1771.0 814.5,1771.0 814.5,1800.0" data-de="integral" data-para="polares" marker-end="url(#seta-ordem)"></polyline>
+<polyline class="aresta w-definicao" points="560.5,836.0 560.5,879.5 509.0,879.5 509.0,953.0 509.0,1011.0 378.0,1011.0 378.0,1099.0 378.0,1157.0 428.0,1157.0 428.0,1245.0 428.0,1303.0 572.0,1303.0 572.0,1391.0 572.0,1449.0 803.0,1449.0 803.0,1537.0 803.0,1595.0 735.0,1595.0 735.0,1683.0 735.0,1726.5 814.5,1726.5 814.5,1800.0" data-de="trigonometria" data-para="polares" marker-end="url(#seta-definicao)"></polyline>
+<polyline class="aresta w-definicao" points="814.5,836.0 814.5,870.0 1039.0,870.0 1039.0,924.0" data-de="reais" data-para="coord_plano" marker-end="url(#seta-definicao)"></polyline>
+<polyline class="aresta w-definicao" points="1039.0,982.0 1039.0,1021.0 654.0,1021.0 654.0,1070.0" data-de="coord_plano" data-para="reta" marker-end="url(#seta-definicao)"></polyline>
+<polyline class="aresta w-ordem" points="814.5,690.0 814.5,748.5 710.5,748.5 710.5,807.0 710.5,880.0 740.0,880.0 740.0,953.0 740.0,1011.5 654.0,1011.5 654.0,1070.0" data-de="algebra_elem" data-para="reta" marker-end="url(#seta-ordem)"></polyline>
+<polyline class="aresta w-ordem" points="654.0,1128.0 654.0,1177.0 532.0,1177.0 532.0,1216.0" data-de="reta" data-para="conicas" marker-end="url(#seta-ordem)"></polyline>
+<polyline class="aresta w-ordem" points="1039.0,982.0 1039.0,1036.0 1034.0,1036.0 1034.0,1070.0" data-de="coord_plano" data-para="vetores" marker-end="url(#seta-ordem)"></polyline>
+<polyline class="aresta w-ordem" points="1039.0,982.0 1039.0,1041.0 1206.0,1041.0 1206.0,1070.0" data-de="coord_plano" data-para="coord_espaco" marker-end="url(#seta-ordem)"></polyline>
+<polyline class="aresta w-definicao" points="1206.0,1128.0 1206.0,1157.0 1351.0,1157.0 1351.0,1216.0" data-de="coord_espaco" data-para="plano_eq" marker-end="url(#seta-definicao)"></polyline>
+<polyline class="aresta w-definicao" points="1034.0,1128.0 1034.0,1162.0 1351.0,1162.0 1351.0,1216.0" data-de="vetores" data-para="plano_eq" marker-end="url(#seta-definicao)"></polyline>
+<polyline class="aresta w-ordem" points="1022.5,836.0 1022.5,875.0 867.0,875.0 867.0,924.0" data-de="sistemas" data-para="matrizes" marker-end="url(#seta-ordem)"></polyline>
+<polyline class="aresta w-ordem" points="814.5,690.0 814.5,734.0 1022.5,734.0 1022.5,778.0" data-de="algebra_elem" data-para="sistemas" marker-end="url(#seta-ordem)"></polyline>
+<polyline class="aresta w-definicao" points="867.0,982.0 867.0,1031.0 826.0,1031.0 826.0,1070.0" data-de="matrizes" data-para="determinante" marker-end="url(#seta-definicao)"></polyline>
+<polyline class="aresta w-ordem" points="1034.0,1128.0 1034.0,1182.0 971.0,1182.0 971.0,1216.0" data-de="vetores" data-para="esp_vetorial" marker-end="url(#seta-ordem)"></polyline>
+<polyline class="aresta w-definicao" points="971.0,1274.0 971.0,1333.0 1102.0,1333.0 1102.0,1362.0" data-de="esp_vetorial" data-para="base_dim" marker-end="url(#seta-definicao)"></polyline>
+<polyline class="aresta w-definicao" points="971.0,1274.0 971.0,1317.5 1206.0,1317.5 1206.0,1391.0 1206.0,1434.5 1297.0,1434.5 1297.0,1508.0" data-de="esp_vetorial" data-para="transf_lin" marker-end="url(#seta-definicao)"></polyline>
+<polyline class="aresta w-definicao" points="867.0,982.0 867.0,1030.5 930.0,1030.5 930.0,1099.0 930.0,1162.0 867.0,1162.0 867.0,1245.0 867.0,1308.0 826.0,1308.0 826.0,1391.0 826.0,1439.5 1297.0,1439.5 1297.0,1508.0" data-de="matrizes" data-para="transf_lin" marker-end="url(#seta-definicao)"></polyline>
+<polyline class="aresta w-definicao" points="1102.0,1420.0 1102.0,1459.0 1297.0,1459.0 1297.0,1508.0" data-de="base_dim" data-para="transf_lin" marker-end="url(#seta-definicao)"></polyline>
+<polyline class="aresta w-definicao" points="1034.0,1128.0 1034.0,1172.0 1143.0,1172.0 1143.0,1216.0" data-de="vetores" data-para="prod_interno" marker-end="url(#seta-definicao)"></polyline>
+<polyline class="aresta w-definicao" points="1297.0,1566.0 1297.0,1615.0 862.0,1615.0 862.0,1654.0" data-de="transf_lin" data-para="autovalores" marker-end="url(#seta-definicao)"></polyline>
+<polyline class="aresta w-definicao" points="826.0,1128.0 826.0,1196.5 636.0,1196.5 636.0,1245.0 636.0,1328.0 618.0,1328.0 618.0,1391.0 618.0,1474.0 849.0,1474.0 849.0,1537.0 849.0,1605.5 862.0,1605.5 862.0,1654.0" data-de="determinante" data-para="autovalores" marker-end="url(#seta-definicao)"></polyline>
+<polyline class="aresta w-ordem" points="532.0,1274.0 532.0,1347.5 595.0,1347.5 595.0,1391.0 595.0,1479.0 826.0,1479.0 826.0,1537.0 826.0,1625.0 758.0,1625.0 758.0,1683.0 758.0,1756.5 986.5,1756.5 986.5,1800.0" data-de="conicas" data-para="formas_quad" marker-end="url(#seta-ordem)"></polyline>
+<polyline class="aresta w-definicao" points="862.0,1712.0 862.0,1741.0 986.5,1741.0 986.5,1800.0" data-de="autovalores" data-para="formas_quad" marker-end="url(#seta-definicao)"></polyline>
+<polyline class="aresta w-fronteira" points="445.0,1420.0 445.0,1454.0 1505.0,1454.0 1505.0,1508.0" data-de="derivada" data-para="varias_var" marker-end="url(#seta-fronteira)"></polyline>
+<polyline class="aresta w-fronteira" points="1034.0,1128.0 1034.0,1181.5 1247.0,1181.5 1247.0,1245.0 1247.0,1313.0 1252.0,1313.0 1252.0,1391.0 1252.0,1444.5 1505.0,1444.5 1505.0,1508.0" data-de="vetores" data-para="varias_var" marker-end="url(#seta-fronteira)"></polyline>
+<polyline class="aresta w-fronteira" points="631.0,1712.0 631.0,1756.0 642.5,1756.0 642.5,1800.0" data-de="integral" data-para="edo" marker-end="url(#seta-fronteira)"></polyline>
+<polyline class="aresta w-fronteira" points="445.0,1420.0 445.0,1483.5 572.0,1483.5 572.0,1537.0 572.0,1615.0 527.0,1615.0 527.0,1683.0 527.0,1746.5 642.5,1746.5 642.5,1800.0" data-de="derivada" data-para="edo" marker-end="url(#seta-fronteira)"></polyline>
+<polyline class="aresta w-fronteira" points="482.0,1128.0 482.0,1196.5 844.0,1196.5 844.0,1245.0 844.0,1313.5 722.0,1313.5 722.0,1362.0" data-de="limite" data-para="analise_real" marker-end="url(#seta-fronteira)"></polyline>
+<polyline class="aresta w-fronteira" points="740.0,1274.0 740.0,1333.0 722.0,1333.0 722.0,1362.0" data-de="sequencias" data-para="analise_real" marker-end="url(#seta-fronteira)"></polyline>
+<polyline class="aresta w-fronteira" points="971.0,1274.0 971.0,1303.0 930.0,1303.0 930.0,1362.0" data-de="esp_vetorial" data-para="algebra_abs" marker-end="url(#seta-fronteira)"></polyline>
+<polyline class="aresta w-fronteira" points="722.0,1420.0 722.0,1454.0 953.0,1454.0 953.0,1508.0" data-de="analise_real" data-para="topologia" marker-end="url(#seta-fronteira)"></polyline>
+<polyline class="aresta w-fronteira" points="722.0,1420.0 722.0,1459.0 1125.0,1459.0 1125.0,1508.0" data-de="analise_real" data-para="medida" marker-end="url(#seta-fronteira)"></polyline>
+<polyline class="aresta w-fronteira" points="1505.0,1566.0 1505.0,1610.0 1206.0,1610.0 1206.0,1654.0" data-de="varias_var" data-para="geom_dif" marker-end="url(#seta-fronteira)"></polyline>
+<polyline class="aresta w-fronteira" points="1297.0,1566.0 1297.0,1615.0 1206.0,1615.0 1206.0,1654.0" data-de="transf_lin" data-para="geom_dif" marker-end="url(#seta-fronteira)"></polyline>
+<polyline class="aresta w-fronteira" points="953.0,1566.0 953.0,1620.0 1034.0,1620.0 1034.0,1654.0" data-de="topologia" data-para="analise_func" marker-end="url(#seta-fronteira)"></polyline>
+<polyline class="aresta w-fronteira" points="1125.0,1566.0 1125.0,1625.0 1034.0,1625.0 1034.0,1654.0" data-de="medida" data-para="analise_func" marker-end="url(#seta-fronteira)"></polyline>
+<polyline class="aresta w-fronteira" points="971.0,1274.0 971.0,1317.5 1229.0,1317.5 1229.0,1391.0 1229.0,1449.0 1401.0,1449.0 1401.0,1537.0 1401.0,1580.5 1034.0,1580.5 1034.0,1654.0" data-de="esp_vetorial" data-para="analise_func" marker-end="url(#seta-fronteira)"></polyline>
+<g class="no ramo-base dom-base" data-id="aritmetica" data-dom="base" transform="translate(727.0,340.0)"><rect width="152" height="58" rx="8"></rect><text x="76.0" y="26.5">Arithmetic</text><text x="76.0" y="41.5">and operations</text></g>
+<g class="no ramo-base dom-base" data-id="conjuntos" data-dom="base" transform="translate(652.5,48.0)"><rect width="152" height="58" rx="29.0" ry="29.0"></rect><text x="76.0" y="34.0">Sets</text></g>
+<g class="no ramo-base dom-base" data-id="conj_num" data-dom="base" transform="translate(498.5,194.0)"><rect width="152" height="58" rx="8"></rect><text x="76.0" y="26.5">Sets</text><text x="76.0" y="41.5">Numerical</text></g>
+<g class="no ramo-base dom-base" data-id="contagem" data-dom="base" transform="translate(842.5,194.0)"><rect width="152" height="58" rx="8"></rect><text x="76.0" y="26.5">Problems</text><text x="76.0" y="41.5">of counting</text></g>
+<g class="no ramo-base dom-base" data-id="relacoes" data-dom="base" transform="translate(670.5,194.0)"><rect width="152" height="58" rx="8"></rect><text x="76.0" y="26.5">Relations</text><text x="76.0" y="41.5">and the ordered pair</text></g>
+<g class="no ramo-base dom-base" data-id="geom_plana" data-dom="base" transform="translate(824.5,48.0)"><rect width="152" height="58" rx="29.0" ry="29.0"></rect><text x="76.0" y="26.5">Geometry</text><text x="76.0" y="41.5">planar</text></g>
+<g class="no ramo-base dom-base" data-id="geom_espacial" data-dom="base" transform="translate(1014.5,194.0)"><rect width="152" height="58" rx="8"></rect><text x="76.0" y="26.5">Geometry</text><text x="76.0" y="41.5">spatial</text></g>
+<g class="no ramo-base dom-base" data-id="operacoes" data-dom="base" transform="translate(715.5,486.0)"><rect width="152" height="58" rx="8"></rect><text x="76.0" y="26.5">Sum and product</text><text x="76.0" y="41.5">and their inverses</text></g>
+<g class="no ramo-base dom-base" data-id="fracoes" data-dom="base" transform="translate(507.5,486.0)"><rect width="152" height="58" rx="8"></rect><text x="76.0" y="26.5">Fractions</text><text x="76.0" y="41.5">and proportion</text></g>
+<g class="no ramo-base dom-base" data-id="potencias" data-dom="base" transform="translate(299.5,486.0)"><rect width="152" height="58" rx="8"></rect><text x="76.0" y="26.5">Power, root</text><text x="76.0" y="41.5">and logarithm</text></g>
+<g class="no ramo-base dom-base" data-id="negativos" data-dom="base" transform="translate(1095.5,486.0)"><rect width="152" height="58" rx="8"></rect><text x="76.0" y="26.5">Negatives</text><text x="76.0" y="41.5">and the line</text></g>
+<g class="no ramo-base dom-base" data-id="fatoracao" data-dom="base" transform="translate(887.5,486.0)"><rect width="152" height="58" rx="8"></rect><text x="76.0" y="26.5">Divisibility</text><text x="76.0" y="41.5">and factoring</text></g>
+<g class="no ramo-base dom-base" data-id="algebra_elem" data-dom="base" transform="translate(738.5,632.0)"><rect width="152" height="58" rx="8"></rect><text x="76.0" y="26.5">Algebra</text><text x="76.0" y="41.5">elementary</text></g>
+<g class="no ramo-base dom-base" data-id="trigonometria" data-dom="base" transform="translate(484.5,778.0)"><rect width="152" height="58" rx="8"></rect><text x="76.0" y="34.0">Trigonometry</text></g>
+<g class="no ramo-base dom-base" data-id="reais" data-dom="base" transform="translate(738.5,778.0)"><rect width="152" height="58" rx="8"></rect><text x="76.0" y="34.0">Real Numbers</text></g>
+<g class="no ramo-base dom-base" data-id="funcoes" data-dom="base" transform="translate(537.0,924.0)"><rect width="152" height="58" rx="8"></rect><text x="76.0" y="34.0">Functions</text></g>
+<g class="no ramo-calculo dom-calculo" data-id="limite" data-dom="calculo" transform="translate(406.0,1070.0)"><rect width="152" height="58" rx="29.0" ry="29.0"></rect><g class="badge badge-calculo"><circle cx="141.5" cy="10.5" r="8.5"></circle><text x="141.5" y="14.1" text-anchor="middle">C</text></g><text x="76.0" y="26.5">Limit</text><text x="76.0" y="41.5">and continuity</text></g>
+<g class="no ramo-calculo dom-calculo" data-id="sequencias" data-dom="calculo" transform="translate(664.0,1216.0)"><rect width="152" height="58" rx="29.0" ry="29.0"></rect><g class="badge badge-calculo"><circle cx="141.5" cy="10.5" r="8.5"></circle><text x="141.5" y="14.1" text-anchor="middle">C</text></g><text x="76.0" y="34.0">Sequences</text></g>
+<g class="no ramo-calculo dom-calculo" data-id="exp_log" data-dom="calculo" transform="translate(202.0,1216.0)"><rect width="152" height="58" rx="29.0" ry="29.0"></rect><g class="badge badge-calculo"><circle cx="141.5" cy="10.5" r="8.5"></circle><text x="141.5" y="14.1" text-anchor="middle">C</text></g><text x="76.0" y="26.5">Exponential</text><text x="76.0" y="41.5">and logarithm</text></g>
+<g class="no ramo-calculo dom-calculo" data-id="derivada" data-dom="calculo" transform="translate(369.0,1362.0)"><rect width="152" height="58" rx="29.0" ry="29.0"></rect><g class="badge badge-calculo"><circle cx="141.5" cy="10.5" r="8.5"></circle><text x="141.5" y="14.1" text-anchor="middle">C</text></g><text x="76.0" y="34.0">Derivative</text></g>
+<g class="no ramo-calculo dom-calculo" data-id="regra_cadeia" data-dom="calculo" transform="translate(48.0,1508.0)"><rect width="152" height="58" rx="29.0" ry="29.0"></rect><g class="badge badge-calculo"><circle cx="141.5" cy="10.5" r="8.5"></circle><text x="141.5" y="14.1" text-anchor="middle">C</text></g><text x="76.0" y="34.0">Chain Rule</text></g>
+<g class="no ramo-calculo dom-calculo" data-id="inversa" data-dom="calculo" transform="translate(220.0,1508.0)"><rect width="152" height="58" rx="29.0" ry="29.0"></rect><g class="badge badge-calculo"><circle cx="141.5" cy="10.5" r="8.5"></circle><text x="141.5" y="14.1" text-anchor="middle">C</text></g><text x="76.0" y="34.0">Inverse Functions</text></g>
+<g class="no ramo-calculo dom-calculo" data-id="variacao" data-dom="calculo" transform="translate(600.0,1508.0)"><rect width="152" height="58" rx="29.0" ry="29.0"></rect><g class="badge badge-calculo"><circle cx="141.5" cy="10.5" r="8.5"></circle><text x="141.5" y="14.1" text-anchor="middle">C</text></g><text x="76.0" y="26.5">Study of variation</text><text x="76.0" y="41.5">(TVM)</text></g>
+<g class="no ramo-calculo dom-calculo" data-id="primitiva" data-dom="calculo" transform="translate(392.0,1508.0)"><rect width="152" height="58" rx="29.0" ry="29.0"></rect><g class="badge badge-calculo"><circle cx="141.5" cy="10.5" r="8.5"></circle><text x="141.5" y="14.1" text-anchor="middle">C</text></g><text x="76.0" y="34.0">Primitives</text></g>
+<g class="no ramo-calculo dom-calculo" data-id="integral" data-dom="calculo" transform="translate(555.0,1654.0)"><rect width="152" height="58" rx="29.0" ry="29.0"></rect><g class="badge badge-calculo"><circle cx="141.5" cy="10.5" r="8.5"></circle><text x="141.5" y="14.1" text-anchor="middle">C</text></g><text x="76.0" y="26.5">Integral</text><text x="76.0" y="41.5">of Riemann</text></g>
+<g class="no ramo-calculo dom-calculo" data-id="tecnicas_int" data-dom="calculo" transform="translate(347.0,1654.0)"><rect width="152" height="58" rx="29.0" ry="29.0"></rect><g class="badge badge-calculo"><circle cx="141.5" cy="10.5" r="8.5"></circle><text x="141.5" y="14.1" text-anchor="middle">C</text></g><text x="76.0" y="26.5">Techniques</text><text x="76.0" y="41.5">of antiderivatives</text></g>
+<g class="no ramo-calculo dom-calculo" data-id="polares" data-dom="calculo" transform="translate(738.5,1800.0)"><rect width="152" height="58" rx="29.0" ry="29.0"></rect><g class="badge badge-calculo"><circle cx="141.5" cy="10.5" r="8.5"></circle><text x="141.5" y="14.1" text-anchor="middle">C</text></g><text x="76.0" y="26.5">Polar coordinates</text><text x="76.0" y="41.5">and applications</text></g>
+<g class="no ramo-geometria dom-algebra na-regiao" data-id="coord_plano" data-dom="algebra" transform="translate(963.0,924.0)"><polygon points="15,0 137,0 152,29.0 137,58 15,58 0,29.0"></polygon><g class="regiao-geo" transform="translate(5,5)"><polygon points="12,0 130,0 142,24.0 130,48 12,48 0,24.0"></polygon></g><g class="badge badge-algebra"><circle cx="141.5" cy="10.5" r="8.5"></circle><text x="141.5" y="14.1" text-anchor="middle">L</text></g><text x="76.0" y="26.5">Coordinates</text><text x="76.0" y="41.5">in the plane</text></g>
+<g class="no ramo-geometria dom-algebra na-regiao" data-id="reta" data-dom="algebra" transform="translate(578.0,1070.0)"><polygon points="15,0 137,0 152,29.0 137,58 15,58 0,29.0"></polygon><g class="regiao-geo" transform="translate(5,5)"><polygon points="12,0 130,0 142,24.0 130,48 12,48 0,24.0"></polygon></g><g class="badge badge-algebra"><circle cx="141.5" cy="10.5" r="8.5"></circle><text x="141.5" y="14.1" text-anchor="middle">L</text></g><text x="76.0" y="34.0">Equations of the line</text></g>
+<g class="no ramo-geometria dom-algebra na-regiao" data-id="conicas" data-dom="algebra" transform="translate(456.0,1216.0)"><polygon points="15,0 137,0 152,29.0 137,58 15,58 0,29.0"></polygon><g class="regiao-geo" transform="translate(5,5)"><polygon points="12,0 130,0 142,24.0 130,48 12,48 0,24.0"></polygon></g><g class="badge badge-algebra"><circle cx="141.5" cy="10.5" r="8.5"></circle><text x="141.5" y="14.1" text-anchor="middle">L</text></g><text x="76.0" y="34.0">Conics</text></g>
+<g class="no ramo-geometria dom-algebra na-regiao" data-id="coord_espaco" data-dom="algebra" transform="translate(1130.0,1070.0)"><polygon points="15,0 137,0 152,29.0 137,58 15,58 0,29.0"></polygon><g class="regiao-geo" transform="translate(5,5)"><polygon points="12,0 130,0 142,24.0 130,48 12,48 0,24.0"></polygon></g><g class="badge badge-algebra"><circle cx="141.5" cy="10.5" r="8.5"></circle><text x="141.5" y="14.1" text-anchor="middle">L</text></g><text x="76.0" y="26.5">Coordinates</text><text x="76.0" y="41.5">Space</text></g>
+<g class="no ramo-geometria dom-algebra na-regiao" data-id="vetores" data-dom="algebra" transform="translate(958.0,1070.0)"><polygon points="15,0 137,0 152,29.0 137,58 15,58 0,29.0"></polygon><g class="regiao-geo" transform="translate(5,5)"><polygon points="12,0 130,0 142,24.0 130,48 12,48 0,24.0"></polygon></g><g class="badge badge-algebra"><circle cx="141.5" cy="10.5" r="8.5"></circle><text x="141.5" y="14.1" text-anchor="middle">L</text></g><text x="76.0" y="34.0">Vectors</text></g>
+<g class="no ramo-geometria dom-algebra na-regiao" data-id="plano_eq" data-dom="algebra" transform="translate(1275.0,1216.0)"><polygon points="15,0 137,0 152,29.0 137,58 15,58 0,29.0"></polygon><g class="regiao-geo" transform="translate(5,5)"><polygon points="12,0 130,0 142,24.0 130,48 12,48 0,24.0"></polygon></g><g class="badge badge-algebra"><circle cx="141.5" cy="10.5" r="8.5"></circle><text x="141.5" y="14.1" text-anchor="middle">L</text></g><text x="76.0" y="34.0">Equation of the plane</text></g>
+<g class="no ramo-algebra dom-algebra" data-id="matrizes" data-dom="algebra" transform="translate(791.0,924.0)"><polygon points="15,0 137,0 152,29.0 137,58 15,58 0,29.0"></polygon><g class="badge badge-algebra"><circle cx="141.5" cy="10.5" r="8.5"></circle><text x="141.5" y="14.1" text-anchor="middle">L</text></g><text x="76.0" y="34.0">Matrices</text></g>
+<g class="no ramo-algebra dom-algebra" data-id="sistemas" data-dom="algebra" transform="translate(946.5,778.0)"><polygon points="15,0 137,0 152,29.0 137,58 15,58 0,29.0"></polygon><g class="badge badge-algebra"><circle cx="141.5" cy="10.5" r="8.5"></circle><text x="141.5" y="14.1" text-anchor="middle">L</text></g><text x="76.0" y="34.0">Linear systems</text></g>
+<g class="no ramo-algebra dom-algebra" data-id="determinante" data-dom="algebra" transform="translate(750.0,1070.0)"><polygon points="15,0 137,0 152,29.0 137,58 15,58 0,29.0"></polygon><g class="badge badge-algebra"><circle cx="141.5" cy="10.5" r="8.5"></circle><text x="141.5" y="14.1" text-anchor="middle">L</text></g><text x="76.0" y="34.0">Determinants</text></g>
+<g class="no ramo-algebra dom-algebra" data-id="esp_vetorial" data-dom="algebra" transform="translate(895.0,1216.0)"><polygon points="15,0 137,0 152,29.0 137,58 15,58 0,29.0"></polygon><g class="badge badge-algebra"><circle cx="141.5" cy="10.5" r="8.5"></circle><text x="141.5" y="14.1" text-anchor="middle">L</text></g><text x="76.0" y="34.0">vector spaces</text></g>
+<g class="no ramo-algebra dom-algebra" data-id="base_dim" data-dom="algebra" transform="translate(1026.0,1362.0)"><polygon points="15,0 137,0 152,29.0 137,58 15,58 0,29.0"></polygon><g class="badge badge-algebra"><circle cx="141.5" cy="10.5" r="8.5"></circle><text x="141.5" y="14.1" text-anchor="middle">L</text></g><text x="76.0" y="34.0">Base and dimension</text></g>
+<g class="no ramo-algebra dom-algebra" data-id="transf_lin" data-dom="algebra" transform="translate(1221.0,1508.0)"><polygon points="15,0 137,0 152,29.0 137,58 15,58 0,29.0"></polygon><g class="badge badge-algebra"><circle cx="141.5" cy="10.5" r="8.5"></circle><text x="141.5" y="14.1" text-anchor="middle">L</text></g><text x="76.0" y="26.5">Transformations</text><text x="76.0" y="41.5">linear</text></g>
+<g class="no ramo-algebra dom-algebra na-regiao" data-id="prod_interno" data-dom="algebra" transform="translate(1067.0,1216.0)"><polygon points="15,0 137,0 152,29.0 137,58 15,58 0,29.0"></polygon><g class="regiao-geo" transform="translate(5,5)"><polygon points="12,0 130,0 142,24.0 130,48 12,48 0,24.0"></polygon></g><g class="badge badge-algebra"><circle cx="141.5" cy="10.5" r="8.5"></circle><text x="141.5" y="14.1" text-anchor="middle">L</text></g><text x="76.0" y="34.0">Dot product</text></g>
+<g class="no ramo-algebra dom-algebra" data-id="autovalores" data-dom="algebra" transform="translate(786.0,1654.0)"><polygon points="15,0 137,0 152,29.0 137,58 15,58 0,29.0"></polygon><g class="badge badge-algebra"><circle cx="141.5" cy="10.5" r="8.5"></circle><text x="141.5" y="14.1" text-anchor="middle">L</text></g><text x="76.0" y="26.5">Eigenvalues</text><text x="76.0" y="41.5">and eigenvectors</text></g>
+<g class="no ramo-algebra dom-algebra na-regiao" data-id="formas_quad" data-dom="algebra" transform="translate(910.5,1800.0)"><polygon points="15,0 137,0 152,29.0 137,58 15,58 0,29.0"></polygon><g class="regiao-geo" transform="translate(5,5)"><polygon points="12,0 130,0 142,24.0 130,48 12,48 0,24.0"></polygon></g><g class="badge badge-algebra"><circle cx="141.5" cy="10.5" r="8.5"></circle><text x="141.5" y="14.1" text-anchor="middle">L</text></g><text x="76.0" y="26.5">Quadratic forms</text><text x="76.0" y="41.5">and quadratics</text></g>
+<g class="no ramo-fronteira dom-calculo" data-id="varias_var" data-dom="calculo" transform="translate(1429.0,1508.0)"><rect width="152" height="58" rx="29.0" ry="29.0"></rect><g class="badge badge-calculo"><circle cx="141.5" cy="10.5" r="8.5"></circle><text x="141.5" y="14.1" text-anchor="middle">C</text></g><text x="76.0" y="26.5">Calculus of</text><text x="76.0" y="41.5">multiple variables</text></g>
+<g class="no ramo-fronteira dom-calculo" data-id="edo" data-dom="calculo" transform="translate(566.5,1800.0)"><rect width="152" height="58" rx="29.0" ry="29.0"></rect><g class="badge badge-calculo"><circle cx="141.5" cy="10.5" r="8.5"></circle><text x="141.5" y="14.1" text-anchor="middle">C</text></g><text x="76.0" y="26.5">Equations</text><text x="76.0" y="41.5">differentials</text></g>
+<g class="no ramo-fronteira dom-calculo" data-id="analise_real" data-dom="calculo" transform="translate(646.0,1362.0)"><rect width="152" height="58" rx="29.0" ry="29.0"></rect><g class="badge badge-calculo"><circle cx="141.5" cy="10.5" r="8.5"></circle><text x="141.5" y="14.1" text-anchor="middle">C</text></g><text x="76.0" y="34.0">Real Analysis</text></g>
+<g class="no ramo-fronteira dom-algebra" data-id="algebra_abs" data-dom="algebra" transform="translate(854.0,1362.0)"><polygon points="15,0 137,0 152,29.0 137,58 15,58 0,29.0"></polygon><g class="badge badge-algebra"><circle cx="141.5" cy="10.5" r="8.5"></circle><text x="141.5" y="14.1" text-anchor="middle">L</text></g><text x="76.0" y="34.0">abstract algebra</text></g>
+<g class="no ramo-fronteira dom-algebra-calculo" data-id="topologia" data-dom="algebra-calculo" transform="translate(877.0,1508.0)"><polygon points="11,0 141,0 152,11 152,47 141,58 11,58 0,47 0,11"></polygon><g class="badge badge-algebra"><circle cx="141.5" cy="10.5" r="8.5"></circle><text x="141.5" y="14.1" text-anchor="middle">L</text></g><g class="badge badge-calculo"><circle cx="141.5" cy="30.5" r="8.5"></circle><text x="141.5" y="34.1" text-anchor="middle">C</text></g><text x="76.0" y="34.0">Topology</text></g>
+<g class="no ramo-fronteira dom-calculo" data-id="medida" data-dom="calculo" transform="translate(1049.0,1508.0)"><rect width="152" height="58" rx="29.0" ry="29.0"></rect><g class="badge badge-calculo"><circle cx="141.5" cy="10.5" r="8.5"></circle><text x="141.5" y="14.1" text-anchor="middle">C</text></g><text x="76.0" y="26.5">Measure</text><text x="76.0" y="41.5">and integration</text></g>
+<g class="no ramo-fronteira dom-algebra-calculo na-regiao" data-id="geom_dif" data-dom="algebra-calculo" transform="translate(1130.0,1654.0)"><polygon points="11,0 141,0 152,11 152,47 141,58 11,58 0,47 0,11"></polygon><g class="regiao-geo" transform="translate(5,5)"><polygon points="8,0 134,0 142,8 142,40 134,48 8,48 0,40 0,8"></polygon></g><g class="badge badge-algebra"><circle cx="141.5" cy="10.5" r="8.5"></circle><text x="141.5" y="14.1" text-anchor="middle">L</text></g><g class="badge badge-calculo"><circle cx="141.5" cy="30.5" r="8.5"></circle><text x="141.5" y="34.1" text-anchor="middle">C</text></g><text x="76.0" y="26.5">Geometry</text><text x="76.0" y="41.5">differential</text></g>
+<g class="no ramo-fronteira dom-algebra-calculo" data-id="analise_func" data-dom="algebra-calculo" transform="translate(958.0,1654.0)"><polygon points="11,0 141,0 152,11 152,47 141,58 11,58 0,47 0,11"></polygon><g class="badge badge-algebra"><circle cx="141.5" cy="10.5" r="8.5"></circle><text x="141.5" y="14.1" text-anchor="middle">L</text></g><g class="badge badge-calculo"><circle cx="141.5" cy="30.5" r="8.5"></circle><text x="141.5" y="34.1" text-anchor="middle">C</text></g><text x="76.0" y="34.0">Functional Analysis</text></g>
+    </svg>
+  </div>
+  <section id="propriedades">
+    <button id="ao-mapa" type="button">↑ return to the map</button>
+    <div id="painel">
+      <div class="vazio">No subject selected.<br><br>  
+        Click a box on the map — or search by name — to see what it is,  
+        why it exists, where it appears in the world, where it is usually engaged, and  
+        <b>where each arrow comes from</b>.</div>
+    </div>
+  </section>
+
+  <aside>
+    <div class="rgb">
+      <!-- 2026-08-24: círculos MAIORES (r 42 -> 56) e o rótulo no CENTRO de
+           cada um. Os centros ficam na zona PURA — a distância entre dois
+           centros (66 e 68) é maior que o raio, então nenhum rótulo cai sobre
+           cor misturada, que é o que faria o nome mentir sobre a cor. -->
+      <!-- 2026-08-25: eram três círculos que se cruzavam, em soma de luz. A
+           orientação desta data desfez o terceiro tronco, e o desenho passou a
+           dizer o que a matemática diz: a geometria analítica está DENTRO da
+           álgebra linear — é a região dela onde há produto interno. Círculo
+           dentro de círculo, não interseção. -->
+      <svg width="252" height="186" viewBox="0 0 252 186" aria-label="os dois troncos, e a geometria analítica contida na álgebra linear">
+        <circle cx="126" cy="52"  r="46" fill="#f44e3e"></circle>
+        <circle cx="126" cy="126" r="56" fill="#3ac848"></circle>
+        <circle cx="126" cy="140" r="34" fill="none" stroke="#78c4ff"
+                stroke-width="2.2" stroke-dasharray="3 3"></circle>
+        <text x="126" y="46" fill="#fff" font-size="11" font-weight="600"
+              text-anchor="middle" dominant-baseline="central"
+              font-family="Inter,sans-serif"
+              style="paint-order:stroke;stroke:#0a1424;stroke-width:2.5px">CALCULUS</text>
+        <text x="126" y="100" fill="#fff" font-size="11" font-weight="600"
+              text-anchor="middle" dominant-baseline="central"
+              font-family="Inter,sans-serif"
+              style="paint-order:stroke;stroke:#0a1424;stroke-width:2.5px">LINEAR ALGEBRA</text>
+        <text x="126" y="140" fill="#fff" font-size="10" font-weight="600"
+              text-anchor="middle" dominant-baseline="central"
+              font-family="Inter,sans-serif"
+              style="paint-order:stroke;stroke:#0a1424;stroke-width:2.5px">ANALYTIC GEOMETRY</text>
+      </svg>
+      <div class="cap"><b>Linear algebra speaks of what is preserved</b> — sum and  
+        scale, exactly, throughout the domain; <b>calculus</b>, of what happens  
+        <b>near a point</b>. In the order of study, neither requires the other, and that is why the series is a tree, and not a line.<br><br>  
+        Independent of <b>order</b>, not of nature: the derivative is itself a  
+        linear operator, and differentiating is finding the best linear approximation near the point. In multiple variables, the derivative becomes a <b>matrix</b> and the two merge — and that is where the geometry of the image resides.<br><br>  
+        And analytic geometry is <b>within</b>  
+        linear algebra — it is the region of it where there is a <b>dot product</b>,  
+        which gives distance and angle, and therefore shape.<br>  
+        In <b>any</b> dimension: the limit of three is for illustration, which needs  
+        to fit on paper, never the structure.</div>
+    </div>
+    <div class="formas">
+      <svg width="46" height="24"><rect x="1" y="1" width="44" height="22" rx="11" ry="11"
+        fill="none" stroke="#f44e3e" stroke-width="2.6"></rect></svg><span><b>Calculus</b> — rounded sides</span><svg width="46" height="24"><polygon points="8,1 38,1 45,12 38,23 8,23 1,12"
+        fill="none" stroke="#3ac848" stroke-width="2.6"></polygon></svg><span><b>Linear Algebra</b> — hexagon</span><svg width="46" height="24"><polygon points="8,1 38,1 45,12 38,23 8,23 1,12"
+        fill="none" stroke="#3ac848" stroke-width="2.6"></polygon><polygon
+        points="12,5 34,5 39,12 34,19 12,19 5,12"
+        fill="none" stroke="#78c4ff" stroke-width="1.5"></polygon></svg><span><b>Analytic Geometry</b> — double outline: it is <b>inside</b> linear algebra</span><svg width="46" height="24"><polygon points="7,1 39,1 45,6 45,18 39,23 7,23 1,18 1,6"
+        fill="none" stroke="#f8d66a" stroke-width="2.6"></polygon></svg><span><b>Two trunks</b> — beveled corners, color added</span><svg width="46" height="24"><rect x="1" y="1" width="44" height="22" rx="6"
+        fill="none" stroke="#c9a266" stroke-width="2.6"></rect></svg><span><b>The base</b> — prior to the two, and therefore <b>without a mark</b></span><svg width="46" height="24"><circle cx="13" cy="12" r="8.5" fill="#f44e3e"></circle>
+        <text x="13" y="15.6" text-anchor="middle" font-size="11" font-weight="700"
+          font-family="Inter,sans-serif" fill="#0a1424">C</text>
+        <circle cx="33" cy="12" r="8.5" fill="#3ac848"></circle>
+        <text x="33" y="15.6" text-anchor="middle" font-size="11" font-weight="700"
+          font-family="Inter,sans-serif" fill="#0a1424">L</text></svg><span><b>The corner mark</b> — <b>C</b> for constant, <b>L</b> for linear: the material indicates which trunk it belongs to without depending on the color</span></div>
+  </aside>
+</main>
+
+<footer><span>50 topics · 78 dependencies · 13 layers</span>  
+  <span>edge crossings: <b>102 → 41</b> (§1.1 of the diagram standard)</span>  
+  <span>solid arrow = definition · weak = book order · dashed = academic orientation · dotted = no work in the collection</span>  
+  <span class="licenca">© 2026 Mateus Alkimim · content under <a href="https://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a> · code under MIT</span></footer>
+
+<script>
+const D = {"entries": {"formas_quad": {"o_que_e": "Expressions or surfaces defined by polynomial equations of degree two.", "por_que_existe": "To describe and solve geometric and physical problems involving second-order curves and surfaces, such as projectile trajectories or the shapes of objects.", "onde_aparece": "In eyeglass design, where lenses are often shaped quadratically to correct vision.", "onde_se_trava": "Confusing the properties of quadratic forms in different dimensions, such as directly applying concepts of conics to three-dimensional surfaces.", "procedencia": {"model": "phi-4", "where": "local (Delphi)", "data": "2026-08-25", "revisado_por_humano": false, "onde_aparece_suspeito": false, "suspect": ""}}, "aritmetica": {"o_que_e": "Arithmetic is the study of numbers and basic operations such as counting, adding, and multiplying.", "por_que_existe": "Arised from the need to quantify and manipulate numbers to solve everyday problems, such as counting objects and calculating trade exchanges.", "onde_aparece": "Arithmetic is present in banking services, where bills and interest are calculated, and in spreadsheets that sum columns of data.", "onde_se_trava": "A common error is confusing inverse operations, such as thinking that subtracting is not the same as adding the opposite.", "procedencia": {"model": "phi-4", "where": "local (Delphi)", "data": "2026-08-25", "revisado_por_humano": false, "onde_aparece_suspeito": false, "suspect": ""}}, "conjuntos": {"o_que_e": "Sets are collections of objects, called elements, that can be grouped and manipulated according to specific rules.", "por_que_existe": "Before the formalization of sets, there was no rigorous way to discuss groupings of objects and their properties, which was necessary for the development of modern mathematics.", "onde_aparece": "Sets are used in banks to organize categories of customers and in recommendation systems to group similar products.", "onde_se_trava": "A common error is to confuse the membership of an element in a set with the equality between sets, not realizing that two sets can be different even if they contain the same elements.", "procedencia": {"model": "phi-4", "where": "local (Delphi)", "data": "2026-08-25", "revisado_por_humano": false, "onde_aparece_suspeito": false, "suspect": ""}}, "conj_num": {"o_que_e": "Number sets are groupings of numbers that follow specific rules, such as the naturals, integers, rationals, and reals, each expanding the previous one to address limitations.", "por_que_existe": "They emerged to solve problems that simpler numbers couldn't, such as representing the opposite (integers), the inverse (rationals), and closing gaps (reals).", "onde_aparece": "In banking systems, when calculating compound interest, where numerical precision of real numbers is essential to avoid financial errors.", "onde_se_trava": "Students often confuse the inclusion of one set within another, not realizing that, for example, all integers are rational, but not all rationals are integers.", "procedencia": {"model": "phi-4", "where": "local (Delphi)", "data": "2026-08-25", "revisado_por_humano": false, "onde_aparece_suspeito": false, "suspect": ""}}, "contagem": {"o_que_e": "Study of methods for counting elements in sets without explicitly enumerating them.", "por_que_existe": "To solve problems involving the organization and combination of objects, such as distributing prizes or arranging people in lines.", "onde_aparece": "In card games, where you calculate the possibilities of forming specific hands.", "onde_se_trava": "Confusing the order of elements as irrelevant in situations where it is crucial, such as in the formation of words.", "procedencia": {"model": "phi-4", "where": "local (Delphi)", "data": "2026-08-25", "revisado_por_humano": false, "onde_aparece_suspeito": false, "suspect": ""}}, "relacoes": {"o_que_e": "An ordered pair is a sequence of two elements, where the order matters, forming a link between elements of two sets.", "por_que_existe": "Before the concept of an ordered pair, there was no structured way to associate elements of two sets in a way that order was significant, essential for the definition of functions and coordinates.", "onde_aparece": "In geographic coordinate systems, where latitude and longitude form an ordered pair to locate points on the globe.", "onde_se_trava": "Students often confuse the importance of order, treating (a, b) as equal to (b, a), which is not true.", "procedencia": {"model": "phi-4", "where": "local (Delphi)", "data": "2026-08-25", "revisado_por_humano": false, "onde_aparece_suspeito": false, "suspect": ""}}, "geom_plana": {"o_que_e": "the study of shapes and figures in the plane, considering length and width.", "por_que_existe": "to solve measurement and construction problems of two-dimensional shapes, such as calculating areas and perimeters.", "onde_aparece": "in the calculation of areas of lands for civil construction or in the technical drawing of flat pieces.", "onde_se_trava": "confusing internal and external angles of polygons or not applying area formulas correctly.", "procedencia": {"model": "phi-4", "where": "local (Delphi)", "data": "2026-08-25", "revisado_por_humano": false, "onde_aparece_suspeito": false, "suspect": ""}}, "geom_espacial": {"o_que_e": "the study of three-dimensional shapes, such as cubes and spheres, and how to measure their volume.", "por_que_existe": "to solve construction and engineering problems that require understanding of three-dimensional objects.", "onde_aparece": "in 3D modeling for product design and architecture, where it is necessary to calculate volumes and surfaces.", "onde_se_trava": "Confusing measures of area and volume, such as applying two-dimensional formulas to three-dimensional solids.", "procedencia": {"model": "phi-4", "where": "local (Delphi)", "data": "2026-08-25", "revisado_por_humano": false, "onde_aparece_suspeito": false, "suspect": ""}}, "operacoes": {"o_que_e": "Sum and product are basic operations of addition and multiplication, respectively, and their inverses are subtraction and division, which involve adding the opposite and multiplying by the inverse.", "por_que_existe": "Before the formalization of these operations, solving problems involving unknown quantities or comparing values was complex and imprecise.", "onde_aparece": "In the spreadsheet, when summing a column of numbers or calculating averages, and when multiplying values to find totals or rates.", "onde_se_trava": "Os estudantes frequentemente confundem subtrair com simplesmente \"tirar\"a number from another, without considering the concept of adding the opposite.", "procedencia": {"model": "phi-4", "where": "local (Delphi)", "data": "2026-08-25", "revisado_por_humano": false, "onde_aparece_suspeito": false, "suspect": ""}}, "fracoes": {"o_que_e": "Fractions represent parts of a whole and proportion is the relationship between two quantitative magnitudes.", "por_que_existe": "Before fractions, there was no way to express parts of a whole or compare quantities precisely.", "onde_aparece": "In cooking, when adjusting recipes for different numbers of people.", "onde_se_trava": "Confusing a fraction with a decimal, or not understanding how to manipulate fractions in operations.", "procedencia": {"model": "phi-4", "where": "local (Delphi)", "data": "2026-08-25", "revisado_por_humano": false, "onde_aparece_suspeito": false, "suspect": ""}}, "potencias": {"o_que_e": "The power is an operation that raises a number (base) to an exponent, resulting in a product of repeated multiplications of the base. The root is the inverse operation that, given a number, finds the base that, raised to a certain exponent, results in that number. The logarithm is the inverse operation that, given a number and a base, finds the exponent necessary for the base raised to that exponent to result in the given number.", "por_que_existe": "Before the formalization of power, root, and logarithm, it was difficult to efficiently and accurately solve problems involving exponential growth, such as compound interest or population growth.", "onde_aparece": "The power, root, and logarithm are used in finance to calculate compound interest, in sciences to model exponential growth of populations or chemical reactions, and in technology to scale the complexity of algorithms.", "onde_se_trava": "A common error is confusing power with repeated multiplication, or root with division, not understanding that power involves multiplying a base by itself a number of times equal to the exponent.", "procedencia": {"model": "phi-4", "where": "local (Delphi)", "data": "2026-08-25", "revisado_por_humano": false, "onde_aparece_suspeito": false, "suspect": ""}}, "negativos": {"o_que_e": "Negative numbers are those that represent values below zero, organized on a number line that includes zero and extends in both directions.", "por_que_existe": "The need arose to represent debts, losses, and temperatures below zero, which could not be expressed using only positive numbers.", "onde_aparece": "In temperature control in air conditioning systems, where it is necessary to adjust and monitor values below zero.", "onde_se_trava": "Students often have difficulty understanding the addition and subtraction of negative numbers, especially when it involves sign changes.", "procedencia": {"model": "phi-4", "where": "local (Delphi)", "data": "2026-08-25", "revisado_por_humano": false, "onde_aparece_suspeito": false, "suspect": ""}}, "fatoracao": {"o_que_e": "Divisibility is the property of a number being exactly divisible by another, without remainder, and factorization is the decomposition of a number into its prime factors.", "por_que_existe": "Before divisibility and factorization, solving problems of resource division or fraction simplification was complex and imprecise.", "onde_aparece": "In spreadsheet fraction calculations, where simplification of numbers is necessary for precise results.", "onde_se_trava": "Common error is confusing divisibility with division, not recognizing that a number can have multiple divisors.", "procedencia": {"model": "phi-4", "where": "local (Delphi)", "data": "2026-08-25", "revisado_por_humano": false, "onde_aparece_suspeito": false, "suspect": ""}}, "algebra_elem": {"o_que_e": "the study of expressions and equations using letters to represent unknown numbers or variables.", "por_que_existe": "before algebra, solving problems involving unknown numbers was limited to specific cases, without a general approach.", "onde_aparece": "in spreadsheets, when creating formulas that automatically calculate values based on input variables.", "onde_se_trava": "Confusing the manipulation of letters with numbers, forgetting that the rules of operations must be applied logically.", "procedencia": {"model": "phi-4", "where": "local (Delphi)", "data": "2026-08-25", "revisado_por_humano": false, "onde_aparece_suspeito": false, "suspect": ""}}, "trigonometria": {"o_que_e": "Study of the ratios between the sides of triangles, especially in the context of angles and trigonometric functions.", "por_que_existe": "Arisen from the need to calculate distances and angles in navigation and astronomy, where direct measurement was not possible.", "onde_aparece": "Used in radar and sonar systems to determine the position of objects from angles and distances.", "onde_se_trava": "A common error is confusing the sine, cosine, and tangent functions, especially when applying them to non-right triangles.", "procedencia": {"model": "phi-4", "where": "local (Delphi)", "data": "2026-08-25", "revisado_por_humano": false, "onde_aparece_suspeito": false, "suspect": ""}}, "reais": {"o_que_e": "Set of numbers that includes all rational and irrational numbers, forming a complete and ordered system.", "por_que_existe": "To solve problems involving continuous and precise measurements, such as length, area, and volume, that cannot be expressed only with rational numbers.", "onde_aparece": "In modeling physical phenomena, such as weather prediction, where variables like temperature and pressure are represented by real numbers.", "onde_se_trava": "Confusing real numbers with rational numbers, ignoring the existence of irrational numbers like the square root of 2.", "procedencia": {"model": "phi-4", "where": "local (Delphi)", "data": "2026-08-25", "revisado_por_humano": false, "onde_aparece_suspeito": false, "suspect": ""}}, "funcoes": {"o_que_e": "A function is a relation that associates each element of a set with a unique element of another set.", "por_que_existe": "Arises from the need to model situations where each input has a unique output, such as exchange rates or scientific formulas.", "onde_aparece": "In spreadsheets, when a column calculates values based on another, such as calculating taxes from sales.", "onde_se_trava": "Confusing a function with an arbitrary relation, forgetting that each input must have a unique output.", "procedencia": {"model": "phi-4", "where": "local (Delphi)", "data": "2026-08-25", "revisado_por_humano": false, "onde_aparece_suspeito": false, "suspect": ""}}, "limite": {"o_que_e": "the behavior of a function as the argument approaches a value, and if the function has no jumps at that point.", "por_que_existe": "to solve problems of approximation and stability in functions, such as determining nearby values without exact calculations.", "onde_aparece": "in automatic control systems, where the response of machines is adjusted in real time to avoid oscillations.", "onde_se_trava": "Confusing the limit of a function with the function's value at the point, or not considering the existence of one-sided limits.", "procedencia": {"model": "phi-4", "where": "local (Delphi)", "data": "2026-08-25", "revisado_por_humano": false, "onde_aparece_suspeito": false, "suspect": ""}}, "sequencias": {"o_que_e": "a sequence is an ordered list of numbers, where each number is called a term, and the position of the term is given by a natural number.", "por_que_existe": "sequences emerged to study patterns and regularities in sets of numbers, allowing the analysis of trends and behaviors along a progression.", "onde_aparece": "Sequences are used in spreadsheets to calculate financial forecasts, where each term represents a future value based on a rule of progression.", "onde_se_trava": "students often confuse the definition of a sequence with that of a function, forgetting that a sequence is specific to natural numbers as indices.", "procedencia": {"model": "phi-4", "where": "local (Delphi)", "data": "2026-08-25", "revisado_por_humano": false, "onde_aparece_suspeito": false, "suspect": ""}}, "exp_log": {"o_que_e": "The exponential is a function that raises a base to a real exponent, while the logarithm is the inverse operation that determines the exponent needed for the base to reach a certain value.", "por_que_existe": "Before the formalization of exponentials and logarithms, there was no efficient way to handle rapid growths, such as compound interest, or to solve equations involving powers in a practical manner.", "onde_aparece": "In the calculation of compound interest in banks, where the amount of money grows exponentially over time, and in adjusting sound levels in audio devices, where the logarithm is used to convert linear scales to logarithmic scales.", "onde_se_trava": "Students often confuse the properties of logarithms, such as the product, sum, and division rules, and have difficulty understanding the relationship between exponentials and logarithms as inverses.", "procedencia": {"model": "phi-4", "where": "local (Delphi)", "data": "2026-08-25", "revisado_por_humano": false, "onde_aparece_suspeito": false, "suspect": ""}}, "derivada": {"o_que_e": "The derivative measures the rate of change of a function with respect to a variable, representing the slope of the tangent line to the graph of the function at the considered point.", "por_que_existe": "Before the introduction of the derivative, there was no precise way to quantify how a quantity varied instantaneously in relation to another, limiting the study of continuous movements and growths.", "onde_aparece": "In weather forecasting, derivatives are used to calculate wind speed and acceleration, allowing prediction of climate changes and meteorological phenomena.", "onde_se_trava": "Students often confuse the derivative with the finite difference, not understanding that the derivative is a limit, leading to errors when calculating instantaneous rates of change.", "procedencia": {"model": "phi-4", "where": "local (Delphi)", "data": "2026-08-25", "revisado_por_humano": false, "onde_aparece_suspeito": false, "suspect": ""}}, "regra_cadeia": {"o_que_e": "The chain rule is a method for calculating the derivative of a composite function, which is the derivative of one function applied to another function.", "por_que_existe": "Before the chain rule, there was no systematic way to find the derivative of composite functions, which limited the analysis of complex systems.", "onde_aparece": "In the optimization of machine learning algorithms, where the chain rule is used to calculate gradients in neural networks.", "onde_se_trava": "Students often confuse the order of derivatives of internal and external functions, incorrectly applying the rule.", "procedencia": {"model": "phi-4", "where": "local (Delphi)", "data": "2026-08-25", "revisado_por_humano": false, "onde_aparece_suspeito": false, "suspect": ""}}, "inversa": {"o_que_e": "An inverse function is one that, when applied to the output of an original function, returns the original input value.", "por_que_existe": "It arose to solve problems where it is necessary to reverse the effect of a function, such as finding the square root or the logarithm of a number.", "onde_aparece": "In tax calculation, where one wants to determine the original income from the taxed value.", "onde_se_trava": "Confusing the inverse of a function with the original function, especially when the function is not bijective (one-to-one and onto).", "procedencia": {"model": "phi-4", "where": "local (Delphi)", "data": "2026-08-25", "revisado_por_humano": false, "onde_aparece_suspeito": false, "suspect": ""}}, "variacao": {"o_que_e": "Study of how a function varies, identifying growth, decline, inflection points, and maxima and minima.", "por_que_existe": "Before, there was no systematic way to analyze how quantities change, which was necessary to optimize processes and solve problems of maxima and minima.", "onde_aparece": "In automatic control systems, where it is crucial to understand how variables change to adjust processes in real time.", "onde_se_trava": "to confuse the graphical interpretation of concavity with the correct identification of maxima and minima.", "procedencia": {"model": "phi-4", "where": "local (Delphi)", "data": "2026-08-25", "revisado_por_humano": false, "onde_aparece_suspeito": false, "suspect": ""}}, "primitiva": {"o_que_e": "the function that, when derived, results in the original function.", "por_que_existe": "to calculate areas under curves and solve differential equations, problems that could not be solved with derivatives alone.", "onde_aparece": "in the calculation of compound interest over time, where the growth rate is known.", "onde_se_trava": "confusing primitives with integrals, forgetting that primitives are antiderivative functions, not numerical values.", "procedencia": {"model": "phi-4", "where": "local (Delphi)", "data": "2026-08-25", "revisado_por_humano": false, "onde_aparece_suspeito": false, "suspect": ""}}, "integral": {"o_que_e": "The Riemann integral is a way to calculate the area under the curve of a continuous function by approximating it with sums of thin rectangles.", "por_que_existe": "Before the Riemann integral, there was no rigorous method for calculating areas under complex curves, limiting the analysis of physical and mathematical phenomena.", "onde_aparece": "In engineering, to calculate distributed loads along structures, and in economics, to determine the area under demand and supply curves.", "onde_se_trava": "Students often have difficulty understanding how the sum of thin rectangles approximates the actual area as the number of rectangles increases.", "procedencia": {"model": "phi-4", "where": "local (Delphi)", "data": "2026-08-25", "revisado_por_humano": false, "onde_aparece_suspeito": false, "suspect": ""}}, "tecnicas_int": {"o_que_e": "Techniques of primitivation are methods for finding antiderivatives of complex functions, dividing them into simpler parts or expressing them as sums of partial fractions.", "por_que_existe": "Before these techniques, integrating complex functions directly was impossible or very difficult, limiting the use of calculus in practical applications.", "onde_aparece": "Primitivation techniques are used in engineering to calculate areas under complex curves, such as in the design of structures or the calculation of fluid volumes.", "onde_se_trava": "Students often make errors in applying the substitution rule, especially in choosing the appropriate function to substitute, or in partial fraction decomposition, by not correctly identifying the terms.", "procedencia": {"model": "phi-4", "where": "local (Delphi)", "data": "2026-08-25", "revisado_por_humano": false, "onde_aparece_suspeito": false, "suspect": ""}}, "polares": {"o_que_e": "a coordinate system that uses distance and angle to locate points in the plane, different from Cartesian coordinates that use x and y axes.", "por_que_existe": "to solve problems that are more natural in terms of angles and distances, such as those involving circles and spirals, where the use of Cartesian coordinates would be complicated.", "onde_aparece": "in the design of radio and television antennas, where the orientation and distance of the antenna relative to a central point are crucial for signal coverage.", "onde_se_trava": "when confusing the conversion between polar and Cartesian coordinates, especially when calculating angles and distances in practical contexts.", "procedencia": {"model": "phi-4", "where": "local (Delphi)", "data": "2026-08-25", "revisado_por_humano": false, "onde_aparece_suspeito": false, "suspect": ""}}, "coord_plano": {"o_que_e": "The system that locates points on the plane through two numbers, representing perpendicular distances to two fixed axes.", "por_que_existe": "Allowed the graphical representation of mathematical relationships and facilitated the study of geometry through numerical calculations.", "onde_aparece": "in graphic design, to position elements on a screen or page precisely.", "onde_se_trava": "confusing the origin of the axes with the zero reference point, or not understanding the importance of the order of numbers in the pair.", "procedencia": {"model": "phi-4", "where": "local (Delphi)", "data": "2026-08-25", "revisado_por_humano": false, "onde_aparece_suspeito": false, "suspect": ""}}, "reta": {"o_que_e": "An equation that relates x and y in a linear form, representing a line on the Cartesian plane.", "por_que_existe": "to describe proportional relationships between two variables, such as growth or decline rates.", "onde_aparece": "no trajectory calculation in video games, where an object's position is adjusted linearly.", "onde_se_trava": "confusing the slope of the line with the intercept, or misinterpreting the sign of the slope.", "procedencia": {"model": "phi-4", "where": "local (Delphi)", "data": "2026-08-25", "revisado_por_humano": false, "onde_aparece_suspeito": false, "suspect": ""}}, "conicas": {"o_que_e": "Flat curves defined by quadratic equations, including circles, ellipses, hyperbolas, and parabolas.", "por_que_existe": "It arose from the need to describe and analyze trajectories and natural forms, such as the movement of celestial bodies and the focus of lenses.", "onde_aparece": "In the design of parabolic antennas to improve the reception of television and radio signals.", "onde_se_trava": "Confusing the conditions that define each conic, such as mixing the criteria for foci and directrices.", "procedencia": {"model": "phi-4", "where": "local (Delphi)", "data": "2026-08-25", "revisado_por_humano": false, "onde_aparece_suspeito": false, "suspect": ""}}, "coord_espaco": {"o_que_e": "the representation of a point in three-dimensional space using three numerical values.", "por_que_existe": "to describe and manipulate objects in a three-dimensional space, like the physical world around us.", "onde_aparece": "in the design of three-dimensional video games, where objects are positioned and moved in virtual space.", "onde_se_trava": "confusing the order of coordinates, leading to incorrect positions in space.", "procedencia": {"model": "phi-4", "where": "local (Delphi)", "data": "2026-08-25", "revisado_por_humano": false, "onde_aparece_suspeito": false, "suspect": ""}}, "vetores": {"o_que_e": "A vector is a quantity that has magnitude and direction, represented by an arrow that can be added to other vectors and multiplied by scalars.", "por_que_existe": "Before the formalization of vectors, there was no systematic way to handle quantities that depend on direction and magnitude, such as forces and velocities, in a mathematical context.", "onde_aparece": "Vectors are used in physics to represent forces and velocities, and in engineering to analyze structures and movements.", "onde_se_trava": "Students often confuse vectors with just a list of numbers, forgetting their direction and operational properties.", "procedencia": {"model": "phi-4", "where": "local (Delphi)", "data": "2026-08-25", "revisado_por_humano": false, "onde_aparece_suspeito": false, "suspect": ""}}, "plano_eq": {"o_que_e": "An equation that defines a flat surface in three-dimensional space, where all points satisfy a linear relationship between their coordinates.", "por_que_existe": "to determine the exact position of a flat surface in three-dimensional space, allowing the representation of physical phenomena and geometric constructions.", "onde_aparece": "In architectural design, where it is necessary to calculate and draw the flat surfaces of buildings and structures.", "onde_se_trava": "by confusing the equation of a plane with a quadratic equation, not realizing that there are no terms of degree higher than one.", "procedencia": {"model": "phi-4", "where": "local (Delphi)", "data": "2026-08-25", "revisado_por_humano": false, "onde_aparece_suspeito": false, "suspect": ""}}, "matrizes": {"o_que_e": "a rectangular table of numbers that represents a system of linear equations.", "por_que_existe": "to solve systems of linear equations in an organized and efficient manner.", "onde_aparece": "in the calculation of transformations in computer graphics and in the analysis of data in statistics.", "onde_se_trava": "confusing matrix multiplication with scalar multiplication.", "procedencia": {"model": "phi-4", "where": "local (Delphi)", "data": "2026-08-25", "revisado_por_humano": false, "onde_aparece_suspeito": false, "suspect": ""}}, "sistemas": {"o_que_e": "A set of equations with multiple unknowns, seeking values that satisfy all simultaneously.", "por_que_existe": "before, solving problems with multiple variables was complex and prone to errors, without a systematic approach.", "onde_aparece": "in the optimization of energy distribution networks, ensuring efficiency and stability in supply.", "onde_se_trava": "to confuse a unique solution with multiple solutions or no solution, without verifying the consistency of the system.", "procedencia": {"model": "phi-4", "where": "local (Delphi)", "data": "2026-08-25", "revisado_por_humano": false, "onde_aparece_suspeito": false, "suspect": ""}}, "determinante": {"o_que_e": "A number associated with a matrix that indicates if the matrix is invertible and, if so, helps to find the inverse.", "por_que_existe": "Before determinants, solving systems of linear equations was complex and there was no direct way to verify if a matrix has an inverse.", "onde_aparece": "In the calculation of volumes in geometry, in the analysis of stability of dynamic systems, and in determining whether a system of equations has a unique solution.", "onde_se_trava": "Confusing the determinant with the sum of the elements of the matrix or not understanding that it only applies to square matrices.", "procedencia": {"model": "phi-4", "where": "local (Delphi)", "data": "2026-08-25", "revisado_por_humano": false, "onde_aparece_suspeito": false, "suspect": ""}}, "esp_vetorial": {"o_que_e": "A set of vectors that, in addition to allowing addition and scalar multiplication, satisfies specific axioms such as the existence of a zero vector and additive inverses.", "por_que_existe": "Before the formalization of vector spaces, operations with vectors were limited and lacked a unified structure that allowed for the generalization of concepts like linearity in different mathematical contexts.", "onde_aparece": "In modeling systems of linear equations, where solutions are represented as linear combinations of vectors, as in optimization methods and data analysis.", "onde_se_trava": "Understand that vector addition and scalar multiplication must respect all axioms simultaneously, not just addition and scaling individually.", "procedencia": {"model": "phi-4", "where": "local (Delphi)", "data": "2026-08-25", "revisado_por_humano": false, "onde_aparece_suspeito": false, "suspect": ""}}, "base_dim": {"o_que_e": "the base is a set of vectors that allows expressing any vector in the space as a unique linear combination; the dimension is the number of vectors in the base.", "por_que_existe": "before the definition of a basis, there was no systematic way to represent and manipulate vectors in high-dimensional spaces.", "onde_aparece": "In signal processing, where the harmonic base is used to decompose signals into frequency components.", "onde_se_trava": "Confusing a basis with any set of linearly independent vectors, without verifying if it spans the entire space.", "procedencia": {"model": "phi-4", "where": "local (Delphi)", "data": "2026-08-25", "revisado_por_humano": false, "onde_aparece_suspeito": false, "suspect": ""}}, "transf_lin": {"o_que_e": "a function that, when applied to vectors, preserves the sum and scalar multiplication, maintaining the structure of the vector space.", "por_que_existe": "Before the formalization of linear transformations, there was no systematic way to study how mathematical operations affect systems of equations or multidimensional spaces.", "onde_aparece": "in the calculation of rotations and scalings in computer graphics, where the linear transformation adjusts the positions of points in space.", "onde_se_trava": "by confusing linear transformations with nonlinear functions, such as quadratics, which do not respect the property of preserving sums and scaling.", "procedencia": {"model": "phi-4", "where": "local (Delphi)", "data": "2026-08-25", "revisado_por_humano": false, "onde_aparece_suspeito": false, "suspect": ""}}, "prod_interno": {"o_que_e": "operation that calculates the angle and projection of a vector onto another, in any dimension.", "por_que_existe": "to measure angles and distances in multidimensional spaces, facilitating understanding of relationships between vectors.", "onde_aparece": "in satellite navigation, where it calculates distances and angles between points in three-dimensional space.", "onde_se_trava": "confusing the dot product with scalar multiplication, ignoring the orientation of vectors.", "procedencia": {"model": "phi-4", "where": "local (Delphi)", "data": "2026-08-25", "revisado_por_humano": false, "onde_aparece_suspeito": false, "suspect": ""}}, "autovalores": {"o_que_e": "Eigenvalues are scalars that indicate how a linear transformation stretches or compresses vectors along certain directions, called eigenvectors.", "por_que_existe": "It arose from the need to simplify the analysis of dynamic systems and solve differential equations, where linear transformations are common.", "onde_aparece": "Used in data analysis for dimensionality reduction, such as in the principal component analysis (PCA) algorithm, which organizes data into simpler dimensions.", "onde_se_trava": "Students often confuse eigenvalues with arbitrary scalars, not realizing they are specific to eigenvectors of a linear transformation.", "procedencia": {"model": "phi-4", "where": "local (Delphi)", "data": "2026-08-25", "revisado_por_humano": false, "onde_aparece_suspeito": false, "suspect": ""}}, "varias_var": {"o_que_e": "Multivariable calculus studies how functions depend on multiple variables and how these dependencies change, using tools like partial derivatives and gradients.", "por_que_existe": "Before multivariable calculus, it was difficult to analyze natural phenomena and engineering that depend on more than one variable, such as the behavior of complex physical systems.", "onde_aparece": "In the optimization of neural networks in machine learning, where multiple weight variables are adjusted to minimize prediction errors.", "onde_se_trava": "Students often confuse partial derivatives with total derivatives, not realizing that each partial derivative considers one variable while keeping the others constant.", "procedencia": {"model": "phi-4", "where": "local (Delphi)", "data": "2026-08-25", "revisado_por_humano": false, "onde_aparece_suspeito": false, "suspect": ""}}, "edo": {"o_que_e": "an equation that relates a function and its derivatives, seeking to find that function.", "por_que_existe": "to model dynamic phenomena, such as the movement of bodies or the variation of populations, which cannot be described only by algebraic equations.", "onde_aparece": "in the control of automatic systems, such as the temperature adjustment in an air conditioner.", "onde_se_trava": "to confuse the order of the equation with the order of the derivative, leading to incorrect solutions.", "procedencia": {"model": "phi-4", "where": "local (Delphi)", "data": "2026-08-25", "revisado_por_humano": false, "onde_aparece_suspeito": false, "suspect": ""}}, "analise_real": {"o_que_e": "Real analysis is the rigorous study of real functions, focusing on limits, continuity, and derivatives, with formal proofs of properties and theorems.", "por_que_existe": "Before real analysis, concepts like limit and continuity were intuitive but lacked mathematical rigor, leading to paradoxes and inconsistencies.", "onde_aparece": "Real analysis is fundamental in optimization algorithms in engineering and data science, where precision and reliability are crucial.", "onde_se_trava": "Students often have difficulty understanding the need for rigor in limits and continuity, relying on intuition instead of formal proofs.", "procedencia": {"model": "phi-4", "where": "local (Delphi)", "data": "2026-08-25", "revisado_por_humano": false, "onde_aparece_suspeito": false, "suspect": ""}}, "algebra_abs": {"o_que_e": "Abstract algebra studies algebraic structures like groups, rings, and fields, which are sets with operations defined that follow certain properties.", "por_que_existe": "Arises from the need to generalize algebraic concepts to understand and solve problems in various mathematical and scientific areas, such as number theory and geometry.", "onde_aparece": "In cryptography, where data security depends on operations in complex algebraic structures, such as cyclic groups and finite fields.", "onde_se_trava": "Students often have difficulty understanding the abstraction and generalization of concepts, confusing them with specific examples like real numbers or integers.", "procedencia": {"model": "phi-4", "where": "local (Delphi)", "data": "2026-08-25", "revisado_por_humano": false, "onde_aparece_suspeito": false, "suspect": ""}}, "topologia": {"o_que_e": "study of properties of spaces that are preserved under continuous deformations, such as stretching or folding, without tearing or gluing.", "por_que_existe": "to understand concepts like continuity and limits in more general contexts than the real numbers, allowing analysis in complex spaces.", "onde_aparece": "In pattern recognition algorithms, where form is more important than exact position or size.", "onde_se_trava": "confusing topology with geometry, forgetting that topology does not consider measures such as distance or angle.", "procedencia": {"model": "phi-4", "where": "local (Delphi)", "data": "2026-08-25", "revisado_por_humano": false, "onde_aparece_suspeito": false, "suspect": ""}}, "medida": {"o_que_e": "the integral that handles functions and sets that are not continuous or have infinites in small parts.", "por_que_existe": "to calculate areas and volumes under curves and surfaces that are not well behaved, such as functions with isolated singularities.", "onde_aparece": "in signal analysis and data processing, where it is necessary to deal with functions that have complex or discontinuous behaviors.", "onde_se_trava": "by confusing the need for continuity conditions with the ability to handle more general functions, such as thinking that all integrals require continuous functions.", "procedencia": {"model": "phi-4", "where": "local (Delphi)", "data": "2026-08-25", "revisado_por_humano": false, "onde_aparece_suspeito": false, "suspect": ""}}, "geom_dif": {"o_que_e": "Study of curves and surfaces using calculus techniques, focusing on local properties such as curvature and torsion.", "por_que_existe": "to understand and describe the shape and behavior of three-dimensional objects, such as spheres and cylinders, which are not flat.", "onde_aparece": "in engineering to design complex car and airplane parts, ensuring they are aerodynamic and efficient.", "onde_se_trava": "by confusing local curvature with global curvature, such as thinking a sphere has the same curvature at all points.", "procedencia": {"model": "phi-4", "where": "local (Delphi)", "data": "2026-08-25", "revisado_por_humano": false, "onde_aparece_suspeito": false, "suspect": ""}}, "analise_func": {"o_que_e": "Studies vector spaces with additional structures, such as norms and inner products, allowing analysis of functions.", "por_que_existe": "It arose to generalize concepts of Calculus and Linear Algebra, dealing with functions in infinite-dimensional spaces.", "onde_aparece": "Used in signal processing, where it analyzes and manipulates continuous and discrete signals.", "onde_se_trava": "Confusing norms and inner products, not understanding their differences and specific applications.", "procedencia": {"model": "phi-4", "where": "local (Delphi)", "data": "2026-08-25", "revisado_por_humano": false, "onde_aparece_suspeito": false, "suspect": ""}}}, "students": {"aritmetica": {"label": "Arithmetic and operations", "ramo": "base", "nota": "count, add, multiply — the operation before the letter", "layer": 2, "dom": [], "geo": false, "dom_fonte": "prior to the two — no course teaches it, all require it"}, "conjuntos": {"label": "Sets", "ramo": "base", "nota": "belong, contain, unite, cut — the language in which the rest is said", "layer": 0, "dom": [], "geo": false, "dom_fonte": "before everything: it is the language in which the rest is spoken."}, "conj_num": {"label": "Numeric Sets", "ramo": "base", "nota": "ℕ ⊂ ℤ ⊂ ℚ ⊂ ℝ — each exists because the previous was not enough: the integer gives the opposite, the rational gives the inverse, the real closes the gaps", "layer": 1, "dom": [], "geo": false, "dom_fonte": "before the two — which numbers exist, before operating with them"}, "contagem": {"label": "Counting problems", "ramo": "base", "nota": "how many there are, without listing one by one — combinatorial reasoning", "layer": 1, "dom": [], "geo": false, "dom_fonte": "prior to the two — combinatorial reasoning, which the determinant demands"}, "relacoes": {"label": "Relations and the ordered pair", "ramo": "base", "nota": "the relationship between two sets; the function is the case with uniqueness", "layer": 1, "dom": [], "geo": false, "dom_fonte": "before the two — the ordered pair, common root of the function and the plane"}, "geom_plana": {"label": "Plane Geometry", "ramo": "base", "nota": "the two-dimensional figure — length and width", "layer": 0, "dom": [], "geo": false, "dom_fonte": "before the two — the figure before the coordinate"}, "geom_espacial": {"label": "Spatial geometry", "ramo": "base", "nota": "The three-dimensional solid — and the volume", "layer": 1, "dom": [], "geo": false, "dom_fonte": "before the two — the solid before the third coordinate"}, "operacoes": {"label": "Sum and Product and Their Inverses", "ramo": "base", "nota": "two operations, not four: subtracting is adding the opposite, dividing is multiplying by the inverse", "layer": 3, "dom": [], "geo": false, "dom_fonte": "pillar of arithmetic — the properties that the letter will inherit"}, "fracoes": {"label": "Fractions and proportion", "ramo": "base", "nota": "the part of the whole, the ratio between two magnitudes, the rule of three", "layer": 3, "dom": [], "geo": false, "dom_fonte": "pillar of arithmetic — ratio and proportion, which trigonometry demands"}, "potencias": {"label": "Power, Root, and Logarithm", "ramo": "base", "nota": "the operation with TWO inverses: the root finds the base, the logarithm finds the exponent", "layer": 3, "dom": [], "geo": false, "dom_fonte": "pillar of arithmetic — the operation of two inverses; the log is born here"}, "negativos": {"label": "Negatives and the line", "ramo": "base", "nota": "the sign, the order, and the distance — numbers lined up in a row", "layer": 3, "dom": [], "geo": false, "dom_fonte": "Pillar of arithmetic — the number line, which the reals complete"}, "fatoracao": {"label": "Divisibility and Factorization", "ramo": "base", "nota": "primes, what divides what, and why that simplifies", "layer": 3, "dom": [], "geo": false, "dom_fonte": "pillar of arithmetic — what allows simplification without changing the value"}, "algebra_elem": {"label": "Elementary Algebra", "ramo": "base", "nota": "the letter in the place of the number", "layer": 4, "dom": [], "geo": false, "dom_fonte": "before the two"}, "trigonometria": {"label": "Trigonometry", "ramo": "base", "nota": "ratio between the sides of a triangle", "layer": 5, "dom": [], "geo": false, "dom_fonte": "before the two; resides in plane geometry, GUI §2.2 revisits it as a function"}, "reais": {"label": "Real Numbers", "ramo": "base", "nota": "the complete ordered field where everything happens", "layer": 5, "dom": [], "geo": false, "dom_fonte": "precedes the two; GUI ch. 1 formalizes it before everything"}, "funcoes": {"label": "Functions", "ramo": "base", "nota": "takes number to number", "layer": 6, "dom": [], "geo": false, "dom_fonte": "before the two; it is the object that the two manipulate"}, "limite": {"label": "Limit and Continuity", "ramo": "calculus", "nota": "where the function tends, and when it does not jump", "layer": 7, "dom": ["calculus"], "geo": false, "dom_fonte": "GUI ch. 3"}, "sequencias": {"label": "Sequences", "ramo": "calculus", "nota": "limit along the naturals", "layer": 8, "dom": ["calculus"], "geo": false, "dom_fonte": "GUI §4.3"}, "exp_log": {"label": "Exponential and logarithm", "ramo": "calculus", "nota": "The power with a real exponent, and its inverse.", "layer": 8, "dom": ["calculus"], "geo": false, "dom_fonte": "GUI chap. 6 — the FUNCTION of real exponent; the operation stayed in the base"}, "derivada": {"label": "Derivative", "ramo": "calculus", "nota": "the rate of change — defined as a limit", "layer": 9, "dom": ["calculus"], "geo": false, "dom_fonte": "GUI ch. 7"}, "regra_cadeia": {"label": "Chain Rule", "ramo": "calculus", "nota": "the derivative of the composite", "layer": 10, "dom": ["calculus"], "geo": false, "dom_fonte": "GUI §7.10"}, "inversa": {"label": "Inverse Functions", "ramo": "calculus", "nota": "undo the function, and derive the undoing", "layer": 10, "dom": ["calculus"], "geo": false, "dom_fonte": "GUI ch. 8"}, "variacao": {"label": "Study of Variation (TVM)", "ramo": "calculus", "nota": "growth, concavity, maxima and minima", "layer": 10, "dom": ["calculus"], "geo": false, "dom_fonte": "GUI ch. 9"}, "primitiva": {"label": "Primitives", "ramo": "calculus", "nota": "the operation that undoes the derivative", "layer": 10, "dom": ["calculus"], "geo": false, "dom_fonte": "GUI chap. 10"}, "integral": {"label": "Riemann Integral", "ramo": "calculus", "nota": "the sum that becomes area, and the fundamental theorem", "layer": 11, "dom": ["calculus"], "geo": false, "dom_fonte": "GUI cap. 11"}, "tecnicas_int": {"label": "Techniques of primitivation", "ramo": "calculus", "nota": "parts, substitution, partial fractions", "layer": 11, "dom": ["calculus"], "geo": false, "dom_fonte": "GUI ch. 12"}, "polares": {"label": "Polar coordinates and applications", "ramo": "calculus", "nota": "volume, curve length, polar area", "layer": 12, "dom": ["calculus"], "geo": false, "dom_fonte": "GUI ch. 13"}, "coord_plano": {"label": "Coordinates in the plane", "ramo": "geometry", "nota": "the ordered pair that becomes a point", "layer": 6, "dom": ["algebra"], "geo": true, "dom_fonte": "LINK 'Coordinates in the Plane' — the ordered pair in a 2-dimensional space"}, "reta": {"label": "Equations of the line", "ramo": "geometry", "nota": "the line as a set of solutions", "layer": 7, "dom": ["algebra"], "geo": true, "dom_fonte": "ELO 'Equations of the Line' — the subspace of dimension 1, translated"}, "conicas": {"label": "Conics", "ramo": "geometry", "nota": "circle, ellipse, hyperbola, parabola", "layer": 8, "dom": ["algebra"], "geo": true, "dom_fonte": "ELO — the degree two in the plane; diagonalization classifies them"}, "coord_espaco": {"label": "Coordinates in space", "ramo": "geometry", "nota": "the third coordinate", "layer": 7, "dom": ["algebra"], "geo": true, "dom_fonte": "ELO 'Coordinates in Space' — the same thing in 3 dimensions"}, "vetores": {"label": "Vectors", "ramo": "geometry", "nota": "the arrow with sum and scale", "layer": 7, "dom": ["algebra"], "geo": true, "dom_fonte": "ELO deals with the vector within geometry and CAL axiomatizes it — the title of Elon carries both names because it is one thing."}, "plano_eq": {"label": "Equation of the plane", "ramo": "geometry", "nota": "the surface of degree one", "layer": 8, "dom": ["algebra"], "geo": true, "dom_fonte": "LINK 'Equation of the Plane' — defined by the normal vector, which is the dot product"}, "matrizes": {"label": "Matrices", "ramo": "algebra", "nota": "The table that stores the system", "layer": 6, "dom": ["algebra"], "geo": false, "dom_fonte": "ELO/CAL"}, "sistemas": {"label": "Linear systems", "ramo": "algebra", "nota": "many equations, one solution (or none)", "layer": 5, "dom": ["algebra"], "geo": false, "dom_fonte": "ELO/CAL"}, "determinante": {"label": "Determinants", "ramo": "algebra", "nota": "the number that tells if it inverts", "layer": 7, "dom": ["algebra"], "geo": false, "dom_fonte": "ELO 'Determinants'"}, "esp_vetorial": {"label": "vector spaces", "ramo": "algebra", "nota": "the vector without the arrow: only the axioms", "layer": 8, "dom": ["algebra"], "geo": false, "dom_fonte": "CAL — the vector without the arrow: outside the geometric region, because without an inner product there is no distance or angle"}, "base_dim": {"label": "Base and dimension", "ramo": "algebra", "nota": "the coordinates back, now chosen", "layer": 9, "dom": ["algebra"], "geo": false, "dom_fonte": "CAL — base and dimension"}, "transf_lin": {"label": "Linear Transformations", "ramo": "algebra", "nota": "the function that respects sum and scale", "layer": 10, "dom": ["algebra"], "geo": false, "dom_fonte": "ELO 'Linear Transformations'"}, "prod_interno": {"label": "Dot product", "ramo": "algebra", "nota": "angle and length within space", "layer": 8, "dom": ["algebra"], "geo": true, "dom_fonte": "IT IS THE OPERATOR THAT CREATES GEOMETRY WITHIN ALGEBRA: from it come distance and angle, in any dimension"}, "autovalores": {"label": "Eigenvalues and eigenvectors", "ramo": "algebra", "nota": "the directions that the transformation only stretches", "layer": 11, "dom": ["algebra"], "geo": false, "dom_fonte": "CAL — eigenvalues and eigenvectors"}, "formas_quad": {"label": "Quadratic forms and quadrics", "ramo": "algebra", "nota": "degree two in any dimension", "layer": 12, "dom": ["algebra"], "geo": true, "dom_fonte": "ELO treats quadrics and diagonalizes them by eigenvalues"}, "varias_var": {"label": "Calculation of multiple variables", "ramo": "boundary", "nota": "partial derivative, gradient, the Jacobian", "layer": 10, "dom": ["calculus"], "geo": false, "dom_fonte": "Calculus II/III — belongs to calculus even depending on vectors"}, "edo": {"label": "Differential equations", "ramo": "boundary", "nota": "the equation whose unknown is a function", "layer": 12, "dom": ["calculus"], "geo": false, "dom_fonte": "Calculus/ODE"}, "analise_real": {"label": "Real Analysis", "ramo": "boundary", "nota": "calculus rethought with demonstration", "layer": 9, "dom": ["calculus"], "geo": false, "dom_fonte": "calculus rethought with demonstration"}, "algebra_abs": {"label": "abstract algebra", "ramo": "boundary", "nota": "group, ring, field", "layer": 9, "dom": ["algebra"], "geo": false, "dom_fonte": "generalizes the structure of linear algebra"}, "topologia": {"label": "Topology", "ramo": "boundary", "nota": "neighborhood without distance", "layer": 10, "dom": ["algebra", "calculus"], "geo": false, "dom_fonte": "the neighborhood WITHOUT distance — what remains of geometry when you remove the inner product, and therefore stays OUTSIDE the region"}, "medida": {"label": "Measurement and Integration", "ramo": "boundary", "nota": "the integral that withstands the pathological", "layer": 10, "dom": ["calculus"], "geo": false, "dom_fonte": "The Lebesgue integral, within analysis"}, "geom_dif": {"label": "Differential geometry", "ramo": "boundary", "nota": "calculus on curved surfaces", "layer": 11, "dom": ["algebra", "calculus"], "geo": true, "dom_fonte": "Calculus on a curved surface — and the surface has a metric"}, "analise_func": {"label": "Functional Analysis", "ramo": "boundary", "nota": "infinite-dimensional vector spaces", "layer": 11, "dom": ["algebra", "calculus"], "geo": false, "dom_fonte": "infinite-dimensional vector space, with analysis on top"}}, "edges": [{"of": "conjuntos", "for": "conj_num", "w": "orientation", "fonte": "academic guidance, 2026-08-25 — a number set is, above all, a set"}, {"of": "conjuntos", "for": "contagem", "w": "orientation", "fonte": "academic guidance, 2026-08-25 — counting is counting the elements of a set"}, {"of": "conjuntos", "for": "relacoes", "w": "orientation", "fonte": "academic advising, 2026-08-25 — the relation is a subset of the Cartesian product"}, {"of": "conj_num", "for": "aritmetica", "w": "orientation", "fonte": "academic orientation, 2026-08-25 — the operation needs to know ABOUT which numbers it operates"}, {"of": "relacoes", "for": "funcoes", "w": "orientation", "fonte": "academic advising, 2026-08-25 — a function is a relation where each input has only one output"}, {"of": "relacoes", "for": "coord_plano", "w": "orientation", "fonte": "academic orientation, 2026-08-25 — the ordered pair of the Cartesian product is the point of the plane"}, {"of": "geom_plana", "for": "geom_espacial", "w": "orientation", "fonte": "Academic orientation, 2026-08-25 — the solid adds a third dimension to the flat figure"}, {"of": "geom_plana", "for": "trigonometria", "w": "orientation", "fonte": "Academic orientation, 2026-08-25 — the ratio is between the sides of a triangle, which is a planar figure"}, {"of": "geom_espacial", "for": "coord_espaco", "w": "orientation", "fonte": "Academic orientation, 2026-08-25 — the three-dimensional space before receiving coordinates"}, {"of": "contagem", "for": "determinante", "w": "order", "fonte": "seminar-determinants — the determinant is the sum over the permutations"}, {"of": "aritmetica", "for": "operacoes", "w": "order", "fonte": "hipatia/norma-de-notacao.md §1 — o arco do cálculo exige aritmética com FAMILIARIDADE, não com \"já vi\""}, {"of": "aritmetica", "for": "fracoes", "w": "order", "fonte": "hypatia/norma-de-notacao.md §1 · seminario-calculo-0, sheet 2"}, {"of": "aritmetica", "for": "potencias", "w": "order", "fonte": "hypatia/norma-de-notacao.md §1 · seminario-calculo-0, sheet 2"}, {"of": "aritmetica", "for": "negativos", "w": "order", "fonte": "hypatia/norma-de-notacao.md §1 · seminario-calculo-0, sheet 2"}, {"of": "aritmetica", "for": "fatoracao", "w": "order", "fonte": "hypatia/norma-de-notacao.md §1 · seminario-calculo-0, sheet 2"}, {"of": "operacoes", "for": "algebra_elem", "w": "order", "fonte": "map-genealogy, fig-3-base · the letter obeys the SAME properties: commutative, associative, distributive"}, {"of": "fatoracao", "for": "algebra_elem", "w": "order", "fonte": "seminario-calculo-0, sheet 9 — factoring is what reveals or hides a hole in the domain"}, {"of": "fracoes", "for": "trigonometria", "w": "order", "fonte": "trigonometry is RATIO between sides: without a fraction, sine has no meaning"}, {"of": "negativos", "for": "reais", "w": "order", "fonte": "GUI ch. 1 — the ordered line is what the reals complete"}, {"of": "negativos", "for": "coord_plano", "w": "order", "fonte": "seminar-geometry, Station 3 — the axis has a negative side, and the observer is at the origin"}, {"of": "potencias", "for": "exp_log", "w": "order", "fonte": "seminario-calculo-0 — rational exponent power before real exponent power; the limit is what crosses"}, {"of": "fracoes", "for": "funcoes", "w": "order", "fonte": "seminario-calculo-0, sheet 9 — the function written as a quotient, and the domain that it loses"}, {"of": "aritmetica", "for": "algebra_elem", "w": "order", "fonte": "Genealogy map, fig-3-base · BOY caps. 1-3 (counting before the equation)"}, {"of": "algebra_elem", "for": "trigonometria", "w": "order", "fonte": "genealogy-map, fig-3-base"}, {"of": "algebra_elem", "for": "reais", "w": "order", "fonte": "GUI ch. 1 (rationals §1.1 before the reals §1.2)"}, {"of": "trigonometria", "for": "funcoes", "w": "order", "fonte": "GUI §2.2 defines sine and cosine as functions"}, {"of": "reais", "for": "funcoes", "w": "definition", "fonte": "GUI §2.1 — function of a REAL variable to real values"}, {"of": "funcoes", "for": "limite", "w": "definition", "fonte": "GUI §3.3 defines the limit of a function"}, {"of": "reais", "for": "limite", "w": "definition", "fonte": "GUI §3.3 — the ε and the δ are real"}, {"of": "limite", "for": "sequencias", "w": "order", "fonte": "GUI §4.3-4.4 (sequence after the limit; §4.4 links the two)"}, {"of": "limite", "for": "exp_log", "w": "definition", "fonte": "GUI §6.3 — the limit defines the power of a real exponent"}, {"of": "limite", "for": "derivada", "w": "definition", "fonte": "GUI §7.2 — the derivative is a limit"}, {"of": "derivada", "for": "regra_cadeia", "w": "definition", "fonte": "GUI §7.10 — derivative of the composite function"}, {"of": "derivada", "for": "inversa", "w": "definition", "fonte": "GUI §8.2 — Derivative of the Inverse Function"}, {"of": "exp_log", "for": "derivada", "w": "order", "fonte": "GUI §7.4 derives e^x and ln x"}, {"of": "derivada", "for": "variacao", "w": "definition", "fonte": "GUI §9.1 — the TVM is stated over the derivative"}, {"of": "derivada", "for": "primitiva", "w": "definition", "fonte": "GUI §10.2 — primitive is defined by 'F' = f'"}, {"of": "limite", "for": "integral", "w": "definition", "fonte": "GUI §11.3 — the integral is the limit of Riemann sums"}, {"of": "primitiva", "for": "integral", "w": "definition", "fonte": "GUI §11.5 — the 1st fundamental theorem links the two"}, {"of": "primitiva", "for": "tecnicas_int", "w": "order", "fonte": "GUI chap. 12 comes after chap. 10"}, {"of": "regra_cadeia", "for": "tecnicas_int", "w": "definition", "fonte": "GUI §12.4 — the change of variable is the chain rule in reverse"}, {"of": "integral", "for": "polares", "w": "order", "fonte": "GUI ch. 13 — applications of the integral"}, {"of": "trigonometria", "for": "polares", "w": "definition", "fonte": "GUI §13.7 — the polar coordinate is angle and radius"}, {"of": "reais", "for": "coord_plano", "w": "definition", "fonte": "ELO 'Coordinates in the Plane' — the pair of reals"}, {"of": "coord_plano", "for": "reta", "w": "definition", "fonte": "ELO 'Equations of the Line'"}, {"of": "algebra_elem", "for": "reta", "w": "order", "fonte": "ELO — the equation of a line is elementary algebra in two letters"}, {"of": "reta", "for": "conicas", "w": "order", "fonte": "ELO — circle and hyperbola after the line"}, {"of": "coord_plano", "for": "vetores", "w": "order", "fonte": "ELO 'Vectors' after 'Coordinates'"}, {"of": "coord_plano", "for": "coord_espaco", "w": "order", "fonte": "ELO 'Coordinates in Space'"}, {"of": "coord_espaco", "for": "plano_eq", "w": "definition", "fonte": "LINK 'Equation of the Plane' — three coordinates"}, {"of": "vetores", "for": "plano_eq", "w": "definition", "fonte": "ELO — the plane by the normal vector"}, {"of": "sistemas", "for": "matrizes", "w": "order", "fonte": "ELO — the matrix appears with the system"}, {"of": "algebra_elem", "for": "sistemas", "w": "order", "fonte": "LINK/CAL — system is an equation with many letters"}, {"of": "matrizes", "for": "determinante", "w": "definition", "fonte": "ELO 'Determinants' — the determinant is DE a matrix"}, {"of": "vetores", "for": "esp_vetorial", "w": "order", "fonte": "CAL — the vector space generalizes the vector (class B)"}, {"of": "esp_vetorial", "for": "base_dim", "w": "definition", "fonte": "CAL — base is defined within the vector space (class B)"}, {"of": "esp_vetorial", "for": "transf_lin", "w": "definition", "fonte": "ELO 'Linear Transformations' — between spaces"}, {"of": "matrizes", "for": "transf_lin", "w": "definition", "fonte": "LINK — the matrix represents the transformation in a basis"}, {"of": "base_dim", "for": "transf_lin", "w": "definition", "fonte": "LINK/CAL — the representation requires the base chosen"}, {"of": "vetores", "for": "prod_interno", "w": "definition", "fonte": "ELO 'Distance from a Point to a Line' uses the product"}, {"of": "transf_lin", "for": "autovalores", "w": "definition", "fonte": "CAL — eigenvalue is of the transformation (class B)"}, {"of": "determinante", "for": "autovalores", "w": "definition", "fonte": "CAL — the characteristic polynomial is a determinant (class B)"}, {"of": "conicas", "for": "formas_quad", "w": "order", "fonte": "ELO 'Quadratic Forms' after conics"}, {"of": "autovalores", "for": "formas_quad", "w": "definition", "fonte": "LINK 'Completing the Square' — diagonalizing the form"}, {"of": "derivada", "for": "varias_var", "w": "boundary", "fonte": "no work in the collection (Guidorizzi v.1 for one variable)"}, {"of": "vetores", "for": "varias_var", "w": "boundary", "fonte": "No work in the collection"}, {"of": "integral", "for": "edo", "w": "boundary", "fonte": "No work in the collection"}, {"of": "derivada", "for": "edo", "w": "boundary", "fonte": "No work in the collection"}, {"of": "limite", "for": "analise_real", "w": "boundary", "fonte": "No work in the collection"}, {"of": "sequencias", "for": "analise_real", "w": "boundary", "fonte": "No work in the collection"}, {"of": "esp_vetorial", "for": "algebra_abs", "w": "boundary", "fonte": "No work in the collection"}, {"of": "analise_real", "for": "topologia", "w": "boundary", "fonte": "No work in the collection"}, {"of": "analise_real", "for": "medida", "w": "boundary", "fonte": "No work in the collection"}, {"of": "varias_var", "for": "geom_dif", "w": "boundary", "fonte": "No work in the collection"}, {"of": "transf_lin", "for": "geom_dif", "w": "boundary", "fonte": "No work in the collection"}, {"of": "topologia", "for": "analise_func", "w": "boundary", "fonte": "No work in the collection"}, {"of": "medida", "for": "analise_func", "w": "boundary", "fonte": "No work in the collection"}, {"of": "esp_vetorial", "for": "analise_func", "w": "boundary", "fonte": "No work in the collection"}], "cross": {"before": 102, "after": 41}, "branches": {"base": "the trunk — before the two", "calculus": "calculus · NEAR A POINT", "algebra": "linear algebra · WHAT IS PRESERVED", "geometry": "analytic geometry — within linear algebra", "boundary": "border — no work in the collection"}, "trunks": {"calculus": "Calculus (I, II, III)", "algebra": "Linear Algebra"}, "nature": {"calculus": "what happens near a point", "algebra": "what is preserved — sum and scale"}};
+const svg = document.getElementById('grafo');
+const palco = document.getElementById('palco');
+const painel = document.getElementById('painel');
+
+const pais = {}, filhos = {};
+D.arestas.forEach(a => {
+  (pais[a.para] = pais[a.para] || []).push(a);
+  (filhos[a.de] = filhos[a.de] || []).push(a);
+});
+
+function ancestrais(id){
+  const vistos = new Set(), fila = [id];
+  while(fila.length){
+    const c = fila.pop();
+    (pais[c]||[]).forEach(a => { if(!vistos.has(a.de)){ vistos.add(a.de); fila.push(a.de); } });
+  }
+  return vistos;
+}
+
+const CAMPOS = [['o_que_e','what is'], ['por_que_existe','why it exists'],
+                ['onde_aparece','where it appears in the world'], ['onde_se_trava','where it locks']];
+
+function verbete(id){
+  const v = (D.verbetes||{})[id];
+  if(!v) return '<div class="sem-texto">No written entry for this topic yet.</div>';
+  const corpo = CAMPOS.filter(([k]) => v[k]).map(([k,rot]) =>
+    '<div class="campo"><b>' + rot + '</b><p class="verbete">' + esc(v[k]) + '</p></div>').join('');
+  const p = v.procedencia || {};
+  // A PROCEDÊNCIA aparece porque este mapa declara de onde vem cada seta; um
+  // texto de modelo entrando calado seria a única afirmação sem warrant aqui.
+  const proc = p.modelo
+    ? '<div class="proc">Written entry by <b>' + esc(p.modelo) + '</b> (' +
+      esc(p.onde || '') + '), ' + esc(p.data || '') + ' — ' +
+      (p.revisado_por_humano ? 'reviewed by human reading.'
+                             : '<b>not yet reviewed by human reading.</b>') + '</div>'
+    : '';
+  return corpo + proc;
+}
+
+function esc(t){
+  const d = document.createElement('div'); d.textContent = t; return d.innerHTML;
+}
+
+// Sem isto, clicar num nó no celular preenchia um painel FORA DA TELA — medido
+// em 2026-08-25: painel no topo 710 de um viewport de 844, e 483 de 390 no
+// deitado. O leitor tocava, nada acontecia à vista, e concluía que não havia
+// nada ali.
+function levarAoPainel(){
+  if(!empilhado()) return;
+  const alvo = document.getElementById('propriedades');
+  requestAnimationFrame(() => alvo.scrollIntoView({behavior:'smooth', block:'start'}));
+}
+
+function acender(id){
+  const anc = ancestrais(id);
+  const conjunto = new Set([...anc, id]);
+  svg.classList.add('focused');
+  svg.querySelectorAll('.no').forEach(g =>
+    g.classList.toggle('lit', conjunto.has(g.dataset.id)));
+  svg.querySelectorAll('.no').forEach(g =>
+    g.classList.toggle('alvo', g.dataset.id === id));
+  svg.querySelectorAll('.aresta').forEach(l =>
+    l.classList.toggle('lit', conjunto.has(l.dataset.de) && conjunto.has(l.dataset.para)));
+
+  const n = D.nos[id];
+  const diretos = (pais[id]||[]);
+  const usa = (filhos[id]||[]);
+  painel.innerHTML =
+    '<h2>' + n.rotulo + '</h2>' +
+    '<div class="ramo">' + (n.dom.length
+        ? n.dom.map(d => D.troncos[d] + ' · ' + (D.natureza[d] || '')).join('  +  ')
+        : 'the base — before the two trunks') + '· layer' + n.camada +
+        (n.geo ? '· <b class="marca-geo">analytic geometry</b>' : '') + '</div>' +
+    verbete(id) +
+    '<div class="nota" style="font-size:11.5px;color:var(--muted);margin-bottom:12px">' +
+        n.dom_fonte + '</div>' +
+    '<div class="nota">' + n.nota + '</div>' +
+    '<h3>depends directly on</h3>' +
+    (diretos.length ? diretos.map(a =>
+      '<div class="pre w-' + a.w + '"><b>' + D.nos[a.de].rotulo + '</b>' +
+      '<span class="fonte">' + a.fonte + '</span></div>').join('')
+      : '<div class="vazio">Nothing. This is where the map begins.</div>') +
+    '<h3>the entire chain that supports it</h3>' +
+    '<div class="nota">' + (anc.size ? anc.size + 'Subjects lit on the map.' :
+      'None — this is the root.') + '</div>' +
+    '<h3>leads to</h3>' +
+    (usa.length ? usa.map(a => '<div class="pre w-' + a.w + '"><b>' +
+      D.nos[a.para].rotulo + '</b></div>').join('')
+      : '<div class="vazio">Map tip, for now.</div>');
+}
+
+function limpar(){
+  svg.classList.remove('focused');
+  svg.querySelectorAll('.acesa,.alvo').forEach(e => e.classList.remove('lit','alvo'));
+  painel.innerHTML = '<div class="vazio">No subject chosen.<br><br>' +
+    'Click on a box on the map — or search by name — to see what it is,' +
+    'which subjects it depends on, and <b>where each arrow came from</b>.</div>';
+}
+
+// A rolagem vai no CLIQUE, não dentro de acender(): a busca também chama
+// acender, e rolar a página a cada tecla digitada — com o teclado do celular
+// aberto — seria pior que o defeito que isto conserta.
+svg.querySelectorAll('.no').forEach(g =>
+  g.addEventListener('click', e => {
+    e.stopPropagation(); acender(g.dataset.id); levarAoPainel();
+  }));
+document.getElementById('ao-mapa').addEventListener('click', () =>
+  document.getElementById('palco').scrollIntoView({behavior:'smooth', block:'start'}));
+palco.addEventListener('click', limpar);
+document.getElementById('limpar').addEventListener('click', limpar);
+
+document.getElementById('busca').addEventListener('input', e => {
+  const q = e.target.value.trim().toLowerCase();
+  if(!q) return limpar();
+  const achado = Object.keys(D.nos).find(k =>
+    D.nos[k].rotulo.toLowerCase().includes(q));
+  if(achado) acender(achado);
+});
+
+document.getElementById('tema').addEventListener('click', e => {
+  const claro = document.documentElement.dataset.tema === 'claro';
+  document.documentElement.dataset.tema = claro ? '' : 'claro';
+  e.target.textContent = claro ? 'clear theme' : 'Dark theme';
+});
+
+/* --- zoom e arrasto: o mapa é para apontar na tela --- */
+// EMPILHADO: as colunas estão embaixo do mapa, não ao lado — o leitor não vê
+// o painel sem rolar. TOQUE-ROLA: tela de dedo, onde um dedo pertence à página
+// e não ao mapa. São perguntas diferentes e têm larguras diferentes.
+const empilhado = () => matchMedia('(max-width: 1199px)').matches;
+const toqueRolaPagina = () => matchMedia('(max-width: 860px)').matches;
+
+let z = 1, tx = 0, ty = 0, arrastando = false, x0 = 0, y0 = 0;
+function aplicar(){ svg.style.transform = `translate(${tx}px,${ty}px) scale(${z})`;
+                    svg.style.transformOrigin = '0 0'; }
+function ajustar(){
+  const r = palco.getBoundingClientRect();
+  z = Math.min(r.width / 1629, r.height / 1906) * 0.96;
+  tx = (r.width - 1629 * z) / 2; ty = (r.height - 1906 * z) / 2;
+  aplicar();
+}
+palco.addEventListener('wheel', e => {
+  e.preventDefault();
+  const r = palco.getBoundingClientRect();
+  const mx = e.clientX - r.left, my = e.clientY - r.top;
+  const k = e.deltaY < 0 ? 1.12 : 1/1.12;
+  const zn = Math.min(3, Math.max(0.15, z * k));
+  tx = mx - (mx - tx) * (zn / z); ty = my - (my - ty) * (zn / z);
+  z = zn; aplicar();
+}, {passive:false});
+palco.addEventListener('mousedown', e => {
+  arrastando = true; palco.classList.add('dragging');
+  x0 = e.clientX - tx; y0 = e.clientY - ty;
+});
+addEventListener('mousemove', e => {
+  if(!arrastando) return;
+  tx = e.clientX - x0; ty = e.clientY - y0; aplicar();
+});
+addEventListener('mouseup', () => { arrastando = false; palco.classList.remove('dragging'); });
+
+/* --- TOQUE (2026-08-24): sem isto o mapa não se move no telefone. Um dedo
+   arrasta; dois dedos dão pinça, com o zoom ancorado no PONTO MÉDIO entre os
+   dedos — que é o gesto que a mão espera. `touch-action:none` no palco é o que
+   impede o navegador de roubar o gesto para rolar a página. --- */
+let toqueD = 0, toqueX = 0, toqueY = 0, toqueZ = 1;
+const meio = t => ({x:(t[0].clientX + t[1].clientX)/2, y:(t[0].clientY + t[1].clientY)/2});
+const dist = t => Math.hypot(t[0].clientX - t[1].clientX, t[0].clientY - t[1].clientY);
+palco.addEventListener('touchstart', e => {
+  const t = e.touches;
+  // no celular, um dedo é da PÁGINA: quem move o mapa são dois.
+  if(t.length === 1 && !toqueRolaPagina()){
+    arrastando = true; x0 = t[0].clientX - tx; y0 = t[0].clientY - ty;
+  }
+  else if(t.length === 2){
+    arrastando = false; toqueD = dist(t); toqueZ = z;
+    const r = palco.getBoundingClientRect(), m = meio(t);
+    toqueX = m.x - r.left; toqueY = m.y - r.top;
+  }
+}, {passive:true});
+palco.addEventListener('touchmove', e => {
+  const t = e.touches;
+  if(t.length === 1 && arrastando){
+    e.preventDefault();
+    tx = t[0].clientX - x0; ty = t[0].clientY - y0; aplicar();
+  } else if(t.length === 2 && toqueD){
+    e.preventDefault();
+    const zn = Math.min(3, Math.max(0.15, toqueZ * (dist(t) / toqueD)));
+    tx = toqueX - (toqueX - tx) * (zn / z);
+    ty = toqueY - (toqueY - ty) * (zn / z);
+    z = zn;
+    // com um dedo entregue à página, o ARRASTO do mapa passa a ser de dois —
+    // sem isto o celular só conseguiria ampliar, nunca deslocar.
+    const m = meio(t), r = palco.getBoundingClientRect();
+    const mx = m.x - r.left, my = m.y - r.top;
+    tx += mx - toqueX; ty += my - toqueY;
+    toqueX = mx; toqueY = my;
+    aplicar();
+  }
+}, {passive:false});
+palco.addEventListener('touchend', e => {
+  if(e.touches.length === 0){ arrastando = false; toqueD = 0; }
+}, {passive:true});
+document.getElementById('ajustar').addEventListener('click', ajustar);
+// F DE FIT, como no Nuke. Ignorado enquanto se digita: procurar por "função"
+// reenquadraria o mapa a cada "f" batido na busca.
+addEventListener('keydown', e => {
+  const t = document.activeElement;
+  const digitando = t && (t.tagName === 'INPUT' || t.tagName === 'TEXTAREA');
+  if (digitando || e.ctrlKey || e.metaKey || e.altKey) return;
+  if (e.key === 'f' || e.key === 'F') { e.preventDefault(); ajustar(); }
+});
+addEventListener('resize', ajustar);
+ajustar();
+
+/* abrir já apontando: index.html#integral — serve para deixar o link
+   pronto antes da aula, e é como esta interação se testa sem clicar. */
+function doHash(){
+  const id = decodeURIComponent(location.hash.replace('#',''));
+  if(id && D.nos[id]) acender(id); else limpar();
+}
+addEventListener('hashchange', doHash);
+if(location.hash) doHash();
+</script>
+<!-- faixa-idioma: gerada por i18n.py, nao editar -->
+<div id="faixa-idioma" hidden style="position:fixed;top:0;left:0;right:0;
+ z-index:99;background:#c9a266;color:#0a1424;font:13px/1.4 Inter,system-ui,
+ sans-serif;padding:7px 12px;display:flex;gap:10px;justify-content:center;
+ align-items:center">
+<span>Esta pagina esta em ingles.</span>
+<a href="../pt/index.html" style="color:#0a1424;font-weight:600">Ler em portugues</a>
+<button onclick="this.parentNode.hidden=true" aria-label="fechar"
+ style="background:none;border:0;color:#0a1424;cursor:pointer;font-size:15px">&times;</button>
+</div>
+<script>
+(function(){try{
+  var f=localStorage.getItem('sc-lang');
+  if(f==='en')return;
+  var L=(navigator.languages&&navigator.languages.length)?navigator.languages
+        :[navigator.language||''];
+  var pt=false; for(var i=0;i<L.length;i++){ if(/^pt/i.test(L[i])){pt=true;break;} }
+  if(f!=='pt' && pt!==true)return;
+  document.getElementById('faixa-idioma').hidden=false;
+}catch(e){}})();
+document.querySelector('#faixa-idioma a').addEventListener('click',function(){
+  try{localStorage.setItem('sc-lang','pt');}catch(e){}
+});
+</script>
+</body></html>

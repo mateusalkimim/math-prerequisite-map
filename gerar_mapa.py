@@ -25,7 +25,12 @@ from materias import NOS, ARESTAS, DOMINIOS, REGIAO_GEO
 from layout import montar
 
 AQUI = os.path.dirname(os.path.abspath(__file__))
-SAIDA = os.path.join(AQUI, "index.html")
+# Bilíngue desde 2026-08-27: `pt/` guarda a página gerada em português, `en/` é
+# derivada dela pelas tabelas de `traducao/`, e a raiz é a porta que encaminha
+# por idioma. Sem esta linha o gerador sobrescreveria a porta a cada rodada,
+# e nada acusaria — uma página válida ficaria no lugar de outra página válida.
+SAIDA = os.path.join(AQUI, "pt" if os.path.isdir(os.path.join(AQUI, "pt")) else "",
+                     "index.html")
 
 CAIXA_L, CAIXA_A = 152, 58
 GAP_X, GAP_Y = 20, 146
