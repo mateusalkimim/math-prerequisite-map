@@ -1,387 +1,281 @@
 <!-- idioma: linha gerada por i18n.py -->
-*[Read this in English](README.en.md)*
+> [!NOTE]
+> ### 🇧🇷 **[Leia esta página em português →](README.pt-BR.md)**
 
-# O mapa das matérias — a ordem lógica do ciclo básico
+# The map of subjects — the logical order of the basic cycle
 
-Um mapa interativo de **pré-requisitos** da matemática do ciclo básico: 50
-matérias, 78 dependências, cada seta declarando de onde ela saiu. Clicar
-numa matéria acende toda a cadeia que a sustenta, até a linguagem dos conjuntos.
+An interactive map of **prerequisites** for mathematics in the basic cycle: 50  
+subjects, 78 dependencies, each arrow declaring where it came from. Clicking  
+on a subject lights up the entire chain that supports it, up to the language of sets.
 
-**→ [Abrir o mapa](https://mateusalkimim.github.io/math-prerequisite-map/)**
+**→ [Open the map](https://mateusalkimim.github.io/math-prerequisite-map/)**
 
-> **Estado: PROPOSTA.** O grafo é uma afirmação sobre o que precede o quê, e
-> ainda não foi ratificado — é rascunho com fonte, não material de aula. Está
-> publicado assim de propósito: uma seta errada manda o aluno estudar a coisa
-> errada, e é melhor que ela seja contestada do que aceita em silêncio.
-> Discordâncias são bem-vindas nas issues.
+> **Status: PROPOSAL.** The graph is a statement about what precedes what, and it has not yet been ratified — it is a draft with a source, not teaching material. It is published this way on purpose: a wrong arrow sends the student to study the wrong thing, and it is better that it be contested than accepted in silence.  
+> Disagreements are welcome in the issues.
 
-Um mapa da **ordem lógica** das matérias — não a histórica, não a curricular. As
-três ordens já estavam distinguidas na `fig-tres-ordens` do
-um mapa da genealogia histórica (documento irmão, não publicado); este documento leva **a terceira**
-até o fim, e a torna instrumento.
+A map of the **logical order** of the subjects — not the historical, not the curricular. The three orders were already distinguished in the `fig-tres-ordens` of a map of the historical genealogy (sibling document, unpublished); this document takes **the third** to its conclusion and makes it an instrument.
 
-**Para que serve**: projetar na tela e apontar onde um aluno travou. Clicar numa
-matéria acende **toda a cadeia que a sustenta**, até a linguagem dos conjuntos — e mostra, no
-painel, de onde veio cada seta.
+**Purpose**: Design on the screen and point where a student got stuck. Clicking on a topic lights up **the entire chain that supports it**, up to the language of sets — and shows, in the panel, where each arrow came from.
 
 ```bash
 python3 gerar_mapa.py     # regenera o HTML (autossuficiente, abre sem servidor)
 ```
 
-Abrir já apontando: `mapa-materias.html#integral` — o link fica pronto antes da
-aula. Os identificadores estão em `materias.py`.
+Open already pointing: `mapa-materias.html#integral` — the link is ready before the  
+lesson. The identifiers are in `materias.py`.
 
-## O que o mapa mede
+## What the map measures
 
 | | |
 |---|---|
-| matérias | **50** em **13 camadas** |
-| dependências | **78** |
-| cruzamentos de aresta | **102 → 41** |
+| subjects | **50** in **13 layers** |
+| dependencies | **78** |
+| edge crossings | **102 → 41** |
 
-## Nenhuma seta entra sem dizer de onde veio
+## No arrow enters without saying where it came from
 
-O mapa vai apontar onde um aluno travou: **uma seta errada manda o aluno estudar
-a coisa errada.** Por isso cada dependência carrega sua classe de warrant, e ela
-aparece no desenho e no painel:
+The map will point out where a student got stuck: **a wrong arrow leads the student to study the wrong thing.** That's why each dependency carries its class of warrant, and it appears in the drawing and the panel:
 
-- **definição** (26) — X entra na *definição* de Y na obra citada. É a seta
-  forte: dependência lógica, não conveniência de currículo. *A derivada é
-  definida como um limite* (Guidorizzi §7.2);
-- **ordem do livro** (29) — X é definido antes de Y na mesma obra, e Y o usa.
-  Precedência consolidada, evidência mais fraca;
-- **orientação acadêmica** (9) — a seta vem de **orientação registrada**, não
-  de página conferível. Mais forte que a fronteira, porque há uma pessoa
-  responsável e uma data; mais fraca que a ordem, porque não se abre o livro
-  para conferir. **Só entra com data** — sem data é opinião anônima. Desenhada
-  pontilhada. O nome de quem orientou fica fora desta publicação enquanto não
-  houver aval da pessoa: o texto do warrant vai inteiro para a página, e nome
-  de terceiro não se publica sem consentimento;
-- **fronteira** (14) — matéria que **o acervo não cobre**. O nó aparece porque o
-  mapa precisa mostrar para onde as estradas vão; a seta é julgamento declarado,
-  desenhada em traço fraco. É honestidade, não decoração.
+- **definition** (26) — X enters the *definition* of Y in the cited work. It is the strong arrow: logical dependency, not curriculum convenience. *The derivative is defined as a limit* (Guidorizzi §7.2);  
+- **order of the book** (29) — X is defined before Y in the same work, and Y uses it.  
+  Established precedence, weaker evidence;  
+- **academic orientation** (9) — the arrow comes from **registered orientation**, not  
+  a verifiable page. Stronger than the border, because there is a responsible person  
+  and a date; weaker than the order, because the book is not opened to check.  
+  **Only enters with a date** — without a date, it's anonymous opinion. Dotted line.  
+  The name of the person who oriented is not included in this publication until  
+  there is approval from the person: the text of the warrant goes entirely to the  
+  page, and a third party's name is not published without consent;  
+- **border** (14) — a subject that **the archive does not cover**. The node appears  
+  because the map needs to show where the roads go; the arrow is a declared judgment,  
+  drawn with a weak line. It's honesty, not decoration.
 
-Obras (todas em `mouseion/_dissecado/`): **Guidorizzi** v.1 (classe A, TOC de
-157) · **Elon Lages Lima** (classe A) · **Callioli** (classe B — scan sem TOC, e
-a ficha do acervo pede conferir se é parcial; por isso só sustenta aresta de
-*ordem*, nunca de *definição*) · **Merzbach & Boyer** (classe A, TOC de 300).
+Works (all in `mouseion/_dissecado/`): **Guidorizzi** v.1 (class A, TOC of  
+157) · **Elon Lages Lima** (class A) · **Callioli** (class B — scan without TOC, and  
+the archive card asks to check if it's partial; for this reason it only supports edge of  
+*order*, never of *definition*) · **Merzbach & Boyer** (class A, TOC of 300).
 
-## Dois troncos, e um deles contém o outro
+## Two trunks, and one contains the other
 
-Eram **três** até 2026-08-25 — Cálculo, Álgebra Linear e Geometria Analítica,
-desenhados em RGB aditivo, com a cor somando como luz soma. Uma orientação
-acadêmica desfez o terceiro:
+There were **three** until 2026-08-25 — Calculus, Linear Algebra, and Analytic Geometry,  
+designed in additive RGB, with color adding like light adds. An academic orientation  
+dissolved the third:
 
-> *"Geometria Analítica é uma forma de enxergar a Álgebra Linear."*
+> *"Analytic Geometry is a way of seeing Linear Algebra."*
 
-A Geometria Analítica não é irmã da Álgebra Linear: está **contida** nela. E a
-contenção tem nome exato — é a região da Álgebra Linear onde existe **produto
-interno**, que é o que dá distância e ângulo, e portanto figura. Em **qualquer**
-dimensão: prender a Geometria Analítica a três dimensões confunde o limite da
-*ilustração*, que precisa caber no papel, com o limite da *estrutura*, que não
-tem nenhum.
+Analytic Geometry is not a sister of Linear Algebra: it is **contained** within it. And containment has an exact name — it is the region of Linear Algebra where there exists **inner product**, which gives distance and angle, and therefore figure. In **any** dimension: tying Analytic Geometry to three dimensions confuses the limit of *illustration*, which needs to fit on paper, with the limit of *structure*, which has none.
 
-O argumento que fecha: o próprio **número real já é um espaço vetorial** de
-dimensão 1, e um real qualquer se representa pelo segmento orientado que vai da
-origem até ele. Se o objeto mais elementar da reta já é vetorial, não há onde
-cortar uma coisa da outra.
+The argument that concludes: the **real number itself is already a vector space** of dimension 1, and any real number is represented by the oriented segment that goes from the origin to it. If the most elementary object of the line is already vectorial, there is no way to separate one from the other.
 
-| tronco | forma | cor |
+| trunk | shape | color |
 |---|---|---|
-| **Cálculo** (I, II, III) | laterais arredondadas | vermelho |
-| **Álgebra Linear** | hexágono (o nó de tempo do Nuke) | verde |
-| **Geometria Analítica** | **contorno duplo** dentro do hexágono | traço azul |
-| **dois troncos** | cantos chanfrados | a soma das duas luzes |
-| **a base** | canto suave | ouro — anterior aos dois |
+| **Calculus** (I, II, III) | rounded sides | red |
+| **Linear Algebra** | hexagon (the time node of Nuke) | green |
+| **Analytic Geometry** | **double outline** inside the hexagon | blue stroke |
+| **two trunks** | beveled corners | the sum of the two lights |
+| **the base** | soft corner | gold — prior to the two |
 
-A contenção é **desenhada**, não declarada em legenda: contorno dentro de
-contorno. A mistura de cor dizia *"estes dois se cruzam"*; o contorno interno diz
-*"este está dentro daquele"*, que é o que a matemática afirma. O RGB saiu junto
-com o terceiro tronco — não havia mais três luzes para somar.
+Containment is **drawn**, not declared in a legend: contour within a contour.  
+The color mix said *"these two intersect"*; the inner contour said *"this is  
+within that"*, which is what mathematics asserts. RGB went away with the third  
+trunk — there were no more three lights to add.
 
-⚠️ **Contenção não é precedência, e por isso nenhuma seta mudou.** "A Geometria
-Analítica está contida na Álgebra Linear" diz onde a matéria **mora**; a seta diz
-de quem ela **depende**. Desenhar a contenção como seta mandaria o aluno estudar
-espaço vetorial antes de coordenadas no plano. É o mesmo erro que já derrubou um
-ciclo neste mapa: lá era *"usa"* contra *"precede"*, aqui é *"contém"*.
+⚠️ **Containment is not precedence, and therefore no arrow changed.** "Analytic Geometry is contained in Linear Algebra" says where the subject **resides**; the arrow says of what it **depends**. Drawing containment as an arrow would lead the student to study vector space before coordinates in the plane. It's the same mistake that already derailed a cycle in this map: there it was *"use"* against *"precedes"*, here it is *"contains"*.
 
-**Pertencer a um tronco não é depender dele.** *Cálculo de várias variáveis*
-depende de vetores mas pertence ao Cálculo. A aresta diz de quem se depende; a
-forma diz onde a matéria é ensinada.
+**Belonging to a trunk is not depending on it.** *Calculus of several variables* depends on vectors but belongs to Calculus. The edge says who you depend on; the shape says where the subject is taught.
 
-## A base tem seis áreas, e a conta não é a primeira
+## The base has six areas, and the count is not the first
 
-A camada anterior aos dois troncos tem **16 nós**, organizados nas seis áreas da
-matemática elementar (taxonomia de orientação, 2026-08-25):
+The layer prior to the two trunks has **16 nodes**, organized into the six areas  
+of elementary mathematics (taxonomy of orientation, 2026-08-25):
 
-1. **conjuntos e conjuntos numéricos** — a língua em que o resto é dito, e por
-   isso é onde o mapa começa. ℕ ⊂ ℤ ⊂ ℚ ⊂ ℝ: cada um existe porque o anterior
-   não bastava — o inteiro dá o oposto, o racional dá o inverso, o real fecha os
-   buracos;
-2. **aritmética e problemas de contagem** — o raciocínio combinatório, que não é
-   a mesma área da aritmética das operações. Ela sustenta o **determinante**,
-   que é uma soma sobre as *n*! permutações;
-3. **geometria plana e não plana** — a figura de duas dimensões e o sólido de
-   três. É aqui que a **trigonometria** mora: ela é razão entre lados de um
-   *triângulo*, e antes disso ficava pendurada na álgebra elementar sem chão;
-4. **álgebra elementar** — a letra no lugar do número;
-5. **aritmética e as operações** — que abre em cinco pilares, e onde as lacunas
-   do ensino básico aparecem;
-6. **relações e funções** — a função é a relação em que cada entrada tem uma
-   saída só. E o **par ordenado** do produto cartesiano é o mesmo objeto que a
-   coordenada no plano: é a raiz comum da função e da geometria analítica.
+1. **sets and numeric sets** — the language in which the remainder is spoken, and thus where the map begins. ℕ ⊂ ℤ ⊂ ℚ ⊂ ℝ: each exists because the previous was not enough — the integer provides the opposite, the rational provides the inverse, the real closes the gaps;  
+2. **arithmetic and counting problems** — combinatorial reasoning, which is not the same area as the arithmetic of operations. It supports the **determinant**, which is a sum over the *n*! permutations;  
+3. **plane and non-plane geometry** — the two-dimensional figure and the three-dimensional solid. This is where **trigonometry** resides: it is the ratio between the sides of a *triangle*, and before that it hung on elementary algebra without a base;  
+4. **elementary algebra** — the letter in place of the number;  
+5. **arithmetic and the operations** — which opens into five pillars, and where the gaps in basic education appear;  
+6. **relations and functions** — a function is a relation in which each input has only one output. And the **ordered pair** of the Cartesian product is the same object as the coordinate in the plane: it is the common root of the function and analytic geometry.
 
-**Não existem quatro operações.** A subtração não é operação própria — é somar o
-oposto; a divisão é multiplicar pelo inverso. São **duas** operações e seus
-inversos, e o mesmo vale para a potenciação.
+**There are not four operations.** Subtraction is not an operation in its own  
+right — it is adding the opposite; division is multiplying by the inverse. There  
+are **two** operations and their inverses, and the same holds for exponentiation.
 
-E é daí que sai o lugar do **logaritmo**: soma e produto são *comutativos*, então
-cada um tem **uma** inversa. A potenciação **não é comutativa** (2³ ≠ 3²), e por
-isso tem **duas** — a raiz acha a *base*, o logaritmo acha o *expoente*. O log
-não é um intruso na aritmética: é a segunda inversa que a assimetria obriga a
-existir. O que fica no cálculo é a *função* de expoente real, que só o limite
-define.
+And that's where the place of the **logarithm** comes from: addition and multiplication are *commutative*, so each has **one** inverse. Exponentiation **is not commutative** (2³ ≠ 3²), and for that reason it has **two** — the root finds the *base*, the logarithm finds the *exponent*. The log is not an intruder in arithmetic: it is the second inverse that asymmetry obliges to exist. What remains in the calculation is the *function* of real exponent, which only the limit defines.
 
-## A lógica primordial, declarada
+## The primordial logic, declared
 
-O mapa nomeava os troncos — "Cálculo", "Álgebra Linear" — e **em lugar nenhum
-dizia o que eles são**. A cor codificava o tronco; ninguém decodificava a razão
-dele. Agora está dito em quatro lugares:
+The map named the trunks — "Calculus", "Linear Algebra" — and **nowhere did it say what they are**. The color encoded the trunk; no one decoded the reason for it. Now it is stated in four places:
 
-> **A álgebra linear fala do que é LINEAR** — soma e escala preservadas.
-> **O cálculo fala do que é CONSTANTE**, e do que muda perto de um ponto.
-> São dois assuntos, e nenhum se apoia no outro.
+> **Linear algebra speaks of what is LINEAR** — sum and scale preserved.  
+> **Calculus speaks of what is CONSTANT**, and what changes near a point.  
+> They are two subjects, and neither relies on the other.
 
-É essa distinção que faz a série ser uma **árvore** e não uma fila, e por isso
-ela precisava estar no mapa, não só na norma.
+It is this distinction that makes the series a **tree** and not a queue, and for that reason it needed to be in the map, not just in the standard.
 
-**A marca de canto.** Cada matéria carrega no canto um disco com letra — **C**
-de constante, **L** de linear — no gesto dos nós do Nuke, onde um disco no canto
-diz que o nó tem animação, expressão ou clone. O rótulo não muda; a informação
-entra por fora. Uma matéria que vive nos dois troncos leva as duas marcas.
+**The corner mark.** Each subject carries in the corner a disk with a letter — **C** for constant, **L** for linear — in the gesture of the Nuke nodes, where a disk in the corner indicates that the node has animation, expression, or clone. The label does not change; the information comes from outside. A subject that lives in both trunks carries both marks.
 
-**A base fica sem marca, de propósito**: ela não é nem uma coisa nem outra, é
-anterior às duas. Marcar tudo diria que tudo se classifica.
+**The base is left unmarked, on purpose**: it is neither one nor the other, it is prior to both. Marking everything would imply that everything classifies.
 
-## Atalhos
+## Shortcuts
 
-| tecla | o que faz |
+| key | what it does |
 |---|---|
-| **F** | reenquadra o mapa inteiro na tela — o mesmo que "ajustar à tela" |
+| **F** | reframes the entire map on the screen — the same as "fit to screen" |
 
-O **F** é ignorado enquanto se digita na busca: sem isso, procurar por "função"
-reenquadraria o mapa a cada `f` batido.
+The **F** is ignored while typing in the search: without this, searching for "function" would reframe the map with each `f` pressed.
 
-## A coluna de propriedades, e os verbetes
+## The column of properties, and the entries
 
-Clicar num nó abre o painel **dele** numa coluna própria — o raciocínio do
-Properties Bin do Nuke, aplicado a um mapa. O texto fica **encostado no mapa**,
-e a chave de cores e formas vai para a ponta: quem clica olha para o lado e lê,
-enquanto a legenda é consulta ocasional. A coluna fica **sempre aberta**,
-mesmo vazia: coluna que aparece e some faz o mapa saltar de largura a cada
-clique, e o leitor perde de vista o nó que estava olhando. **Um nó por vez.**
+Clicking on a node opens its **panel** in its own column — the Properties Bin of Nuke, applied to a map. The text is **snugged up to the map**, and the key of colors and shapes goes to the end: the person who clicks looks to the side and reads, while the legend is an occasional reference. The column stays **always open**, even if empty: a column that appears and disappears makes the map jump in width with each click, and the reader loses sight of the node they were looking at. **One node at a time.**
 
-Cada matéria tem quatro campos, escritos fora da página e embutidos aqui (a
-página é estática — não há modelo rodando ao vivo):
+Each subject has four fields, written outside the page and embedded here (the page is static — there is no live model running):
 
-| campo | o que responde |
+| field | what it answers |
 |---|---|
-| **o que é** | a definição, em uma frase |
-| **por que existe** | que problema apareceu ANTES e obrigou isto a existir |
-| **onde aparece no mundo** | onde isto vive hoje, em serviços que qualquer pessoa reconhece |
-| **onde se trava** | o erro comum de quem está aprendendo |
+| **what it is** | the definition, in a sentence |
+| **why it exists** | what problem appeared BEFORE and necessitated this to exist |
+| **where it appears in the world** | where this exists today, in services that anyone recognizes |
+| **where it gets stuck** | the common error of someone who is learning |
 
-**Os verbetes são escritos por um modelo de linguagem, e a página diz isso.**
-Cada um carrega sua procedência — qual modelo, onde rodou, em que data, e se já
-passou por leitura humana. Num mapa cujo valor inteiro é declarar de onde vem
-cada seta, um texto entrando calado seria a única afirmação sem warrant aqui.
+**The entries are written by a language model, and the page says so.** Each one carries its provenance — which model, where it ran, on what date, and if it has already been reviewed by a human. In a map whose entire value is to declare the origin of each arrow, a text entering silently would be the only assertion without warrant here.
 
-O gerador não é só um prompt. Três coisas fazem a regra valer:
+The generator is not just a prompt. Three things make the rule valid:
 
-- **um validador** que recusa campo vazio, transbordo, fórmula em LaTeX (a
-  página não desenha LaTeX) e exemplo tirado de efeitos visuais, computação
-  gráfica ou processamento de imagem — que é o assunto de outro material, não
-  deste mapa;
-- **um verificador adversarial** sobre o campo do exemplo, que é onde um modelo
-  inventa. Ele é **portão, não etiqueta**: reprovou, o nó volta para a fila com
-  o motivo e o modelo troca de exemplo. Como simples marcador ele reprovava 3
-  em 4, e uma lista com 35 suspeitos em 50 não separa nada;
-- **um teto por domínio de exemplo.** Numa rodada, 13 dos 50 verbetes ancoraram
-  em GPS e navegação. Cada um era verdadeiro — o verificador não tinha o que
-  marcar — mas juntos faziam o mapa dizer que a matemática toda serve para achar
-  caminho. Com o teto, a maior concentração caiu para 6 de 50.
+- **a validator** that rejects empty field, overflow, formula in LaTeX (the
+  page does not draw LaTeX) and example taken from visual effects, computer
+  graphics, or image processing — which is the subject of another material, not
+  this map;
+- **an adversarial checker** on the example field, which is where a model
+  invents. It is **gate, not label**: if it fails, the node goes back to the
+  queue with the reason and the model changes the example. As a simple marker
+  it failed 3 in 4, and a list with 35 suspects in 50 does not separate anything;
+- **a ceiling per example domain.** In one round, 13 of the 50 entries anchored
+  in GPS and navigation. Each one was true — the checker had nothing to mark —
+  but together they made the map say that all of mathematics is for finding
+  a path. With the ceiling, the highest concentration fell to 6 of 50.
 
-## No celular, um dedo é da página e dois são do mapa
+## On a cell phone, one finger is for the page and two are for the map
 
-O mapa era medido em 1366×768 e 1920×1080, e no telefone tinha um defeito que
-nenhuma dessas medidas pega: as colunas de texto e de figuras **existiam e eram
-inalcançáveis**. O palco cobria o meio da tela com `touch-action: none`, então o
-dedo sobre o mapa não rolava a página, e clicar num nó preenchia um painel fora
-da vista.
+The map was measured at 1366×768 and 1920×1080, and on the phone there was a defect that  
+none of these measurements catch: the columns of text and figures **existed and were unreachable**.  
+The stage covered the middle of the screen with `touch-action: none`, so the finger over the map  
+did not scroll the page, and clicking on a node filled a panel out of view.
 
-Medido em 390×844 antes do conserto: painel no topo **710** de 844 de viewport,
-coluna de figuras em **860** — fora da tela — e o clique num nó rolava **0px**.
+Measured at 390×844 before the fix: top panel **710** of 844 of viewport,  
+column of figures at **860** — off-screen — and the click on a node scrolled **0px**.
 
-Três mudanças, e as três são medidas por [`medir_telas.py`](medir_telas.py):
+Three changes, and all three are measured by [`medir_telas.py`](medir_telas.py):
 
-- **um dedo rola a página, dois movem e ampliam o mapa** — o padrão de mapa
-  embutido. Como o arrasto de um dedo saiu, o de dois passou a deslocar além de
-  ampliar; sem isso o celular só conseguiria dar zoom, nunca andar;
-- **clicar num nó leva o leitor até o painel**, com rolagem suave. Só no clique,
-  nunca na busca: rolar a cada tecla digitada, com o teclado do celular aberto,
-  seria pior que o defeito original;
-- **um botão "voltar ao mapa"**, que só aparece quando as colunas estão
-  empilhadas — lado a lado o mapa nunca sai de vista, e o botão seria ruído.
+- **One finger scrolls the page, two fingers move and zoom the map** — the embedded map pattern. As the drag of one finger ended, the drag of two began to move beyond zooming; without this, the phone would only be able to zoom, never navigate;
+- **Clicking on a node takes the reader to the panel**, with smooth scrolling. Only on click, never on search: scrolling with each key pressed, with the phone's keyboard open, would be worse than the original defect;
+- **A "return to map" button**, which only appears when the columns are stacked — side by side the map is never out of sight, and the button would be noise.
 
-O portão confere as duas coisas separadamente, porque são defeitos diferentes: o
-painel fica visível depois do clique, e o gesto de um dedo não é capturado. A
-segunda medida existe porque o CSS certo não basta — o handler ainda podia
-chamar `preventDefault` e matar a rolagem com o `touch-action` correto ao lado.
+The gate checks the two things separately because they are different defects: the panel becomes visible after the click, and the one-finger gesture is not captured. The second measure exists because the correct CSS is not enough — the handler could still call `preventDefault` and kill the scroll with the correct `touch-action` alongside.
 
-## O mapa como figura dentro de uma aula
+## The map as a figure within a lesson
 
-[`figura_deck.py`](figura_deck.py) exporta o mapa em SVG com um episódio em
-foco, para o deck da aula abrir dizendo **onde estamos** e fechar dizendo **para
-onde vamos**:
+[`figura_deck.py`](figura_deck.py) exports the map in SVG with a focused episode, for the lecture deck to open saying **where we are** and close saying **where we are going**:
 
 ```bash
 python3 figura_deck.py --ids matrizes,sistemas,determinante \
     --modo abertura --titulo "G2 · Determinantes" --saida onde-estamos.svg
 python3 figura_deck.py --ids matrizes,sistemas,determinante \
-    --modo recorte  --titulo "para onde vamos"    --saida proximo.svg
+    --modo recorte  --titulo "where we are going"    --saida proximo.svg
 ```
 
-| modo | o que desenha | para quê |
+| mode | what it draws | for what |
 |---|---|---|
-| `abertura` | o mapa **inteiro**; rótulo só nas matérias do episódio e nos vizinhos diretos | lê-se a mancha: quanto do campo já foi andado |
-| `recorte` | só a vizinhança, toda rotulada, com as camadas vazias colapsadas | lê-se o nome: qual é a próxima dependência |
+| `abertura` | the **entire** map; label only on the subjects of the episode and their direct neighbors | reads the blot: how much of the field has been traversed |
+| `recorte` | only the neighborhood, fully labeled, with empty layers collapsed | reads the name: what is the next dependency |
 
-Três decisões que o desenho carrega:
+Three decisions that the drawing carries:
 
-- **rótulo só nos relacionados.** Cinquenta nomes numa folha de 1920 não se
-  leem. As outras matérias continuam desenhadas e apagadas — §1.5 da norma:
-  *apagar em vez de sumir*, o contexto fica, o foco não;
-- **o recorte é por `viewBox`, com o layout intacto.** Recalcular posições só
-  para a vizinhança daria um desenho mais compacto e **mentiria sobre a
-  geografia**: o leitor acabou de ver o mapa inteiro na abertura, e as caixas
-  precisam estar onde estavam. O que se comprime são as **camadas vazias** — a
-  vizinhança do determinante vai da camada 1 à 9, o que em altura real daria
-  1.624 px contra 714 de largura, um fio ilegível numa folha 16:9. Colapsadas,
-  a proporção sai entre 0,83 e 1,10 nos episódios medidos;
-- **SVG e não PNG**, por causa de um portão: o auditor de rótulos lê o **texto
-  vetorial** do PDF. Rótulo em bitmap é rótulo que o auditor não vê.
+- **label only on related items.** Fifty names on a sheet of 1920 do not read. The other subjects remain drawn and erased — §1.5 of the standard: *erase instead of disappear*, the context stays, the focus does not;  
+- **the crop is by `viewBox`, with the layout intact.** Recalculating positions only for the neighborhood would give a more compact drawing and **lie about the geography**: the reader just saw the entire map in the opening, and the boxes need to be where they were. What is compressed are the **empty layers** — the neighborhood of the determinant goes from layer 1 to 9, which in real height would be 1,624 px against 714 of width, an illegible thread on a 16:9 sheet. Collapsed, the ratio comes out between 0.83 and 1.10 in the episodes measured;  
+- **SVG and not PNG**, because of a gate: the auditor of labels reads the **vector text** of the PDF. A label in bitmap is a label that the auditor does not see.
 
-A paleta é a do **deck** (papel `#f3f5f9`), não a do site: os matizes dos
-troncos são os mesmos, mas no claro a cor **mistura por média** e não por soma —
-somar luz sobre papel claro estoura para o branco.
+The palette is that of the **deck** (paper `#f3f5f9`), not that of the site: the tints of  
+the trunks are the same, but in the light the color **mixes by average** and not by sum —  
+adding light over light paper blows out to white.
 
-## As linhas não têm diagonal
+## The lines have no diagonal
 
-Só horizontal, vertical e L, por decisão de desenho. Cada trecho vira um **Z**
-(desce, anda, desce), com o degrau afastado dentro do vão entre camadas para que
-duas arestas não se deitem uma sobre a outra. Medido no SVG gerado: **0
-segmentos diagonais em 78 arestas**.
+Only horizontal, vertical, and L, by design decision. Each segment becomes a **Z** (descends, moves, descends), with the step offset within the gap between layers so that two edges do not lie one on top of the other. Measured in the generated SVG: **0 diagonal segments in 78 edges**.
 
-## A norma, citada onde foi aplicada
+## The norm, cited where it was applied
 
-Sob uma norma de diagramas própria (documento irmão, não publicado):
+Under a diagram norm of its own (sibling document, not published):
 
-- **§1.1 — cruzamento é o defeito nº 1** (Purchase 1997) e vence qualquer outra
-  regra em conflito. Por isso o layout **não é desenhado, é medido**: camadas por
-  caminho mais longo, nós virtuais nas arestas que pulam camada, baricentro
-  iterado, e a contagem no rodapé da própria página. Regra sem medida é
-  preferência;
-- **§1.2 — a direção se declara uma vez e não se mistura.** Aqui é **de cima
-  para baixo**, dito no cabeçalho da página: o pré-requisito fica sempre acima de
-  quem o exige;
-- **§1.3 — kit de três formas.** Retângulo arredondado para matéria, oval para a
-  raiz (terminador de início). **Losango não aparece porque não há decisão** no
-  mapa. Nenhuma forma inventada;
-- **§1.4 — o nó é caixa, nunca ponto**, com o rótulo dentro. *"Ponto obriga a ler
-  legenda; caixa se lê de uma vez"*;
-- **§1.5 — modularidade por ocultação.** Escolhida uma matéria, o resto **apaga
-  em vez de sumir**: o contexto continua visível, o foco não;
-- **§2 — a gramática.** O ouro é o fluxo. As **quatro** classes de warrant se
-  distinguem por peso e traço, declaradas na legenda do rodapé;
-- **§4 — a armadilha do SVG.** A página foi medida em **1366×768 e 1920×1080**.
+- **§1.1 — crossing is the #1 defect** (Purchase 1997) and overrides any other conflicting rule. Therefore, the layout **is not designed, it is measured**: layers by longest path, virtual nodes on edges that skip layers, iterated centroid, and the count in the footer of the page itself. Rule without measure is preference;
+- **§1.2 — direction is declared once and not mixed.** Here it is **top to bottom**, stated in the page header: the prerequisite always stays above what requires it;
+- **§1.3 — kit of three shapes.** Rounded rectangle for content, oval for the root (terminator of start). **Rhombus does not appear because there is no decision** in the map. No invented shapes;
+- **§1.4 — the node is a box, never a point**, with the label inside. *"Point forces reading the legend; box is read at once"*;
+- **§1.5 — modularity by occlusion.** Once a topic is chosen, the rest **turns off instead of disappearing**: the context remains visible, the focus does not;
+- **§2 — the grammar.** The gold is the flow. The **four** classes of warrant are distinguished by weight and stroke, declared in the footer legend;
+- **§4 — the SVG trap.** The page was measured in **1366×768 and 1920×1080**.
 
-## Dois defeitos que o próprio instrumento pegou
+## Two Flaws That the Instrument Itself Has
 
-1. **Um ciclo no meu modelo.** `sistemas → matrizes → determinante → sistemas`. O
-   determinante *decide* um sistema (invertibilidade, Cramer), mas não é
-   pré-requisito para **definir** sistema. Era confusão entre **"usa"** e
-   **"precede"** — e um grafo de pré-requisitos que tem ciclo está errado por
-   construção. A aresta saiu, com o motivo escrito em `materias.py`;
-2. **O alinhamento que eu quis fazer, e a medida derrubou.** Com as arestas
-   ortogonais, as linhas longas passaram a correr pelas bordas formando
-   *molduras* em volta do desenho. Escrevi um alinhamento de coordenada (puxar
-   cada nó para o baricentro dos vizinhos) e medi antes de adotar: o comprimento
-   das arestas caiu **1,4%** e a largura subiu **64%** (1.572 → 2.581 px). Ideia
-   descartada, código mantido em `layout.py` com o número escrito. **O que
-   rendeu de verdade foi banal**: dar um vão menor entre dois nós virtuais
-   vizinhos (7 px em vez de 20);
-3. **Nó virtual não é caixa.** Na 1ª geração ele ocupava a largura de uma caixa
-   inteira, o que inflava o desenho para 2484 px e fazia as arestas longas
-   desviarem até a borda — bicos que a medida de cruzamento **não pegava**,
-   porque cruzamento não é a mesma coisa que desvio. O olho pegou. Corrigido, a
-   largura caiu para **1668 px**.
+1. **A cycle in my model.** `sistemas → matrizes → determinante → sistemas`. The determinant *decides* a system (invertibility, Cramer), but it is not a prerequisite to **define** a system. There was confusion between **"uses"** and **"precedes"** — and a graph of prerequisites that has a cycle is wrong by construction. The edge was removed, with the reason written in `materias.py`;  
+2. **The alignment I wanted to make, and the measurement knocked it down.** With orthogonal edges, the long lines started running along the edges forming *frames* around the drawing. I wrote a coordinate alignment (pulling each node to the centroid of its neighbors) and measured before adopting: the length of the edges fell **1.4%** and the width rose **64%** (1,572 → 2,581 px). Idea discarded, code kept in `layout.py` with the number written. **What really paid off was banal**: giving a smaller gap between two adjacent virtual nodes (7 px instead of 20);  
+3. **A virtual node is not a box.** In the 1st generation it occupied the width of an entire box, which inflated the drawing to 2,484 px and made the long edges deviate to the edge — spikes that the crossing **measure did not catch**, because crossing is not the same as deviation. The eye caught it. Corrected, the width fell to **1,668 px**.
 
-4. **O layout partia da ordem alfabética.** O baricentro é local: melhora o
-   arranjo que recebe, e recebia os nós de cada camada ordenados **por nome** —
-   que não tem relação nenhuma com o grafo. Trocado por descida em profundidade
-   a partir das raízes, que põe irmãos lado a lado, e acrescentado o passo de
-   **transposição** (testar cada par adjacente, trocar, e só manter se a
-   contagem cair). Medido nas quatro combinações, para separar o que é do
-   algoritmo do que é do conteúdo novo:
+4. **The layout started with alphabetical order.** The centroid is local: it improves the  
+   arrangement that receives, and received the nodes of each layer ordered **by name** —  
+   which has no relation at all with the graph. Replaced by descent in depth  
+   from the roots, which puts siblings side by side, and added the step of  
+   **transposition** (test each adjacent pair, swap, and only keep if the  
+   count falls). Measured in the four combinations, to separate what is from the  
+   algorithm and what is from the new content:
 
-   | | layout antigo | layout novo |
+| | old layout | new layout |
    |---|---|---|
-   | grafo de 44 nós/68 arestas | 34 | **28** |
-   | grafo de 50 nós/78 arestas | 51 | **41** |
+   | graph of 44 nodes/68 edges | 34 | **28** |
+   | graph of 50 nodes/78 edges | 51 | **41** |
 
-   O algoritmo novo vale **−10** cruzamentos; as seis matérias e dez
-   dependências novas custam **+13**. O saldo é declarado, não escondido: o mapa
-   cresceu 14% e ficou com 7 cruzamentos a mais do que tinha.
+The new algorithm is worth **−10** crossings; the six new subjects and ten
+   new dependencies cost **+13**. The balance is declared, not hidden: the map
+   grew 14% and ended up with 7 crossings more than it had.
 
-5. **Duas arestas minhas saíram por serem redundantes — e onze ficaram.**
-   `conj_num → negativos` e `conj_num → fracoes` custavam 15 cruzamentos
-   medidos, e o caminho `conj_num → aritmética → negativos` já dizia a mesma
-   coisa; a informação que carregavam foi para a nota do nó. Mas redundância
-   topológica **não é** motivo suficiente: há 11 outras arestas redundantes no
-   grafo, e quase todas são de *definição* — *"a derivada é um limite"* é
-   redundante por caminho e é a informação central do cálculo. Só sai a aresta
-   cuja informação o caminho alternativo já diz.
+5. **Two of my edges came out as redundant — and eleven stayed.**  
+   `conj_num → negativos` and `conj_num → fracoes` cost 15 measured crossings,  
+   and the path `conj_num → aritmética → negativos` already said the same thing;  
+   the information they carried went to the node's note. But topological  
+   redundancy **is not** a sufficient reason: there are 11 other redundant edges  
+   in the graph, and almost all are of *definition* — *"the derivative is a limit"*  
+   is redundant by path and is the central information of calculus. Only the edge  
+   whose information the alternative path already says is removed.
 
-## O que este mapa NÃO faz
+## What this map DOES NOT do
 
-- **não é ordem de currículo** — a §1.2 vale para o desenho, não para a
-  secretaria. Que a álgebra linear elementar (sistemas, matrizes, determinantes)
-  não dependa de limite é um fato do grafo, não uma sugestão de grade horária;
-- **não cobre a fronteira com fonte** — análise funcional, topologia, medida,
-  geometria diferencial e álgebra abstrata estão no mapa **sem obra por baixo**.
-  Fechar isso pede livro no acervo, não mais desenho;
-- **não mede aprendizagem.** Apontar onde o aluno travou é hipótese do professor
-  na hora; o mapa organiza a conversa, não a diagnostica.
+- **not curriculum order** — the §1.2 applies to the drawing, not to the
+  administration. That elementary linear algebra (systems, matrices, determinants)
+  does not depend on limits is a fact of the graph, not a suggestion of the
+  schedule;
+- **does not cover the border with source** — functional analysis, topology,
+  measure theory, differential geometry, and abstract algebra are on the map
+  **without groundwork**. Closing this requires a book in the collection, not
+  more drawing;
+- **does not measure learning.** Pointing where the student got stuck is the
+  professor's hypothesis at the moment; the map organizes the conversation, not
+  the diagnosis.
 
-## Licença
+## License
 
-- **Código** (`gerar_mapa.py`, `layout.py`, `materias.py`) — [MIT](LICENSE).
-  O arquivo `LICENSE` traz o texto MIT puro, para que o GitHub o reconheça;
-  a divisão de escopo entre código e conteúdo é esta seção.
-- **Conteúdo** (o grafo, seus warrants e este README) —
-  [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/), com o texto
-  legal integral em [`LICENSE-CONTENT`](LICENSE-CONTENT): use, adapte e
-  redistribua, inclusive comercialmente, **citando a fonte** e mantendo
-  qualquer derivado **sob a mesma licença**. O *share-alike* não proíbe uso
-  comercial — proíbe fechar o que se derivou daqui.
+- **Code** (`gerar_mapa.py`, `layout.py`, `materias.py`) — [MIT](LICENSE).  
+  The `LICENSE` file contains the pure MIT text so that GitHub can recognize it;  
+  the scope division between code and content is this section.  
+- **Content** (the graph, its warrants, and this README) —  
+  [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/), with the full  
+  legal text in [`LICENSE-CONTENT`](LICENSE-CONTENT): use, adapt, and  
+  redistribute, even commercially, **citing the source** and keeping any  
+  derivative **under the same license**. The *share-alike* does not prohibit  
+  commercial use — it prohibits closing what was derived from here.
 
-O copyright do conteúdo é de Mateus Alkimim. A licença acima vale para
-terceiros; o titular mantém o direito de licenciar a própria obra sob outros
-termos. O nome do projeto e sua identidade visual não são licenciados aqui.
+The copyright of the content is by Mateus Alkimim. The license above applies to third parties; the holder retains the right to license their own work under other terms. The project name and its visual identity are not licensed here.
 
-> **Emenda de 2026-08-20.** O conteúdo saiu de CC BY 4.0 para CC BY-SA 4.0. A
-> CC BY 4.0 concedida na publicação de 2026-08-19 é irrevogável: quem obteve o
-> conteúdo sob ela naquele intervalo segue coberto por ela.
+> **Amendment of 2026-08-20.** The content moved from CC BY 4.0 to CC BY-SA 4.0.  
+> The CC BY 4.0 granted in the publication of 2026-08-19 is irrevocable: anyone who  
+> obtained the content under it during that interval remains covered by it.
 
-As obras citadas como warrant são referências bibliográficas; nenhum texto delas
-é reproduzido aqui.
+The works cited as warrant are bibliographic references; no text from them is reproduced here.
