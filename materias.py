@@ -146,11 +146,11 @@ ARESTAS = [
 
     # a cadeia da base — já é a fig-3-base do mapa-genealogia
     # o conjunto abre nos seus pilares
-    ("aritmetica",   "operacoes",    O, "hipatia/norma-de-notacao.md §1 — o arco do cálculo exige aritmética com FAMILIARIDADE, não com \"já vi\""),
-    ("aritmetica",   "fracoes",      O, "hipatia/norma-de-notacao.md §1 · seminario-calculo-0, folha 2"),
-    ("aritmetica",   "potencias",    O, "hipatia/norma-de-notacao.md §1 · seminario-calculo-0, folha 2"),
-    ("aritmetica",   "negativos",    O, "hipatia/norma-de-notacao.md §1 · seminario-calculo-0, folha 2"),
-    ("aritmetica",   "fatoracao",    O, "hipatia/norma-de-notacao.md §1 · seminario-calculo-0, folha 2"),
+    ("aritmetica",   "operacoes",    O, "norma de notação do autor §1 — o arco do cálculo exige aritmética com FAMILIARIDADE, não com \"já vi\""),
+    ("aritmetica",   "fracoes",      O, "norma de notação do autor §1 · seminário de cálculo 0, folha 2"),
+    ("aritmetica",   "potencias",    O, "norma de notação do autor §1 · seminário de cálculo 0, folha 2"),
+    ("aritmetica",   "negativos",    O, "norma de notação do autor §1 · seminário de cálculo 0, folha 2"),
+    ("aritmetica",   "fatoracao",    O, "norma de notação do autor §1 · seminário de cálculo 0, folha 2"),
 
     # e cada pilar sustenta o que vem depois — é aqui que a lacuna aparece
     ("operacoes",    "algebra_elem", O, "mapa-genealogia, fig-3-base · a letra obedece às MESMAS propriedades: comutativa, associativa, distributiva"),

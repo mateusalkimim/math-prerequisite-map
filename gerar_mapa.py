@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """Gera o mapa das matérias — HTML autossuficiente, para projetar em aula.
 
-Sob a `norma-de-diagramas.md` da Hipátia, com a regra citada em cada decisão:
+Sob a norma de diagramas do autor, com a regra citada em cada decisão:
 
   §1.1  cruzamento é o defeito nº 1 e vence qualquer outra regra em conflito
         (Purchase 1997) — por isso o layout é medido, não desenhado: 131 -> 11;
@@ -364,7 +364,7 @@ def gerar():
 
     # OS VERBETES (2026-08-25). Gerados fora daqui — a página é estática, e
     # quem escreve é o phi-4 local, orquestrado pelo `gerar_textos_mapa.py` da
-    # Hipátia. Aqui eles só são EMBUTIDOS. Se o arquivo não existe, o mapa
+    # do autor. Aqui eles só são EMBUTIDOS. Se o arquivo não existe, o mapa
     # continua funcionando sem eles: o texto é acréscimo, não dependência.
     verbetes = {}
     cam = os.path.join(AQUI, "textos-nos.json")
@@ -431,7 +431,7 @@ TEMPLATE = r"""<!doctype html>
 <html lang="pt-BR"><head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>O mapa das matérias — Hipátia</title>
+<title>O mapa das matérias</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">

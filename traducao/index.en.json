@@ -1,5 +1,5 @@
 {
- "atualizado_em": "2026-08-27 14:35:27",
+ "atualizado_em": "2026-08-28 11:42:01",
  "blocos": {
   "001646581a": {
    "en": "Space",
@@ -278,14 +278,6 @@
    "modelo": "phi-4",
    "orfao": false,
    "pt": "CAL — o vetor sem a flecha: fora da região geométrica, porque sem produto interno não há distância nem ângulo",
-   "qa": "ok",
-   "tipo": "js"
-  },
-  "0cbd1d9ffc": {
-   "en": "local (Delphi)",
-   "modelo": "phi-4",
-   "orfao": false,
-   "pt": "local (Delfos)",
    "qa": "ok",
    "tipo": "js"
   },
@@ -688,14 +680,6 @@
    "pt": "Coordenadas polares",
    "qa": "ok",
    "tipo": "svg"
-  },
-  "2b18c8aa4f": {
-   "en": "The map of subjects — Hypatia",
-   "modelo": "phi-4",
-   "orfao": false,
-   "pt": "O mapa das matérias — Hipátia",
-   "qa": "ok",
-   "tipo": "prosa"
   },
   "2b58b7e31c": {
    "en": "Exponential",
@@ -1358,6 +1342,14 @@
    "modelo": "phi-4",
    "orfao": false,
    "pt": "Os estudantes frequentemente têm dificuldade em entender a adição e subtração de números negativos, especialmente quando envolve mudanças de sinal.",
+   "qa": "ok",
+   "tipo": "js"
+  },
+  "4fc0f58d04": {
+   "en": "local language model",
+   "modelo": "claude-opus-5",
+   "orfao": false,
+   "pt": "modelo de linguagem local",
    "qa": "ok",
    "tipo": "js"
   },
@@ -3143,14 +3135,6 @@
    "qa": "ok",
    "tipo": "js"
   },
-  "ade769c45d": {
-   "en": "hypatia/norma-de-notacao.md §1 · seminario-calculo-0, sheet 2",
-   "modelo": "phi-4",
-   "orfao": false,
-   "pt": "hipatia/norma-de-notacao.md §1 · seminario-calculo-0, folha 2",
-   "qa": "ok",
-   "tipo": "js"
-  },
   "ae1bede640": {
    "en": "In automatic control systems, where it is crucial to understand how variables change to adjust processes in real time.",
    "modelo": "phi-4",
@@ -3356,6 +3340,14 @@
    "modelo": "phi-4",
    "orfao": false,
    "pt": "cálculo sobre superfície curva — e a superfície tem métrica",
+   "qa": "ok",
+   "tipo": "js"
+  },
+  "be4344a5bc": {
+   "en": "on the author's machine, no external service",
+   "modelo": "claude-opus-5",
+   "orfao": false,
+   "pt": "na máquina do autor, sem serviço externo",
    "qa": "ok",
    "tipo": "js"
   },
@@ -4111,6 +4103,14 @@
    "qa": "ok",
    "tipo": "svg"
   },
+  "e97f5ddba5": {
+   "en": "the author's notation standard §1 · calculus seminar 0, sheet 2",
+   "modelo": "claude-opus-5",
+   "orfao": false,
+   "pt": "norma de notação do autor §1 · seminário de cálculo 0, folha 2",
+   "qa": "ok",
+   "tipo": "js"
+  },
   "e99f308240": {
    "en": "CAL — base is defined within the vector space (class B)",
    "modelo": "phi-4",
@@ -4124,14 +4124,6 @@
    "modelo": "phi-4",
    "orfao": false,
    "pt": "A análise real é fundamental em algoritmos de otimização em engenharia e ciência de dados, onde precisão e confiabilidade são cruciais.",
-   "qa": "ok",
-   "tipo": "js"
-  },
-  "ea9768f74f": {
-   "en": "phi-4",
-   "modelo": "phi-4",
-   "orfao": false,
-   "pt": "phi-4",
    "qa": "ok",
    "tipo": "js"
   },

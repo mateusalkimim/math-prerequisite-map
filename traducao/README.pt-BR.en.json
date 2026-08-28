@@ -1,5 +1,5 @@
 {
- "atualizado_em": "2026-08-27 14:35:48",
+ "atualizado_em": "2026-08-28 11:41:26",
  "blocos": {
   "074dfbbb1f": {
    "en": "## Two Flaws That the Instrument Itself Has",
@@ -33,14 +33,6 @@
    "qa": "ok",
    "tipo": "md"
   },
-  "173f147de2": {
-   "en": "The gate checks the two things separately because they are different defects: the panel becomes visible after the click, and the one-finger gesture is not captured. The second measure exists because the correct CSS is not enough — the handler could still call `preventDefault` and kill the scroll with the correct `touch-action` alongside.",
-   "modelo": "phi-4",
-   "orfao": false,
-   "pt": "O portão confere as duas coisas separadamente, porque são defeitos diferentes: o\npainel fica visível depois do clique, e o gesto de um dedo não é capturado. A\nsegunda medida existe porque o CSS certo não basta — o handler ainda podia\nchamar `preventDefault` e matar a rolagem com o `touch-action` correto ao lado.",
-   "qa": "ok",
-   "tipo": "md"
-  },
   "25bd33901b": {
    "en": "A map of the **logical order** of the subjects — not the historical, not the curricular. The three orders were already distinguished in the `fig-tres-ordens` of a map of the historical genealogy (sibling document, unpublished); this document takes **the third** to its conclusion and makes it an instrument.",
    "modelo": "phi-4",
@@ -49,19 +41,20 @@
    "qa": "ok",
    "tipo": "md"
   },
+  "2771881824": {
+   "en": "- **label only on related items.** Fifty names on a sheet of 1920 do not read. The other subjects remain drawn and erased — §1.5 of the standard: *erase instead of disappear*, the context stays, the focus does not;  \n- **the crop is by `viewBox`, with the layout intact.** Recalculating positions only for the neighborhood would give a more compact drawing and **lie about the geography**: the reader just saw the entire map in the opening, and the boxes need to be where they were. What is compressed are the **empty layers** — the neighborhood of the determinant goes from layer 1 to 9, which in real height would be 1,624 px against 714 of width, an illegible thread on a 16:9 sheet. Collapsed, the ratio comes out between 0.83 and 1.10 in the episodes measured;  \n- **SVG and not PNG**, because of a check: the auditor of labels reads the **vector text** of the PDF. A label in bitmap is a label that the auditor does not see.",
+   "modelo": "phi-4",
+   "orfao": false,
+   "pt": "- **rótulo só nos relacionados.** Cinquenta nomes numa folha de 1920 não se\n  leem. As outras matérias continuam desenhadas e apagadas — §1.5 da norma:\n  *apagar em vez de sumir*, o contexto fica, o foco não;\n- **o recorte é por `viewBox`, com o layout intacto.** Recalcular posições só\n  para a vizinhança daria um desenho mais compacto e **mentiria sobre a\n  geografia**: o leitor acabou de ver o mapa inteiro na abertura, e as caixas\n  precisam estar onde estavam. O que se comprime são as **camadas vazias** — a\n  vizinhança do determinante vai da camada 1 à 9, o que em altura real daria\n  1.624 px contra 714 de largura, um fio ilegível numa folha 16:9. Colapsadas,\n  a proporção sai entre 0,83 e 1,10 nos episódios medidos;\n- **SVG e não PNG**, por causa de uma verificação: o auditor de rótulos lê o **texto\n  vetorial** do PDF. Rótulo em bitmap é rótulo que o auditor não vê.",
+   "qa": "ok",
+   "reaproveitado_de": "- **rótulo só nos relacionados.** Cinquenta nomes numa folha",
+   "tipo": "md"
+  },
   "2a19e1f092": {
    "en": "The works cited as warrant are bibliographic references; no text from them is reproduced here.",
    "modelo": "phi-4",
    "orfao": false,
    "pt": "As obras citadas como warrant são referências bibliográficas; nenhum texto delas\né reproduzido aqui.\n",
-   "qa": "ok",
-   "tipo": "md"
-  },
-  "3491f07a02": {
-   "en": "> **Status: PROPOSAL.** The graph is a statement about what precedes what, and it has not yet been ratified — it is a draft with a source, not teaching material. It is published this way on purpose: a wrong arrow sends the student to study the wrong thing, and it is better that it be contested than accepted in silence.  \n> Disagreements are welcome in the issues.",
-   "modelo": "phi-4",
-   "orfao": false,
-   "pt": "> **Estado: PROPOSTA.** O grafo é uma afirmação sobre o que precede o quê, e\n> ainda não foi ratificado — é rascunho com fonte, não material de aula. Está\n> publicado assim de propósito: uma seta errada manda o aluno estudar a coisa\n> errada, e é melhor que ela seja contestada do que aceita em silêncio.\n> Discordâncias são bem-vindas nas issues.",
    "qa": "ok",
    "tipo": "md"
   },
@@ -161,20 +154,21 @@
    "qa": "ok",
    "tipo": "md"
   },
-  "52a8be618d": {
-   "en": "- **label only on related items.** Fifty names on a sheet of 1920 do not read. The other subjects remain drawn and erased — §1.5 of the standard: *erase instead of disappear*, the context stays, the focus does not;  \n- **the crop is by `viewBox`, with the layout intact.** Recalculating positions only for the neighborhood would give a more compact drawing and **lie about the geography**: the reader just saw the entire map in the opening, and the boxes need to be where they were. What is compressed are the **empty layers** — the neighborhood of the determinant goes from layer 1 to 9, which in real height would be 1,624 px against 714 of width, an illegible thread on a 16:9 sheet. Collapsed, the ratio comes out between 0.83 and 1.10 in the episodes measured;  \n- **SVG and not PNG**, because of a gate: the auditor of labels reads the **vector text** of the PDF. A label in bitmap is a label that the auditor does not see.",
-   "modelo": "phi-4",
-   "orfao": false,
-   "pt": "- **rótulo só nos relacionados.** Cinquenta nomes numa folha de 1920 não se\n  leem. As outras matérias continuam desenhadas e apagadas — §1.5 da norma:\n  *apagar em vez de sumir*, o contexto fica, o foco não;\n- **o recorte é por `viewBox`, com o layout intacto.** Recalcular posições só\n  para a vizinhança daria um desenho mais compacto e **mentiria sobre a\n  geografia**: o leitor acabou de ver o mapa inteiro na abertura, e as caixas\n  precisam estar onde estavam. O que se comprime são as **camadas vazias** — a\n  vizinhança do determinante vai da camada 1 à 9, o que em altura real daria\n  1.624 px contra 714 de largura, um fio ilegível numa folha 16:9. Colapsadas,\n  a proporção sai entre 0,83 e 1,10 nos episódios medidos;\n- **SVG e não PNG**, por causa de um portão: o auditor de rótulos lê o **texto\n  vetorial** do PDF. Rótulo em bitmap é rótulo que o auditor não vê.",
-   "qa": "ok",
-   "tipo": "md"
-  },
   "55d14aaae7": {
    "en": "**Belonging to a trunk is not depending on it.** *Calculus of several variables* depends on vectors but belongs to Calculus. The edge says who you depend on; the shape says where the subject is taught.",
    "modelo": "phi-4",
    "orfao": false,
    "pt": "**Pertencer a um tronco não é depender dele.** *Cálculo de várias variáveis*\ndepende de vetores mas pertence ao Cálculo. A aresta diz de quem se depende; a\nforma diz onde a matéria é ensinada.",
    "qa": "ok",
+   "tipo": "md"
+  },
+  "579488f210": {
+   "en": "- **a validator** that rejects empty field, overflow, formula in LaTeX (the\n  page does not draw LaTeX) and example taken from visual effects, computer\n  graphics, or image processing — which is the subject of another material, not\n  this map;\n- **an adversarial checker** on the example field, which is where a model\n  invents. It is **gate, not label**: if it fails, the node goes back to the\n  queue with the reason and the model changes the example. As a simple marker\n  it failed 3 in 4, and a list with 35 suspects in 50 does not separate anything;\n- **a ceiling per example domain.** In one round, 13 of the 50 entries anchored\n  in GPS and navigation. Each one was true — the checker had nothing to mark —\n  but together they made the map say that all of mathematics is for finding\n  a path. With the ceiling, the highest concentration fell to 6 of 50.",
+   "modelo": "phi-4",
+   "orfao": false,
+   "pt": "- **um validador** que recusa campo vazio, transbordo, fórmula em LaTeX (a\n  página não desenha LaTeX) e exemplo tirado de efeitos visuais, computação\n  gráfica ou processamento de imagem — que é o assunto de outro material, não\n  deste mapa;\n- **um verificador adversarial** sobre o campo do exemplo, que é onde um modelo\n  inventa. Ele é **verificação, não etiqueta**: reprovou, o nó volta para a fila com\n  o motivo e o modelo troca de exemplo. Como simples marcador ele reprovava 3\n  em 4, e uma lista com 35 suspeitos em 50 não separa nada;\n- **um teto por domínio de exemplo.** Numa rodada, 13 dos 50 verbetes ancoraram\n  em GPS e navegação. Cada um era verdadeiro — o verificador não tinha o que\n  marcar — mas juntos faziam o mapa dizer que a matemática toda serve para achar\n  caminho. Com o teto, a maior concentração caiu para 6 de 50.",
+   "qa": "ok",
+   "reaproveitado_de": "- **um validador** que recusa campo vazio, transbordo, fórmu",
    "tipo": "md"
   },
   "5b8eabf6a6": {
@@ -201,6 +195,15 @@
    "qa": "ok",
    "tipo": "md"
   },
+  "69dce88d0e": {
+   "en": "> **Status: PROPOSAL.** The graph is a statement about what precedes what, and it has not yet been confirmed — it is a draft with a source, not teaching material. It is published this way on purpose: a wrong arrow sends the student to study the wrong thing, and it is better that it be contested than accepted in silence.  \n> Disagreements are welcome in the issues.",
+   "modelo": "phi-4",
+   "orfao": false,
+   "pt": "> **Estado: PROPOSTA.** O grafo é uma afirmação sobre o que precede o quê, e\n> ainda não foi confirmado — é rascunho com fonte, não material de aula. Está\n> publicado assim de propósito: uma seta errada manda o aluno estudar a coisa\n> errada, e é melhor que ela seja contestada do que aceita em silêncio.\n> Discordâncias são bem-vindas nas issues.",
+   "qa": "ok",
+   "reaproveitado_de": "> **Estado: PROPOSTA.** O grafo é uma afirmação sobre o que ",
+   "tipo": "md"
+  },
   "6e212890d5": {
    "en": "The argument that concludes: the **real number itself is already a vector space** of dimension 1, and any real number is represented by the oriented segment that goes from the origin to it. If the most elementary object of the line is already vectorial, there is no way to separate one from the other.",
    "modelo": "phi-4",
@@ -214,14 +217,6 @@
    "modelo": "phi-4",
    "orfao": false,
    "pt": "## Dois troncos, e um deles contém o outro",
-   "qa": "ok",
-   "tipo": "md"
-  },
-  "7085ca57a9": {
-   "en": "<!-- language: line generated by i18n.py -->  \n*[Read this in English](README.en.md)*",
-   "modelo": "phi-4",
-   "orfao": false,
-   "pt": "<!-- idioma: linha gerada por i18n.py -->\n*[Read this in English](README.en.md)*",
    "qa": "ok",
    "tipo": "md"
   },
@@ -241,12 +236,30 @@
    "qa": "ok",
    "tipo": "md"
   },
+  "803b6827e8": {
+   "en": "The gate checks the two things separately because they are different defects: the panel becomes visible after the click, and the one-finger gesture is not captured. The second measure exists because the correct CSS is not enough — the handler could still call `preventDefault` and kill the scroll with the correct `touch-action` alongside.",
+   "modelo": "phi-4",
+   "orfao": false,
+   "pt": "A verificação confere as duas coisas separadamente, porque são defeitos diferentes: o\npainel fica visível depois do clique, e o gesto de um dedo não é capturado. A\nsegunda medida existe porque o CSS certo não basta — o handler ainda podia\nchamar `preventDefault` e matar a rolagem com o `touch-action` correto ao lado.",
+   "qa": "ok",
+   "reaproveitado_de": "O portão confere as duas coisas separadamente, porque são de",
+   "tipo": "md"
+  },
   "82898dbaf7": {
    "en": "The **F** is ignored while typing in the search: without this, searching for \"function\" would reframe the map with each `f` pressed.",
    "modelo": "phi-4",
    "orfao": false,
    "pt": "O **F** é ignorado enquanto se digita na busca: sem isso, procurar por \"função\"\nreenquadraria o mapa a cada `f` batido.",
    "qa": "ok",
+   "tipo": "md"
+  },
+  "8408ee5c01": {
+   "en": "Works (all in the author's dissected library): **Guidorizzi** v.1 (class A, TOC of  \n157) · **Elon Lages Lima** (class A) · **Callioli** (class B — scan without TOC, and  \nthe archive card asks to check if it's partial; for this reason it only supports edge of  \n*order*, never of *definition*) · **Merzbach & Boyer** (class A, TOC of 300).",
+   "modelo": "phi-4",
+   "orfao": false,
+   "pt": "Obras (todas em o acervo dissecado do autor): **Guidorizzi** v.1 (classe A, TOC de\n157) · **Elon Lages Lima** (classe A) · **Callioli** (classe B — scan sem TOC, e\na ficha do acervo pede conferir se é parcial; por isso só sustenta aresta de\n*ordem*, nunca de *definição*) · **Merzbach & Boyer** (classe A, TOC de 300).",
+   "qa": "ok",
+   "reaproveitado_de": "Obras (todas em `mouseion/_dissecado/`): **Guidorizzi** v.1 ",
    "tipo": "md"
   },
   "851d1caa3c": {
@@ -334,14 +347,6 @@
    "modelo": "phi-4",
    "orfao": false,
    "pt": "   | | layout antigo | layout novo |\n   |---|---|---|\n   | grafo de 44 nós/68 arestas | 34 | **28** |\n   | grafo de 50 nós/78 arestas | 51 | **41** |",
-   "qa": "ok",
-   "tipo": "md"
-  },
-  "a0bb06361f": {
-   "en": "Works (all in `mouseion/_dissecado/`): **Guidorizzi** v.1 (class A, TOC of  \n157) · **Elon Lages Lima** (class A) · **Callioli** (class B — scan without TOC, and  \nthe archive card asks to check if it's partial; for this reason it only supports edge of  \n*order*, never of *definition*) · **Merzbach & Boyer** (class A, TOC of 300).",
-   "modelo": "phi-4",
-   "orfao": false,
-   "pt": "Obras (todas em `mouseion/_dissecado/`): **Guidorizzi** v.1 (classe A, TOC de\n157) · **Elon Lages Lima** (classe A) · **Callioli** (classe B — scan sem TOC, e\na ficha do acervo pede conferir se é parcial; por isso só sustenta aresta de\n*ordem*, nunca de *definição*) · **Merzbach & Boyer** (classe A, TOC de 300).",
    "qa": "ok",
    "tipo": "md"
   },
@@ -575,14 +580,6 @@
    "modelo": "phi-4",
    "orfao": false,
    "pt": "**→ [Abrir o mapa](https://mateusalkimim.github.io/math-prerequisite-map/)**",
-   "qa": "ok",
-   "tipo": "md"
-  },
-  "f6ad05a4e7": {
-   "en": "- **a validator** that rejects empty field, overflow, formula in LaTeX (the\n  page does not draw LaTeX) and example taken from visual effects, computer\n  graphics, or image processing — which is the subject of another material, not\n  this map;\n- **an adversarial checker** on the example field, which is where a model\n  invents. It is **gate, not label**: if it fails, the node goes back to the\n  queue with the reason and the model changes the example. As a simple marker\n  it failed 3 in 4, and a list with 35 suspects in 50 does not separate anything;\n- **a ceiling per example domain.** In one round, 13 of the 50 entries anchored\n  in GPS and navigation. Each one was true — the checker had nothing to mark —\n  but together they made the map say that all of mathematics is for finding\n  a path. With the ceiling, the highest concentration fell to 6 of 50.",
-   "modelo": "phi-4",
-   "orfao": false,
-   "pt": "- **um validador** que recusa campo vazio, transbordo, fórmula em LaTeX (a\n  página não desenha LaTeX) e exemplo tirado de efeitos visuais, computação\n  gráfica ou processamento de imagem — que é o assunto de outro material, não\n  deste mapa;\n- **um verificador adversarial** sobre o campo do exemplo, que é onde um modelo\n  inventa. Ele é **portão, não etiqueta**: reprovou, o nó volta para a fila com\n  o motivo e o modelo troca de exemplo. Como simples marcador ele reprovava 3\n  em 4, e uma lista com 35 suspeitos em 50 não separa nada;\n- **um teto por domínio de exemplo.** Numa rodada, 13 dos 50 verbetes ancoraram\n  em GPS e navegação. Cada um era verdadeiro — o verificador não tinha o que\n  marcar — mas juntos faziam o mapa dizer que a matemática toda serve para achar\n  caminho. Com o teto, a maior concentração caiu para 6 de 50.",
    "qa": "ok",
    "tipo": "md"
   },

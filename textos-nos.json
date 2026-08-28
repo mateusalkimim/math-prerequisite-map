@@ -1,704 +1,704 @@
 {
  "gerado_em": "2026-08-25T14:06:02",
- "modelo": "phi-4",
+ "modelo": "modelo de linguagem local",
  "nos": {
-  "formas_quad": {
-   "o_que_e": "Expressões ou superfícies definidas por equações polinomiais de grau dois.",
-   "por_que_existe": "Para descrever e resolver problemas geométricos e físicos envolvendo curvas e superfícies de segunda ordem, como trajetórias de projéteis ou formas de objetos.",
-   "onde_aparece": "No design de óculos, onde as lentes são frequentemente curvas de forma quadrática para corrigir a visão.",
-   "onde_se_trava": "Confundir as propriedades das formas quadráticas em diferentes dimensões, como aplicar diretamente conceitos de cônicas a superfícies tridimensionais.",
+  "algebra_abs": {
+   "o_que_e": "Álgebra abstrata estuda estruturas algébricas como grupos, anéis e corpos, que são conjuntos com operações definidas que seguem certas propriedades.",
+   "onde_aparece": "Na criptografia, onde a segurança dos dados depende de operações em estruturas algébricas complexas, como grupos cíclicos e campos finitos.",
+   "onde_se_trava": "Estudantes frequentemente têm dificuldade em entender a abstração e a generalização dos conceitos, confundindo-os com exemplos específicos como números reais ou inteiros.",
+   "por_que_existe": "Surgiu da necessidade de generalizar conceitos de álgebra para entender e resolver problemas em diferentes áreas matemáticas e científicas, como teoria dos números e geometria.",
    "procedencia": {
-    "modelo": "phi-4",
-    "onde": "local (Delfos)",
     "data": "2026-08-25",
-    "revisado_por_humano": false,
+    "modelo": "modelo de linguagem local",
+    "onde": "na máquina do autor, sem serviço externo",
     "onde_aparece_suspeito": false,
-    "suspeita": ""
-   }
-  },
-  "aritmetica": {
-   "o_que_e": "Aritmética é o estudo de números e operações básicas como contar, somar e multiplicar.",
-   "por_que_existe": "Surgiu da necessidade de quantificar e manipular números para resolver problemas cotidianos, como contagem de objetos e cálculo de trocas comerciais.",
-   "onde_aparece": "A aritmética está presente em serviços bancários, onde são calculadas faturas e juros, e em planilhas que somam colunas de dados.",
-   "onde_se_trava": "Erro comum é confundir as operações inversas, como pensar que subtrair não é a mesma coisa que somar o oposto.",
-   "procedencia": {
-    "modelo": "phi-4",
-    "onde": "local (Delfos)",
-    "data": "2026-08-25",
     "revisado_por_humano": false,
-    "onde_aparece_suspeito": false,
-    "suspeita": ""
-   }
-  },
-  "conjuntos": {
-   "o_que_e": "Conjuntos são coleções de objetos, chamados elementos, que podem ser agrupados e manipulados de acordo com regras específicas.",
-   "por_que_existe": "Antes da formalização dos conjuntos, não havia uma maneira rigorosa de discutir agrupamentos de objetos e suas propriedades, o que era necessário para o desenvolvimento da matemática moderna.",
-   "onde_aparece": "Conjuntos são usados em bancos para organizar categorias de clientes e em sistemas de recomendação para agrupar produtos similares.",
-   "onde_se_trava": "Um erro comum é confundir a pertinência de um elemento a um conjunto com a igualdade entre conjuntos, não percebendo que dois conjuntos podem ser diferentes mesmo que contenham os mesmos elementos.",
-   "procedencia": {
-    "modelo": "phi-4",
-    "onde": "local (Delfos)",
-    "data": "2026-08-25",
-    "revisado_por_humano": false,
-    "onde_aparece_suspeito": false,
-    "suspeita": ""
-   }
-  },
-  "conj_num": {
-   "o_que_e": "Conjuntos numéricos são agrupamentos de números que seguem regras específicas, como os naturais, inteiros, racionais e reais, cada um ampliando o anterior para resolver limitações.",
-   "por_que_existe": "Surgiram para resolver problemas que números mais simples não podiam, como representar o oposto (inteiros), o inverso (racionais) e fechar lacunas (reais).",
-   "onde_aparece": "Em sistemas de banco, ao calcular juros compostos, onde a precisão numérica dos reais é essencial para evitar erros financeiros.",
-   "onde_se_trava": "Estudantes frequentemente confundem a inclusão de um conjunto no outro, não percebendo que, por exemplo, todos os inteiros são racionais, mas nem todos os racionais são inteiros.",
-   "procedencia": {
-    "modelo": "phi-4",
-    "onde": "local (Delfos)",
-    "data": "2026-08-25",
-    "revisado_por_humano": false,
-    "onde_aparece_suspeito": false,
-    "suspeita": ""
-   }
-  },
-  "contagem": {
-   "o_que_e": "Estudo de métodos para contar elementos em conjuntos sem enumerá-los explicitamente.",
-   "por_que_existe": "Para resolver problemas que envolvem a organização e combinação de objetos, como distribuir prêmios ou arranjar pessoas em filas.",
-   "onde_aparece": "Em jogos de cartas, onde se calcula as possibilidades de formar mãos específicas.",
-   "onde_se_trava": "Confundir a ordem dos elementos como irrelevante em situações onde ela é crucial, como na formação de palavras.",
-   "procedencia": {
-    "modelo": "phi-4",
-    "onde": "local (Delfos)",
-    "data": "2026-08-25",
-    "revisado_por_humano": false,
-    "onde_aparece_suspeito": false,
-    "suspeita": ""
-   }
-  },
-  "relacoes": {
-   "o_que_e": "Um par ordenado é uma sequência de dois elementos, onde a ordem importa, formando um vínculo entre elementos de dois conjuntos.",
-   "por_que_existe": "Antes do conceito de par ordenado, não havia uma maneira estruturada de associar elementos de dois conjuntos de forma que a ordem fosse significativa, essencial para a definição de funções e coordenadas.",
-   "onde_aparece": "Em sistemas de coordenadas geográficas, onde a latitude e a longitude formam um par ordenado para localizar pontos no globo terrestre.",
-   "onde_se_trava": "Estudantes frequentemente confundem a importância da ordem, tratando (a, b) como igual a (b, a), o que não é verdade.",
-   "procedencia": {
-    "modelo": "phi-4",
-    "onde": "local (Delfos)",
-    "data": "2026-08-25",
-    "revisado_por_humano": false,
-    "onde_aparece_suspeito": false,
-    "suspeita": ""
-   }
-  },
-  "geom_plana": {
-   "o_que_e": "o estudo das formas e figuras no plano, considerando comprimento e largura.",
-   "por_que_existe": "para resolver problemas de medição e construção de formas bidimensionais, como calcular áreas e perímetros.",
-   "onde_aparece": "no cálculo de áreas de terrenos para construção civil ou no desenho técnico de peças planas.",
-   "onde_se_trava": "confundindo ângulos internos e externos de polígonos ou não aplicando corretamente fórmulas de área.",
-   "procedencia": {
-    "modelo": "phi-4",
-    "onde": "local (Delfos)",
-    "data": "2026-08-25",
-    "revisado_por_humano": false,
-    "onde_aparece_suspeito": false,
-    "suspeita": ""
-   }
-  },
-  "geom_espacial": {
-   "o_que_e": "o estudo de formas tridimensionais, como cubos e esferas, e como medir seu volume.",
-   "por_que_existe": "para resolver problemas de construção e engenharia, que requerem compreensão de objetos tridimensionais.",
-   "onde_aparece": "na modelagem 3D para design de produtos e arquitetura, onde é necessário calcular volumes e superfícies.",
-   "onde_se_trava": "ao confundir medidas de área e volume, como aplicar fórmulas bidimensionais a sólidos tridimensionais.",
-   "procedencia": {
-    "modelo": "phi-4",
-    "onde": "local (Delfos)",
-    "data": "2026-08-25",
-    "revisado_por_humano": false,
-    "onde_aparece_suspeito": false,
-    "suspeita": ""
-   }
-  },
-  "operacoes": {
-   "o_que_e": "Soma e produto são operações básicas de adição e multiplicação, respectivamente, e seus inversos são subtração e divisão, que envolvem adicionar o oposto e multiplicar pelo inverso.",
-   "por_que_existe": "Antes da formalização dessas operações, resolver problemas envolvendo quantidades desconhecidas ou comparar valores era complexo e impreciso.",
-   "onde_aparece": "Na planilha, ao somar uma coluna de números ou calcular médias, e ao multiplicar valores para encontrar totais ou taxas.",
-   "onde_se_trava": "Os estudantes frequentemente confundem subtrair com simplesmente \"tirar\" um número de outro, sem considerar o conceito de adicionar o oposto.",
-   "procedencia": {
-    "modelo": "phi-4",
-    "onde": "local (Delfos)",
-    "data": "2026-08-25",
-    "revisado_por_humano": false,
-    "onde_aparece_suspeito": false,
-    "suspeita": ""
-   }
-  },
-  "fracoes": {
-   "o_que_e": "Frações representam partes de um todo e proporção é a relação entre duas grandezas quantitativas.",
-   "por_que_existe": "Antes da fração, não havia como expressar partes de um todo ou comparar quantidades de forma precisa.",
-   "onde_aparece": "Na culinária, ao ajustar receitas para diferentes quantidades de pessoas.",
-   "onde_se_trava": "Confundir fração com decimal, ou não entender como manipular frações em operações.",
-   "procedencia": {
-    "modelo": "phi-4",
-    "onde": "local (Delfos)",
-    "data": "2026-08-25",
-    "revisado_por_humano": false,
-    "onde_aparece_suspeito": false,
-    "suspeita": ""
-   }
-  },
-  "potencias": {
-   "o_que_e": "A potência é uma operação que eleva um número (base) a um expoente, resultando em um produto de multiplicações repetidas da base. A raiz é a operação inversa que, dado um número, encontra a base que, elevada a um determinado expoente, resulta nesse número. O logaritmo é a operação inversa que, dado um número e uma base, encontra o expoente necessário para que a base elevada a esse expoente resulte no número dado.",
-   "por_que_existe": "Antes da formalização da potência, raiz e logaritmo, era difícil resolver problemas que envolviam crescimento exponencial, como juros compostos ou crescimento populacional, de forma eficiente e precisa.",
-   "onde_aparece": "A potência, raiz e logaritmo são usadas em finanças para calcular juros compostos, em ciências para modelar crescimento exponencial de populações ou reações químicas, e em tecnologia para escalonar a complexidade de algoritmos.",
-   "onde_se_trava": "Um erro comum é confundir a potência com a multiplicação repetida, ou a raiz com a divisão, não entendendo que a potência envolve multiplicação de uma base por si mesma um número de vezes igual ao expoente.",
-   "procedencia": {
-    "modelo": "phi-4",
-    "onde": "local (Delfos)",
-    "data": "2026-08-25",
-    "revisado_por_humano": false,
-    "onde_aparece_suspeito": false,
-    "suspeita": ""
-   }
-  },
-  "negativos": {
-   "o_que_e": "Números negativos são aqueles que representam valores abaixo de zero, organizados em uma linha numérica que inclui zero e se estende para ambos os lados.",
-   "por_que_existe": "Surgiu da necessidade de representar dívidas, perdas, e temperaturas abaixo de zero, que não podiam ser expressas apenas com números positivos.",
-   "onde_aparece": "No controle de temperatura em sistemas de ar-condicionado, onde é necessário ajustar e monitorar valores abaixo de zero.",
-   "onde_se_trava": "Os estudantes frequentemente têm dificuldade em entender a adição e subtração de números negativos, especialmente quando envolve mudanças de sinal.",
-   "procedencia": {
-    "modelo": "phi-4",
-    "onde": "local (Delfos)",
-    "data": "2026-08-25",
-    "revisado_por_humano": false,
-    "onde_aparece_suspeito": false,
-    "suspeita": ""
-   }
-  },
-  "fatoracao": {
-   "o_que_e": "Divisibilidade é a propriedade de um número ser dividido exatamente por outro, sem resto, e fatoração é a decomposição de um número em seus fatores primos.",
-   "por_que_existe": "Antes da divisibilidade e fatoração, resolver problemas de divisão de recursos ou simplificação de frações era complexo e impreciso.",
-   "onde_aparece": "No cálculo de frações em planilhas, onde a simplificação de números é necessária para resultados precisos.",
-   "onde_se_trava": "Erro comum é confundir divisibilidade com divisão, não reconhecendo que um número pode ter múltiplos divisores.",
-   "procedencia": {
-    "modelo": "phi-4",
-    "onde": "local (Delfos)",
-    "data": "2026-08-25",
-    "revisado_por_humano": false,
-    "onde_aparece_suspeito": false,
     "suspeita": ""
    }
   },
   "algebra_elem": {
    "o_que_e": "o estudo de expressões e equações usando letras para representar números desconhecidos ou variáveis.",
-   "por_que_existe": "antes da álgebra, resolver problemas envolvendo números desconhecidos era limitado a casos específicos, sem uma abordagem geral.",
    "onde_aparece": "em planilhas, ao criar fórmulas que calculam automaticamente valores com base em variáveis de entrada.",
    "onde_se_trava": "confundir a manipulação de letras com números, esquecendo que as regras de operações devem ser aplicadas logicamente.",
+   "por_que_existe": "antes da álgebra, resolver problemas envolvendo números desconhecidos era limitado a casos específicos, sem uma abordagem geral.",
    "procedencia": {
-    "modelo": "phi-4",
-    "onde": "local (Delfos)",
     "data": "2026-08-25",
-    "revisado_por_humano": false,
+    "modelo": "modelo de linguagem local",
+    "onde": "na máquina do autor, sem serviço externo",
     "onde_aparece_suspeito": false,
-    "suspeita": ""
-   }
-  },
-  "trigonometria": {
-   "o_que_e": "Estudo das razões entre os lados de triângulos, especialmente no contexto de ângulos e funções trigonométricas.",
-   "por_que_existe": "Surgiu da necessidade de calcular distâncias e ângulos em navegação e astronomia, onde não era possível medir diretamente.",
-   "onde_aparece": "Utilizada em sistemas de radar e sonar para determinar a posição de objetos a partir de ângulos e distâncias.",
-   "onde_se_trava": "Erro comum é confundir as funções seno, cosseno e tangente, especialmente ao aplicá-las em triângulos não retângulos.",
-   "procedencia": {
-    "modelo": "phi-4",
-    "onde": "local (Delfos)",
-    "data": "2026-08-25",
     "revisado_por_humano": false,
-    "onde_aparece_suspeito": false,
-    "suspeita": ""
-   }
-  },
-  "reais": {
-   "o_que_e": "Conjunto de números que inclui todos os números racionais e irracionais, formando um sistema completo e ordenado.",
-   "por_que_existe": "Para resolver problemas que envolvem medições contínuas e precisas, como comprimento, área e volume, que não podem ser expressos apenas com números racionais.",
-   "onde_aparece": "Na modelagem de fenômenos físicos, como a previsão do tempo, onde variáveis como temperatura e pressão são representadas por números reais.",
-   "onde_se_trava": "Confundir números reais com números racionais, ignorando a existência de números irracionais como a raiz quadrada de 2.",
-   "procedencia": {
-    "modelo": "phi-4",
-    "onde": "local (Delfos)",
-    "data": "2026-08-25",
-    "revisado_por_humano": false,
-    "onde_aparece_suspeito": false,
-    "suspeita": ""
-   }
-  },
-  "funcoes": {
-   "o_que_e": "Uma função é uma relação que associa a cada elemento de um conjunto um único elemento de outro conjunto.",
-   "por_que_existe": "Surgiu da necessidade de modelar situações onde cada entrada tem uma saída única, como taxas de câmbio ou fórmulas científicas.",
-   "onde_aparece": "Em planilhas, quando uma coluna calcula valores com base em outra, como calcular impostos a partir de vendas.",
-   "onde_se_trava": "Confundir uma função com uma relação arbitrária, esquecendo que cada entrada deve ter uma saída única.",
-   "procedencia": {
-    "modelo": "phi-4",
-    "onde": "local (Delfos)",
-    "data": "2026-08-25",
-    "revisado_por_humano": false,
-    "onde_aparece_suspeito": false,
-    "suspeita": ""
-   }
-  },
-  "limite": {
-   "o_que_e": "o comportamento de uma função quando o argumento se aproxima de um valor, e se a função não tem saltos nesse ponto.",
-   "por_que_existe": "para resolver problemas de aproximação e estabilidade em funções, como determinar valores próximos sem cálculos exatos.",
-   "onde_aparece": "em sistemas de controle automático, onde se ajusta a resposta de máquinas em tempo real para evitar oscilações.",
-   "onde_se_trava": "ao confundir o limite de uma função com o valor da função no ponto, ou ao não considerar a existência de limites laterais.",
-   "procedencia": {
-    "modelo": "phi-4",
-    "onde": "local (Delfos)",
-    "data": "2026-08-25",
-    "revisado_por_humano": false,
-    "onde_aparece_suspeito": false,
-    "suspeita": ""
-   }
-  },
-  "sequencias": {
-   "o_que_e": "uma sequência é uma lista ordenada de números, onde cada número é chamado de termo, e a posição do termo é dada por um número natural.",
-   "por_que_existe": "sequências surgiram para estudar padrões e regularidades em conjuntos de números, permitindo a análise de tendências e comportamentos ao longo de uma progressão.",
-   "onde_aparece": "sequências são usadas em planilhas para calcular previsões financeiras, onde cada termo representa um valor futuro baseado em uma regra de progressão.",
-   "onde_se_trava": "estudantes frequentemente confundem a definição de uma sequência com a de uma função, esquecendo que uma sequência é específica para números naturais como índices.",
-   "procedencia": {
-    "modelo": "phi-4",
-    "onde": "local (Delfos)",
-    "data": "2026-08-25",
-    "revisado_por_humano": false,
-    "onde_aparece_suspeito": false,
-    "suspeita": ""
-   }
-  },
-  "exp_log": {
-   "o_que_e": "A exponencial é uma função que eleva uma base a um expoente real, enquanto o logaritmo é a operação inversa que determina o expoente necessário para a base atingir um determinado valor.",
-   "por_que_existe": "Antes da formalização da exponencial e do logaritmo, não havia uma maneira eficiente de lidar com crescimentos rápidos, como juros compostos, ou de resolver equações envolvendo potências de forma prática.",
-   "onde_aparece": "No cálculo de juros compostos em bancos, onde a quantia de dinheiro cresce exponencialmente ao longo do tempo, e no ajuste de níveis de som em aparelhos de áudio, onde o logaritmo é usado para converter escalas lineares em escalas logarítmicas.",
-   "onde_se_trava": "Os estudantes frequentemente confundem as propriedades dos logaritmos, como a regra do produto, soma e divisão, e têm dificuldade em entender a relação entre exponenciais e logaritmos como inversos.",
-   "procedencia": {
-    "modelo": "phi-4",
-    "onde": "local (Delfos)",
-    "data": "2026-08-25",
-    "revisado_por_humano": false,
-    "onde_aparece_suspeito": false,
-    "suspeita": ""
-   }
-  },
-  "derivada": {
-   "o_que_e": "A derivada mede a taxa de variação de uma função em relação a uma variável, representando a inclinação da reta tangente ao gráfico da função no ponto considerado.",
-   "por_que_existe": "Antes da introdução da derivada, não havia uma maneira precisa de quantificar como uma quantidade variava instantaneamente em relação a outra, limitando o estudo de movimentos e crescimentos contínuos.",
-   "onde_aparece": "Na previsão do tempo, a derivada é usada para calcular a velocidade e aceleração do vento, permitindo prever mudanças climáticas e fenômenos meteorológicos.",
-   "onde_se_trava": "Estudantes frequentemente confundem a derivada com a diferença finita, não compreendendo que a derivada é um limite, o que leva a erros ao calcular taxas de variação instantâneas.",
-   "procedencia": {
-    "modelo": "phi-4",
-    "onde": "local (Delfos)",
-    "data": "2026-08-25",
-    "revisado_por_humano": false,
-    "onde_aparece_suspeito": false,
-    "suspeita": ""
-   }
-  },
-  "regra_cadeia": {
-   "o_que_e": "A regra da cadeia é um método para calcular a derivada de uma função composta, que é a derivada de uma função aplicada a outra função.",
-   "por_que_existe": "Antes da regra da cadeia, não havia uma maneira sistemática de encontrar a derivada de funções compostas, o que limitava a análise de sistemas complexos.",
-   "onde_aparece": "Na otimização de algoritmos de machine learning, onde a regra da cadeia é usada para calcular gradientes em redes neurais.",
-   "onde_se_trava": "Os estudantes frequentemente confundem a ordem das derivadas das funções interna e externa, aplicando incorretamente a regra.",
-   "procedencia": {
-    "modelo": "phi-4",
-    "onde": "local (Delfos)",
-    "data": "2026-08-25",
-    "revisado_por_humano": false,
-    "onde_aparece_suspeito": false,
-    "suspeita": ""
-   }
-  },
-  "inversa": {
-   "o_que_e": "Uma função inversa é aquela que, aplicada à saída de uma função original, retorna o valor original de entrada.",
-   "por_que_existe": "Surgiu para resolver problemas onde é necessário reverter o efeito de uma função, como encontrar a raiz quadrada ou o logaritmo de um número.",
-   "onde_aparece": "No cálculo de impostos, onde se deseja determinar a renda original a partir do valor tributado.",
-   "onde_se_trava": "Confundir a inversa de uma função com a função original, especialmente quando a função não é bijetiva (um para um e sobre).",
-   "procedencia": {
-    "modelo": "phi-4",
-    "onde": "local (Delfos)",
-    "data": "2026-08-25",
-    "revisado_por_humano": false,
-    "onde_aparece_suspeito": false,
-    "suspeita": ""
-   }
-  },
-  "variacao": {
-   "o_que_e": "Estudo de como uma função varia, identificando crescimento, decrescimento, pontos de inflexão e máximos e mínimos.",
-   "por_que_existe": "Antes, não havia uma maneira sistemática de analisar como as quantidades mudam, o que era necessário para otimizar processos e resolver problemas de máximos e mínimos.",
-   "onde_aparece": "Em sistemas de controle automático, onde é crucial entender como as variáveis mudam para ajustar processos em tempo real.",
-   "onde_se_trava": "Confundir a interpretação gráfica da concavidade com a identificação correta de máximos e mínimos.",
-   "procedencia": {
-    "modelo": "phi-4",
-    "onde": "local (Delfos)",
-    "data": "2026-08-25",
-    "revisado_por_humano": false,
-    "onde_aparece_suspeito": false,
-    "suspeita": ""
-   }
-  },
-  "primitiva": {
-   "o_que_e": "a função que, quando derivada, resulta na função original.",
-   "por_que_existe": "para calcular áreas sob curvas e resolver equações diferenciais, problemas que não podiam ser resolvidos apenas com derivadas.",
-   "onde_aparece": "no cálculo de juros compostos ao longo do tempo, onde a taxa de crescimento é conhecida.",
-   "onde_se_trava": "confundir primitivas com integrais, esquecendo que primitivas são funções antiderivadas, não valores numéricos.",
-   "procedencia": {
-    "modelo": "phi-4",
-    "onde": "local (Delfos)",
-    "data": "2026-08-25",
-    "revisado_por_humano": false,
-    "onde_aparece_suspeito": false,
-    "suspeita": ""
-   }
-  },
-  "integral": {
-   "o_que_e": "A integral de Riemann é uma maneira de calcular a área sob a curva de uma função contínua, aproximando-a com somas de retângulos finos.",
-   "por_que_existe": "Antes da integral de Riemann, não havia um método rigoroso para calcular áreas sob curvas complexas, limitando a análise de fenômenos físicos e matemáticos.",
-   "onde_aparece": "Em engenharia, para calcular cargas distribuídas ao longo de estruturas, e em economia, para determinar a área sob curvas de demanda e oferta.",
-   "onde_se_trava": "Alunos frequentemente têm dificuldade em entender como a soma de retângulos finos se aproxima da área real à medida que o número de retângulos aumenta.",
-   "procedencia": {
-    "modelo": "phi-4",
-    "onde": "local (Delfos)",
-    "data": "2026-08-25",
-    "revisado_por_humano": false,
-    "onde_aparece_suspeito": false,
-    "suspeita": ""
-   }
-  },
-  "tecnicas_int": {
-   "o_que_e": "Técnicas de primitivação são métodos para encontrar antiderivadas de funções complexas, dividindo-as em partes mais simples ou expressando-as como somas de frações parciais.",
-   "por_que_existe": "Antes dessas técnicas, integrar funções complexas diretamente era impossível ou muito difícil, limitando o uso do cálculo em aplicações práticas.",
-   "onde_aparece": "Técnicas de primitivação são usadas em engenharia para calcular áreas sob curvas complexas, como no projeto de estruturas ou no cálculo de volumes de fluidos.",
-   "onde_se_trava": "Estudantes frequentemente cometem erros na aplicação da regra da substituição, especialmente ao escolher a função adequada para substituir, ou na decomposição de frações parciais, ao não identificar corretamente os termos.",
-   "procedencia": {
-    "modelo": "phi-4",
-    "onde": "local (Delfos)",
-    "data": "2026-08-25",
-    "revisado_por_humano": false,
-    "onde_aparece_suspeito": false,
-    "suspeita": ""
-   }
-  },
-  "polares": {
-   "o_que_e": "um sistema de coordenadas que usa distância e ângulo para localizar pontos no plano, diferente das coordenadas cartesianas que usam eixos x e y.",
-   "por_que_existe": "para resolver problemas que são mais naturais em termos de ângulos e distâncias, como aqueles envolvendo circunferências e espirais, onde o uso de coordenadas cartesianas seria complicado.",
-   "onde_aparece": "no design de antenas de rádio e televisão, onde a orientação e a distância da antena em relação a um ponto central são cruciais para a cobertura de sinal.",
-   "onde_se_trava": "ao confundir a conversão entre coordenadas polares e cartesianas, especialmente ao calcular ângulos e distâncias em contextos práticos.",
-   "procedencia": {
-    "modelo": "phi-4",
-    "onde": "local (Delfos)",
-    "data": "2026-08-25",
-    "revisado_por_humano": false,
-    "onde_aparece_suspeito": false,
-    "suspeita": ""
-   }
-  },
-  "coord_plano": {
-   "o_que_e": "o sistema que localiza pontos no plano através de dois números, representando distâncias perpendiculares a dois eixos fixos.",
-   "por_que_existe": "permitiu a representação gráfica de relações matemáticas e facilitou o estudo de geometria através de cálculos numéricos.",
-   "onde_aparece": "no design gráfico, para posicionar elementos em uma tela ou página de forma precisa.",
-   "onde_se_trava": "confundir a origem dos eixos com o ponto de referência zero, ou não entender a importância da ordem dos números no par.",
-   "procedencia": {
-    "modelo": "phi-4",
-    "onde": "local (Delfos)",
-    "data": "2026-08-25",
-    "revisado_por_humano": false,
-    "onde_aparece_suspeito": false,
-    "suspeita": ""
-   }
-  },
-  "reta": {
-   "o_que_e": "uma equação que relaciona x e y de forma linear, representando uma reta no plano cartesiano.",
-   "por_que_existe": "para descrever relações proporcionais entre duas variáveis, como taxas de crescimento ou declínio.",
-   "onde_aparece": "no cálculo de trajetórias em jogos eletrônicos, onde a posição de um objeto é ajustada linearmente.",
-   "onde_se_trava": "confundindo a inclinação da reta com a interceptação, ou interpretando mal o sinal da inclinação.",
-   "procedencia": {
-    "modelo": "phi-4",
-    "onde": "local (Delfos)",
-    "data": "2026-08-25",
-    "revisado_por_humano": false,
-    "onde_aparece_suspeito": false,
-    "suspeita": ""
-   }
-  },
-  "conicas": {
-   "o_que_e": "Curvas planas definidas por equações quadráticas, incluindo circunferência, elipse, hipérbole e parábola.",
-   "por_que_existe": "Surgiu da necessidade de descrever e analisar trajetórias e formas naturais, como o movimento de corpos celestes e o foco de lentes.",
-   "onde_aparece": "No design de antenas parabólicas para melhorar a recepção de sinais de televisão e rádio.",
-   "onde_se_trava": "Confundir as condições que definem cada cônica, como misturar os critérios de focos e diretrizes.",
-   "procedencia": {
-    "modelo": "phi-4",
-    "onde": "local (Delfos)",
-    "data": "2026-08-25",
-    "revisado_por_humano": false,
-    "onde_aparece_suspeito": false,
-    "suspeita": ""
-   }
-  },
-  "coord_espaco": {
-   "o_que_e": "a representação de um ponto no espaço tridimensional usando três valores numéricos.",
-   "por_que_existe": "para descrever e manipular objetos em um espaço de três dimensões, como o mundo físico ao nosso redor.",
-   "onde_aparece": "no design de jogos de vídeo tridimensionais, onde os objetos são posicionados e movidos no espaço virtual.",
-   "onde_se_trava": "confundindo a ordem das coordenadas, levando a posições erradas no espaço.",
-   "procedencia": {
-    "modelo": "phi-4",
-    "onde": "local (Delfos)",
-    "data": "2026-08-25",
-    "revisado_por_humano": false,
-    "onde_aparece_suspeito": false,
-    "suspeita": ""
-   }
-  },
-  "vetores": {
-   "o_que_e": "Um vetor é uma quantidade que tem magnitude e direção, representado por uma flecha que pode ser somada a outros vetores e multiplicada por escalares.",
-   "por_que_existe": "Antes da formalização dos vetores, não havia uma maneira sistemática de lidar com quantidades que dependem de direção e magnitude, como forças e velocidades, em um contexto matemático.",
-   "onde_aparece": "Vetores são usados em física para representar forças e velocidades, e em engenharia para analisar estruturas e movimentos.",
-   "onde_se_trava": "Estudantes frequentemente confundem vetores com apenas uma lista de números, esquecendo-se de sua direção e propriedades de operação.",
-   "procedencia": {
-    "modelo": "phi-4",
-    "onde": "local (Delfos)",
-    "data": "2026-08-25",
-    "revisado_por_humano": false,
-    "onde_aparece_suspeito": false,
-    "suspeita": ""
-   }
-  },
-  "plano_eq": {
-   "o_que_e": "uma equação que define uma superfície plana no espaço tridimensional, onde todos os pontos satisfazem uma relação linear entre suas coordenadas.",
-   "por_que_existe": "para determinar a posição exata de uma superfície plana em um espaço tridimensional, permitindo a representação de fenômenos físicos e construções geométricas.",
-   "onde_aparece": "no projeto de arquitetura, onde é necessário calcular e desenhar superfícies planas de edifícios e estruturas.",
-   "onde_se_trava": "ao confundir a equação do plano com uma equação quadrática, não percebendo que não há termos de grau superior a um.",
-   "procedencia": {
-    "modelo": "phi-4",
-    "onde": "local (Delfos)",
-    "data": "2026-08-25",
-    "revisado_por_humano": false,
-    "onde_aparece_suspeito": false,
-    "suspeita": ""
-   }
-  },
-  "matrizes": {
-   "o_que_e": "uma tabela retangular de números que representa um sistema de equações lineares.",
-   "por_que_existe": "para resolver sistemas de equações lineares de forma organizada e eficiente.",
-   "onde_aparece": "no cálculo de transformações em gráficos de computador e na análise de dados em estatística.",
-   "onde_se_trava": "confundindo a multiplicação de matrizes com a multiplicação escalar.",
-   "procedencia": {
-    "modelo": "phi-4",
-    "onde": "local (Delfos)",
-    "data": "2026-08-25",
-    "revisado_por_humano": false,
-    "onde_aparece_suspeito": false,
-    "suspeita": ""
-   }
-  },
-  "sistemas": {
-   "o_que_e": "um conjunto de equações com várias incógnitas, que busca encontrar valores que satisfaçam todas ao mesmo tempo.",
-   "por_que_existe": "antes, resolver problemas com múltiplas variáveis era complexo e propenso a erros, sem uma abordagem sistemática.",
-   "onde_aparece": "na otimização de redes de distribuição de energia, garantindo eficiência e estabilidade no fornecimento.",
-   "onde_se_trava": "confundir a solução única com múltiplas soluções ou nenhuma, sem verificar a consistência do sistema.",
-   "procedencia": {
-    "modelo": "phi-4",
-    "onde": "local (Delfos)",
-    "data": "2026-08-25",
-    "revisado_por_humano": false,
-    "onde_aparece_suspeito": false,
-    "suspeita": ""
-   }
-  },
-  "determinante": {
-   "o_que_e": "Um número associado a uma matriz que indica se a matriz é invertível e, se for, ajuda a encontrar a inversa.",
-   "por_que_existe": "Antes de determinantes, resolver sistemas de equações lineares era complexo e não havia uma maneira direta de verificar se uma matriz tem inversa.",
-   "onde_aparece": "No cálculo de volumes em geometria, na análise de estabilidade de sistemas dinâmicos e na determinação de se um sistema de equações tem solução única.",
-   "onde_se_trava": "Confundir o determinante com a soma dos elementos da matriz ou não entender que ele só se aplica a matrizes quadradas.",
-   "procedencia": {
-    "modelo": "phi-4",
-    "onde": "local (Delfos)",
-    "data": "2026-08-25",
-    "revisado_por_humano": false,
-    "onde_aparece_suspeito": false,
-    "suspeita": ""
-   }
-  },
-  "esp_vetorial": {
-   "o_que_e": "Um conjunto de vetores que, além de permitir a adição e a multiplicação por escalar, satisfaz axiomas específicos como a existência de um vetor nulo e inversos aditivos.",
-   "por_que_existe": "Antes da formalização dos espaços vetoriais, operações com vetores eram limitadas e não tinham uma estrutura unificada que permitisse generalizar conceitos como linearidade em diferentes contextos matemáticos.",
-   "onde_aparece": "Na modelagem de sistemas de equações lineares, onde as soluções são representadas como combinações lineares de vetores, como em métodos de otimização e análise de dados.",
-   "onde_se_trava": "Compreender que a adição de vetores e a multiplicação por escalar devem respeitar todos os axiomas simultaneamente, e não apenas a soma e a escala individualmente.",
-   "procedencia": {
-    "modelo": "phi-4",
-    "onde": "local (Delfos)",
-    "data": "2026-08-25",
-    "revisado_por_humano": false,
-    "onde_aparece_suspeito": false,
-    "suspeita": ""
-   }
-  },
-  "base_dim": {
-   "o_que_e": "a base é um conjunto de vetores que permite expressar qualquer vetor do espaço como uma combinação linear única; a dimensão é o número de vetores na base.",
-   "por_que_existe": "antes da definição de base, não havia uma maneira sistemática de representar e manipular vetores em espaços de alta dimensão.",
-   "onde_aparece": "no processamento de sinais, onde a base harmônica é usada para decompor sinais em componentes de frequência.",
-   "onde_se_trava": "confundir base com qualquer conjunto de vetores linearmente independentes, sem verificar se cobre todo o espaço.",
-   "procedencia": {
-    "modelo": "phi-4",
-    "onde": "local (Delfos)",
-    "data": "2026-08-25",
-    "revisado_por_humano": false,
-    "onde_aparece_suspeito": false,
-    "suspeita": ""
-   }
-  },
-  "transf_lin": {
-   "o_que_e": "uma função que, aplicada a vetores, preserva a soma e a multiplicação por escalares, mantendo a estrutura do espaço vetorial.",
-   "por_que_existe": "antes da formalização das transformações lineares, não havia uma maneira sistemática de estudar como operações matemáticas afetam sistemas de equações ou espaços multidimensionais.",
-   "onde_aparece": "no cálculo de rotações e escalonamentos em gráficos de computador, onde a transformação linear ajusta as posições dos pontos no espaço.",
-   "onde_se_trava": "ao confundir transformações lineares com funções não lineares, como quadráticas, que não respeitam a propriedade de preservar a soma e a escala.",
-   "procedencia": {
-    "modelo": "phi-4",
-    "onde": "local (Delfos)",
-    "data": "2026-08-25",
-    "revisado_por_humano": false,
-    "onde_aparece_suspeito": false,
-    "suspeita": ""
-   }
-  },
-  "prod_interno": {
-   "o_que_e": "operação que calcula o ângulo e a projeção de um vetor sobre outro, em qualquer dimensão.",
-   "por_que_existe": "para medir ângulos e distâncias em espaços multidimensionais, facilitando o entendimento de relações entre vetores.",
-   "onde_aparece": "na navegação por satélite, onde calcula distâncias e ângulos entre pontos no espaço tridimensional.",
-   "onde_se_trava": "confundir o produto interno com a multiplicação escalar, ignorando a orientação dos vetores.",
-   "procedencia": {
-    "modelo": "phi-4",
-    "onde": "local (Delfos)",
-    "data": "2026-08-25",
-    "revisado_por_humano": false,
-    "onde_aparece_suspeito": false,
-    "suspeita": ""
-   }
-  },
-  "autovalores": {
-   "o_que_e": "Autovalores são escalares que indicam como uma transformação linear estica ou comprime vetores ao longo de certas direções, chamadas autovetores.",
-   "por_que_existe": "Surgiu da necessidade de simplificar a análise de sistemas dinâmicos e resolver equações diferenciais, onde as transformações lineares são comuns.",
-   "onde_aparece": "Usado em análise de dados para redução de dimensionalidade, como no algoritmo de análise de componentes principais (PCA), que organiza dados em dimensões mais simples.",
-   "onde_se_trava": "Estudantes frequentemente confundem autovalores com escalares arbitrários, não percebendo que eles são específicos para autovetores de uma transformação linear.",
-   "procedencia": {
-    "modelo": "phi-4",
-    "onde": "local (Delfos)",
-    "data": "2026-08-25",
-    "revisado_por_humano": false,
-    "onde_aparece_suspeito": false,
-    "suspeita": ""
-   }
-  },
-  "varias_var": {
-   "o_que_e": "O cálculo de várias variáveis estuda como funções dependem de múltiplas variáveis e como essas dependências mudam, usando ferramentas como derivadas parciais e gradientes.",
-   "por_que_existe": "Antes do cálculo de várias variáveis, era difícil analisar fenômenos naturais e engenharia que dependem de mais de uma variável, como o comportamento de sistemas físicos complexos.",
-   "onde_aparece": "Na otimização de redes neurais em aprendizado de máquina, onde múltiplas variáveis de peso são ajustadas para minimizar erros de previsão.",
-   "onde_se_trava": "Estudantes frequentemente confundem derivadas parciais com derivadas totais, não percebendo que cada derivada parcial considera uma variável enquanto mantém as outras constantes.",
-   "procedencia": {
-    "modelo": "phi-4",
-    "onde": "local (Delfos)",
-    "data": "2026-08-25",
-    "revisado_por_humano": false,
-    "onde_aparece_suspeito": false,
-    "suspeita": ""
-   }
-  },
-  "edo": {
-   "o_que_e": "uma equação que relaciona uma função e suas derivadas, buscando encontrar essa função.",
-   "por_que_existe": "para modelar fenômenos dinâmicos, como o movimento de corpos ou a variação de populações, que não podem ser descritos apenas por equações algébricas.",
-   "onde_aparece": "no controle de sistemas automáticos, como o ajuste de temperatura em um ar-condicionado.",
-   "onde_se_trava": "confundir a ordem da equação com a ordem da derivada, levando a soluções incorretas.",
-   "procedencia": {
-    "modelo": "phi-4",
-    "onde": "local (Delfos)",
-    "data": "2026-08-25",
-    "revisado_por_humano": false,
-    "onde_aparece_suspeito": false,
-    "suspeita": ""
-   }
-  },
-  "analise_real": {
-   "o_que_e": "Análise real é o estudo rigoroso de funções reais, focando em limites, continuidade e derivadas, com provas formais de propriedades e teoremas.",
-   "por_que_existe": "Antes da análise real, conceitos como limite e continuidade eram intuitivos, mas careciam de rigor matemático, levando a paradoxos e inconsistências.",
-   "onde_aparece": "A análise real é fundamental em algoritmos de otimização em engenharia e ciência de dados, onde precisão e confiabilidade são cruciais.",
-   "onde_se_trava": "Estudantes frequentemente têm dificuldade em entender a necessidade de rigor em limites e continuidade, confiando em intuição em vez de provas formais.",
-   "procedencia": {
-    "modelo": "phi-4",
-    "onde": "local (Delfos)",
-    "data": "2026-08-25",
-    "revisado_por_humano": false,
-    "onde_aparece_suspeito": false,
-    "suspeita": ""
-   }
-  },
-  "algebra_abs": {
-   "o_que_e": "Álgebra abstrata estuda estruturas algébricas como grupos, anéis e corpos, que são conjuntos com operações definidas que seguem certas propriedades.",
-   "por_que_existe": "Surgiu da necessidade de generalizar conceitos de álgebra para entender e resolver problemas em diferentes áreas matemáticas e científicas, como teoria dos números e geometria.",
-   "onde_aparece": "Na criptografia, onde a segurança dos dados depende de operações em estruturas algébricas complexas, como grupos cíclicos e campos finitos.",
-   "onde_se_trava": "Estudantes frequentemente têm dificuldade em entender a abstração e a generalização dos conceitos, confundindo-os com exemplos específicos como números reais ou inteiros.",
-   "procedencia": {
-    "modelo": "phi-4",
-    "onde": "local (Delfos)",
-    "data": "2026-08-25",
-    "revisado_por_humano": false,
-    "onde_aparece_suspeito": false,
-    "suspeita": ""
-   }
-  },
-  "topologia": {
-   "o_que_e": "estudo de propriedades de espaços que são preservadas sob deformações contínuas, como esticar ou dobrar, sem rasgar ou colar.",
-   "por_que_existe": "para entender conceitos como continuidade e limites em contextos mais gerais do que os números reais, permitindo análise em espaços complexos.",
-   "onde_aparece": "em algoritmos de reconhecimento de padrões, onde a forma é mais importante que a posição ou o tamanho exato.",
-   "onde_se_trava": "confundir topologia com geometria, esquecendo que a topologia não considera medidas como distância ou ângulo.",
-   "procedencia": {
-    "modelo": "phi-4",
-    "onde": "local (Delfos)",
-    "data": "2026-08-25",
-    "revisado_por_humano": false,
-    "onde_aparece_suspeito": false,
-    "suspeita": ""
-   }
-  },
-  "medida": {
-   "o_que_e": "a integral que aguenta funções e conjuntos não contínuos ou com infinitos em pequenas partes.",
-   "por_que_existe": "para calcular áreas e volumes sob curvas e superfícies que não são bem comportadas, como funções com infinitos em pontos isolados.",
-   "onde_aparece": "na análise de sinais e processamento de dados, onde é necessário lidar com funções que têm comportamentos complexos ou descontínuos.",
-   "onde_se_trava": "ao confundir a necessidade de condições de contínua com a capacidade de lidar com funções mais gerais, como pensar que todas as integrais precisam de funções contínuas.",
-   "procedencia": {
-    "modelo": "phi-4",
-    "onde": "local (Delfos)",
-    "data": "2026-08-25",
-    "revisado_por_humano": false,
-    "onde_aparece_suspeito": false,
-    "suspeita": ""
-   }
-  },
-  "geom_dif": {
-   "o_que_e": "estudo de curvas e superfícies usando técnicas de cálculo, focando em propriedades locais como curvatura e torsão.",
-   "por_que_existe": "para entender e descrever a forma e o comportamento de objetos tridimensionais, como esferas e cilindros, que não são planos.",
-   "onde_aparece": "na engenharia para projetar peças complexas de automóveis e aviões, garantindo que sejam aerodinâmicas e eficientes.",
-   "onde_se_trava": "ao confundir curvatura local com curvatura global, como achar que uma esfera tem a mesma curvatura em todos os pontos.",
-   "procedencia": {
-    "modelo": "phi-4",
-    "onde": "local (Delfos)",
-    "data": "2026-08-25",
-    "revisado_por_humano": false,
-    "onde_aparece_suspeito": false,
     "suspeita": ""
    }
   },
   "analise_func": {
    "o_que_e": "Estuda espaços vetoriais com estruturas adicionais, como normas e produtos internos, permitindo análise de funções.",
-   "por_que_existe": "Surgiu para generalizar conceitos de Cálculo e Álgebra Linear, lidando com funções em espaços infinitos.",
    "onde_aparece": "Utilizada em processamento de sinais, onde analisa e manipula sinais contínuos e discretos.",
    "onde_se_trava": "Confundir normas e produtos internos, não percebendo suas diferenças e aplicações específicas.",
+   "por_que_existe": "Surgiu para generalizar conceitos de Cálculo e Álgebra Linear, lidando com funções em espaços infinitos.",
    "procedencia": {
-    "modelo": "phi-4",
-    "onde": "local (Delfos)",
     "data": "2026-08-25",
-    "revisado_por_humano": false,
+    "modelo": "modelo de linguagem local",
+    "onde": "na máquina do autor, sem serviço externo",
     "onde_aparece_suspeito": false,
+    "revisado_por_humano": false,
+    "suspeita": ""
+   }
+  },
+  "analise_real": {
+   "o_que_e": "Análise real é o estudo rigoroso de funções reais, focando em limites, continuidade e derivadas, com provas formais de propriedades e teoremas.",
+   "onde_aparece": "A análise real é fundamental em algoritmos de otimização em engenharia e ciência de dados, onde precisão e confiabilidade são cruciais.",
+   "onde_se_trava": "Estudantes frequentemente têm dificuldade em entender a necessidade de rigor em limites e continuidade, confiando em intuição em vez de provas formais.",
+   "por_que_existe": "Antes da análise real, conceitos como limite e continuidade eram intuitivos, mas careciam de rigor matemático, levando a paradoxos e inconsistências.",
+   "procedencia": {
+    "data": "2026-08-25",
+    "modelo": "modelo de linguagem local",
+    "onde": "na máquina do autor, sem serviço externo",
+    "onde_aparece_suspeito": false,
+    "revisado_por_humano": false,
+    "suspeita": ""
+   }
+  },
+  "aritmetica": {
+   "o_que_e": "Aritmética é o estudo de números e operações básicas como contar, somar e multiplicar.",
+   "onde_aparece": "A aritmética está presente em serviços bancários, onde são calculadas faturas e juros, e em planilhas que somam colunas de dados.",
+   "onde_se_trava": "Erro comum é confundir as operações inversas, como pensar que subtrair não é a mesma coisa que somar o oposto.",
+   "por_que_existe": "Surgiu da necessidade de quantificar e manipular números para resolver problemas cotidianos, como contagem de objetos e cálculo de trocas comerciais.",
+   "procedencia": {
+    "data": "2026-08-25",
+    "modelo": "modelo de linguagem local",
+    "onde": "na máquina do autor, sem serviço externo",
+    "onde_aparece_suspeito": false,
+    "revisado_por_humano": false,
+    "suspeita": ""
+   }
+  },
+  "autovalores": {
+   "o_que_e": "Autovalores são escalares que indicam como uma transformação linear estica ou comprime vetores ao longo de certas direções, chamadas autovetores.",
+   "onde_aparece": "Usado em análise de dados para redução de dimensionalidade, como no algoritmo de análise de componentes principais (PCA), que organiza dados em dimensões mais simples.",
+   "onde_se_trava": "Estudantes frequentemente confundem autovalores com escalares arbitrários, não percebendo que eles são específicos para autovetores de uma transformação linear.",
+   "por_que_existe": "Surgiu da necessidade de simplificar a análise de sistemas dinâmicos e resolver equações diferenciais, onde as transformações lineares são comuns.",
+   "procedencia": {
+    "data": "2026-08-25",
+    "modelo": "modelo de linguagem local",
+    "onde": "na máquina do autor, sem serviço externo",
+    "onde_aparece_suspeito": false,
+    "revisado_por_humano": false,
+    "suspeita": ""
+   }
+  },
+  "base_dim": {
+   "o_que_e": "a base é um conjunto de vetores que permite expressar qualquer vetor do espaço como uma combinação linear única; a dimensão é o número de vetores na base.",
+   "onde_aparece": "no processamento de sinais, onde a base harmônica é usada para decompor sinais em componentes de frequência.",
+   "onde_se_trava": "confundir base com qualquer conjunto de vetores linearmente independentes, sem verificar se cobre todo o espaço.",
+   "por_que_existe": "antes da definição de base, não havia uma maneira sistemática de representar e manipular vetores em espaços de alta dimensão.",
+   "procedencia": {
+    "data": "2026-08-25",
+    "modelo": "modelo de linguagem local",
+    "onde": "na máquina do autor, sem serviço externo",
+    "onde_aparece_suspeito": false,
+    "revisado_por_humano": false,
+    "suspeita": ""
+   }
+  },
+  "conicas": {
+   "o_que_e": "Curvas planas definidas por equações quadráticas, incluindo circunferência, elipse, hipérbole e parábola.",
+   "onde_aparece": "No design de antenas parabólicas para melhorar a recepção de sinais de televisão e rádio.",
+   "onde_se_trava": "Confundir as condições que definem cada cônica, como misturar os critérios de focos e diretrizes.",
+   "por_que_existe": "Surgiu da necessidade de descrever e analisar trajetórias e formas naturais, como o movimento de corpos celestes e o foco de lentes.",
+   "procedencia": {
+    "data": "2026-08-25",
+    "modelo": "modelo de linguagem local",
+    "onde": "na máquina do autor, sem serviço externo",
+    "onde_aparece_suspeito": false,
+    "revisado_por_humano": false,
+    "suspeita": ""
+   }
+  },
+  "conj_num": {
+   "o_que_e": "Conjuntos numéricos são agrupamentos de números que seguem regras específicas, como os naturais, inteiros, racionais e reais, cada um ampliando o anterior para resolver limitações.",
+   "onde_aparece": "Em sistemas de banco, ao calcular juros compostos, onde a precisão numérica dos reais é essencial para evitar erros financeiros.",
+   "onde_se_trava": "Estudantes frequentemente confundem a inclusão de um conjunto no outro, não percebendo que, por exemplo, todos os inteiros são racionais, mas nem todos os racionais são inteiros.",
+   "por_que_existe": "Surgiram para resolver problemas que números mais simples não podiam, como representar o oposto (inteiros), o inverso (racionais) e fechar lacunas (reais).",
+   "procedencia": {
+    "data": "2026-08-25",
+    "modelo": "modelo de linguagem local",
+    "onde": "na máquina do autor, sem serviço externo",
+    "onde_aparece_suspeito": false,
+    "revisado_por_humano": false,
+    "suspeita": ""
+   }
+  },
+  "conjuntos": {
+   "o_que_e": "Conjuntos são coleções de objetos, chamados elementos, que podem ser agrupados e manipulados de acordo com regras específicas.",
+   "onde_aparece": "Conjuntos são usados em bancos para organizar categorias de clientes e em sistemas de recomendação para agrupar produtos similares.",
+   "onde_se_trava": "Um erro comum é confundir a pertinência de um elemento a um conjunto com a igualdade entre conjuntos, não percebendo que dois conjuntos podem ser diferentes mesmo que contenham os mesmos elementos.",
+   "por_que_existe": "Antes da formalização dos conjuntos, não havia uma maneira rigorosa de discutir agrupamentos de objetos e suas propriedades, o que era necessário para o desenvolvimento da matemática moderna.",
+   "procedencia": {
+    "data": "2026-08-25",
+    "modelo": "modelo de linguagem local",
+    "onde": "na máquina do autor, sem serviço externo",
+    "onde_aparece_suspeito": false,
+    "revisado_por_humano": false,
+    "suspeita": ""
+   }
+  },
+  "contagem": {
+   "o_que_e": "Estudo de métodos para contar elementos em conjuntos sem enumerá-los explicitamente.",
+   "onde_aparece": "Em jogos de cartas, onde se calcula as possibilidades de formar mãos específicas.",
+   "onde_se_trava": "Confundir a ordem dos elementos como irrelevante em situações onde ela é crucial, como na formação de palavras.",
+   "por_que_existe": "Para resolver problemas que envolvem a organização e combinação de objetos, como distribuir prêmios ou arranjar pessoas em filas.",
+   "procedencia": {
+    "data": "2026-08-25",
+    "modelo": "modelo de linguagem local",
+    "onde": "na máquina do autor, sem serviço externo",
+    "onde_aparece_suspeito": false,
+    "revisado_por_humano": false,
+    "suspeita": ""
+   }
+  },
+  "coord_espaco": {
+   "o_que_e": "a representação de um ponto no espaço tridimensional usando três valores numéricos.",
+   "onde_aparece": "no design de jogos de vídeo tridimensionais, onde os objetos são posicionados e movidos no espaço virtual.",
+   "onde_se_trava": "confundindo a ordem das coordenadas, levando a posições erradas no espaço.",
+   "por_que_existe": "para descrever e manipular objetos em um espaço de três dimensões, como o mundo físico ao nosso redor.",
+   "procedencia": {
+    "data": "2026-08-25",
+    "modelo": "modelo de linguagem local",
+    "onde": "na máquina do autor, sem serviço externo",
+    "onde_aparece_suspeito": false,
+    "revisado_por_humano": false,
+    "suspeita": ""
+   }
+  },
+  "coord_plano": {
+   "o_que_e": "o sistema que localiza pontos no plano através de dois números, representando distâncias perpendiculares a dois eixos fixos.",
+   "onde_aparece": "no design gráfico, para posicionar elementos em uma tela ou página de forma precisa.",
+   "onde_se_trava": "confundir a origem dos eixos com o ponto de referência zero, ou não entender a importância da ordem dos números no par.",
+   "por_que_existe": "permitiu a representação gráfica de relações matemáticas e facilitou o estudo de geometria através de cálculos numéricos.",
+   "procedencia": {
+    "data": "2026-08-25",
+    "modelo": "modelo de linguagem local",
+    "onde": "na máquina do autor, sem serviço externo",
+    "onde_aparece_suspeito": false,
+    "revisado_por_humano": false,
+    "suspeita": ""
+   }
+  },
+  "derivada": {
+   "o_que_e": "A derivada mede a taxa de variação de uma função em relação a uma variável, representando a inclinação da reta tangente ao gráfico da função no ponto considerado.",
+   "onde_aparece": "Na previsão do tempo, a derivada é usada para calcular a velocidade e aceleração do vento, permitindo prever mudanças climáticas e fenômenos meteorológicos.",
+   "onde_se_trava": "Estudantes frequentemente confundem a derivada com a diferença finita, não compreendendo que a derivada é um limite, o que leva a erros ao calcular taxas de variação instantâneas.",
+   "por_que_existe": "Antes da introdução da derivada, não havia uma maneira precisa de quantificar como uma quantidade variava instantaneamente em relação a outra, limitando o estudo de movimentos e crescimentos contínuos.",
+   "procedencia": {
+    "data": "2026-08-25",
+    "modelo": "modelo de linguagem local",
+    "onde": "na máquina do autor, sem serviço externo",
+    "onde_aparece_suspeito": false,
+    "revisado_por_humano": false,
+    "suspeita": ""
+   }
+  },
+  "determinante": {
+   "o_que_e": "Um número associado a uma matriz que indica se a matriz é invertível e, se for, ajuda a encontrar a inversa.",
+   "onde_aparece": "No cálculo de volumes em geometria, na análise de estabilidade de sistemas dinâmicos e na determinação de se um sistema de equações tem solução única.",
+   "onde_se_trava": "Confundir o determinante com a soma dos elementos da matriz ou não entender que ele só se aplica a matrizes quadradas.",
+   "por_que_existe": "Antes de determinantes, resolver sistemas de equações lineares era complexo e não havia uma maneira direta de verificar se uma matriz tem inversa.",
+   "procedencia": {
+    "data": "2026-08-25",
+    "modelo": "modelo de linguagem local",
+    "onde": "na máquina do autor, sem serviço externo",
+    "onde_aparece_suspeito": false,
+    "revisado_por_humano": false,
+    "suspeita": ""
+   }
+  },
+  "edo": {
+   "o_que_e": "uma equação que relaciona uma função e suas derivadas, buscando encontrar essa função.",
+   "onde_aparece": "no controle de sistemas automáticos, como o ajuste de temperatura em um ar-condicionado.",
+   "onde_se_trava": "confundir a ordem da equação com a ordem da derivada, levando a soluções incorretas.",
+   "por_que_existe": "para modelar fenômenos dinâmicos, como o movimento de corpos ou a variação de populações, que não podem ser descritos apenas por equações algébricas.",
+   "procedencia": {
+    "data": "2026-08-25",
+    "modelo": "modelo de linguagem local",
+    "onde": "na máquina do autor, sem serviço externo",
+    "onde_aparece_suspeito": false,
+    "revisado_por_humano": false,
+    "suspeita": ""
+   }
+  },
+  "esp_vetorial": {
+   "o_que_e": "Um conjunto de vetores que, além de permitir a adição e a multiplicação por escalar, satisfaz axiomas específicos como a existência de um vetor nulo e inversos aditivos.",
+   "onde_aparece": "Na modelagem de sistemas de equações lineares, onde as soluções são representadas como combinações lineares de vetores, como em métodos de otimização e análise de dados.",
+   "onde_se_trava": "Compreender que a adição de vetores e a multiplicação por escalar devem respeitar todos os axiomas simultaneamente, e não apenas a soma e a escala individualmente.",
+   "por_que_existe": "Antes da formalização dos espaços vetoriais, operações com vetores eram limitadas e não tinham uma estrutura unificada que permitisse generalizar conceitos como linearidade em diferentes contextos matemáticos.",
+   "procedencia": {
+    "data": "2026-08-25",
+    "modelo": "modelo de linguagem local",
+    "onde": "na máquina do autor, sem serviço externo",
+    "onde_aparece_suspeito": false,
+    "revisado_por_humano": false,
+    "suspeita": ""
+   }
+  },
+  "exp_log": {
+   "o_que_e": "A exponencial é uma função que eleva uma base a um expoente real, enquanto o logaritmo é a operação inversa que determina o expoente necessário para a base atingir um determinado valor.",
+   "onde_aparece": "No cálculo de juros compostos em bancos, onde a quantia de dinheiro cresce exponencialmente ao longo do tempo, e no ajuste de níveis de som em aparelhos de áudio, onde o logaritmo é usado para converter escalas lineares em escalas logarítmicas.",
+   "onde_se_trava": "Os estudantes frequentemente confundem as propriedades dos logaritmos, como a regra do produto, soma e divisão, e têm dificuldade em entender a relação entre exponenciais e logaritmos como inversos.",
+   "por_que_existe": "Antes da formalização da exponencial e do logaritmo, não havia uma maneira eficiente de lidar com crescimentos rápidos, como juros compostos, ou de resolver equações envolvendo potências de forma prática.",
+   "procedencia": {
+    "data": "2026-08-25",
+    "modelo": "modelo de linguagem local",
+    "onde": "na máquina do autor, sem serviço externo",
+    "onde_aparece_suspeito": false,
+    "revisado_por_humano": false,
+    "suspeita": ""
+   }
+  },
+  "fatoracao": {
+   "o_que_e": "Divisibilidade é a propriedade de um número ser dividido exatamente por outro, sem resto, e fatoração é a decomposição de um número em seus fatores primos.",
+   "onde_aparece": "No cálculo de frações em planilhas, onde a simplificação de números é necessária para resultados precisos.",
+   "onde_se_trava": "Erro comum é confundir divisibilidade com divisão, não reconhecendo que um número pode ter múltiplos divisores.",
+   "por_que_existe": "Antes da divisibilidade e fatoração, resolver problemas de divisão de recursos ou simplificação de frações era complexo e impreciso.",
+   "procedencia": {
+    "data": "2026-08-25",
+    "modelo": "modelo de linguagem local",
+    "onde": "na máquina do autor, sem serviço externo",
+    "onde_aparece_suspeito": false,
+    "revisado_por_humano": false,
+    "suspeita": ""
+   }
+  },
+  "formas_quad": {
+   "o_que_e": "Expressões ou superfícies definidas por equações polinomiais de grau dois.",
+   "onde_aparece": "No design de óculos, onde as lentes são frequentemente curvas de forma quadrática para corrigir a visão.",
+   "onde_se_trava": "Confundir as propriedades das formas quadráticas em diferentes dimensões, como aplicar diretamente conceitos de cônicas a superfícies tridimensionais.",
+   "por_que_existe": "Para descrever e resolver problemas geométricos e físicos envolvendo curvas e superfícies de segunda ordem, como trajetórias de projéteis ou formas de objetos.",
+   "procedencia": {
+    "data": "2026-08-25",
+    "modelo": "modelo de linguagem local",
+    "onde": "na máquina do autor, sem serviço externo",
+    "onde_aparece_suspeito": false,
+    "revisado_por_humano": false,
+    "suspeita": ""
+   }
+  },
+  "fracoes": {
+   "o_que_e": "Frações representam partes de um todo e proporção é a relação entre duas grandezas quantitativas.",
+   "onde_aparece": "Na culinária, ao ajustar receitas para diferentes quantidades de pessoas.",
+   "onde_se_trava": "Confundir fração com decimal, ou não entender como manipular frações em operações.",
+   "por_que_existe": "Antes da fração, não havia como expressar partes de um todo ou comparar quantidades de forma precisa.",
+   "procedencia": {
+    "data": "2026-08-25",
+    "modelo": "modelo de linguagem local",
+    "onde": "na máquina do autor, sem serviço externo",
+    "onde_aparece_suspeito": false,
+    "revisado_por_humano": false,
+    "suspeita": ""
+   }
+  },
+  "funcoes": {
+   "o_que_e": "Uma função é uma relação que associa a cada elemento de um conjunto um único elemento de outro conjunto.",
+   "onde_aparece": "Em planilhas, quando uma coluna calcula valores com base em outra, como calcular impostos a partir de vendas.",
+   "onde_se_trava": "Confundir uma função com uma relação arbitrária, esquecendo que cada entrada deve ter uma saída única.",
+   "por_que_existe": "Surgiu da necessidade de modelar situações onde cada entrada tem uma saída única, como taxas de câmbio ou fórmulas científicas.",
+   "procedencia": {
+    "data": "2026-08-25",
+    "modelo": "modelo de linguagem local",
+    "onde": "na máquina do autor, sem serviço externo",
+    "onde_aparece_suspeito": false,
+    "revisado_por_humano": false,
+    "suspeita": ""
+   }
+  },
+  "geom_dif": {
+   "o_que_e": "estudo de curvas e superfícies usando técnicas de cálculo, focando em propriedades locais como curvatura e torsão.",
+   "onde_aparece": "na engenharia para projetar peças complexas de automóveis e aviões, garantindo que sejam aerodinâmicas e eficientes.",
+   "onde_se_trava": "ao confundir curvatura local com curvatura global, como achar que uma esfera tem a mesma curvatura em todos os pontos.",
+   "por_que_existe": "para entender e descrever a forma e o comportamento de objetos tridimensionais, como esferas e cilindros, que não são planos.",
+   "procedencia": {
+    "data": "2026-08-25",
+    "modelo": "modelo de linguagem local",
+    "onde": "na máquina do autor, sem serviço externo",
+    "onde_aparece_suspeito": false,
+    "revisado_por_humano": false,
+    "suspeita": ""
+   }
+  },
+  "geom_espacial": {
+   "o_que_e": "o estudo de formas tridimensionais, como cubos e esferas, e como medir seu volume.",
+   "onde_aparece": "na modelagem 3D para design de produtos e arquitetura, onde é necessário calcular volumes e superfícies.",
+   "onde_se_trava": "ao confundir medidas de área e volume, como aplicar fórmulas bidimensionais a sólidos tridimensionais.",
+   "por_que_existe": "para resolver problemas de construção e engenharia, que requerem compreensão de objetos tridimensionais.",
+   "procedencia": {
+    "data": "2026-08-25",
+    "modelo": "modelo de linguagem local",
+    "onde": "na máquina do autor, sem serviço externo",
+    "onde_aparece_suspeito": false,
+    "revisado_por_humano": false,
+    "suspeita": ""
+   }
+  },
+  "geom_plana": {
+   "o_que_e": "o estudo das formas e figuras no plano, considerando comprimento e largura.",
+   "onde_aparece": "no cálculo de áreas de terrenos para construção civil ou no desenho técnico de peças planas.",
+   "onde_se_trava": "confundindo ângulos internos e externos de polígonos ou não aplicando corretamente fórmulas de área.",
+   "por_que_existe": "para resolver problemas de medição e construção de formas bidimensionais, como calcular áreas e perímetros.",
+   "procedencia": {
+    "data": "2026-08-25",
+    "modelo": "modelo de linguagem local",
+    "onde": "na máquina do autor, sem serviço externo",
+    "onde_aparece_suspeito": false,
+    "revisado_por_humano": false,
+    "suspeita": ""
+   }
+  },
+  "integral": {
+   "o_que_e": "A integral de Riemann é uma maneira de calcular a área sob a curva de uma função contínua, aproximando-a com somas de retângulos finos.",
+   "onde_aparece": "Em engenharia, para calcular cargas distribuídas ao longo de estruturas, e em economia, para determinar a área sob curvas de demanda e oferta.",
+   "onde_se_trava": "Alunos frequentemente têm dificuldade em entender como a soma de retângulos finos se aproxima da área real à medida que o número de retângulos aumenta.",
+   "por_que_existe": "Antes da integral de Riemann, não havia um método rigoroso para calcular áreas sob curvas complexas, limitando a análise de fenômenos físicos e matemáticos.",
+   "procedencia": {
+    "data": "2026-08-25",
+    "modelo": "modelo de linguagem local",
+    "onde": "na máquina do autor, sem serviço externo",
+    "onde_aparece_suspeito": false,
+    "revisado_por_humano": false,
+    "suspeita": ""
+   }
+  },
+  "inversa": {
+   "o_que_e": "Uma função inversa é aquela que, aplicada à saída de uma função original, retorna o valor original de entrada.",
+   "onde_aparece": "No cálculo de impostos, onde se deseja determinar a renda original a partir do valor tributado.",
+   "onde_se_trava": "Confundir a inversa de uma função com a função original, especialmente quando a função não é bijetiva (um para um e sobre).",
+   "por_que_existe": "Surgiu para resolver problemas onde é necessário reverter o efeito de uma função, como encontrar a raiz quadrada ou o logaritmo de um número.",
+   "procedencia": {
+    "data": "2026-08-25",
+    "modelo": "modelo de linguagem local",
+    "onde": "na máquina do autor, sem serviço externo",
+    "onde_aparece_suspeito": false,
+    "revisado_por_humano": false,
+    "suspeita": ""
+   }
+  },
+  "limite": {
+   "o_que_e": "o comportamento de uma função quando o argumento se aproxima de um valor, e se a função não tem saltos nesse ponto.",
+   "onde_aparece": "em sistemas de controle automático, onde se ajusta a resposta de máquinas em tempo real para evitar oscilações.",
+   "onde_se_trava": "ao confundir o limite de uma função com o valor da função no ponto, ou ao não considerar a existência de limites laterais.",
+   "por_que_existe": "para resolver problemas de aproximação e estabilidade em funções, como determinar valores próximos sem cálculos exatos.",
+   "procedencia": {
+    "data": "2026-08-25",
+    "modelo": "modelo de linguagem local",
+    "onde": "na máquina do autor, sem serviço externo",
+    "onde_aparece_suspeito": false,
+    "revisado_por_humano": false,
+    "suspeita": ""
+   }
+  },
+  "matrizes": {
+   "o_que_e": "uma tabela retangular de números que representa um sistema de equações lineares.",
+   "onde_aparece": "no cálculo de transformações em gráficos de computador e na análise de dados em estatística.",
+   "onde_se_trava": "confundindo a multiplicação de matrizes com a multiplicação escalar.",
+   "por_que_existe": "para resolver sistemas de equações lineares de forma organizada e eficiente.",
+   "procedencia": {
+    "data": "2026-08-25",
+    "modelo": "modelo de linguagem local",
+    "onde": "na máquina do autor, sem serviço externo",
+    "onde_aparece_suspeito": false,
+    "revisado_por_humano": false,
+    "suspeita": ""
+   }
+  },
+  "medida": {
+   "o_que_e": "a integral que aguenta funções e conjuntos não contínuos ou com infinitos em pequenas partes.",
+   "onde_aparece": "na análise de sinais e processamento de dados, onde é necessário lidar com funções que têm comportamentos complexos ou descontínuos.",
+   "onde_se_trava": "ao confundir a necessidade de condições de contínua com a capacidade de lidar com funções mais gerais, como pensar que todas as integrais precisam de funções contínuas.",
+   "por_que_existe": "para calcular áreas e volumes sob curvas e superfícies que não são bem comportadas, como funções com infinitos em pontos isolados.",
+   "procedencia": {
+    "data": "2026-08-25",
+    "modelo": "modelo de linguagem local",
+    "onde": "na máquina do autor, sem serviço externo",
+    "onde_aparece_suspeito": false,
+    "revisado_por_humano": false,
+    "suspeita": ""
+   }
+  },
+  "negativos": {
+   "o_que_e": "Números negativos são aqueles que representam valores abaixo de zero, organizados em uma linha numérica que inclui zero e se estende para ambos os lados.",
+   "onde_aparece": "No controle de temperatura em sistemas de ar-condicionado, onde é necessário ajustar e monitorar valores abaixo de zero.",
+   "onde_se_trava": "Os estudantes frequentemente têm dificuldade em entender a adição e subtração de números negativos, especialmente quando envolve mudanças de sinal.",
+   "por_que_existe": "Surgiu da necessidade de representar dívidas, perdas, e temperaturas abaixo de zero, que não podiam ser expressas apenas com números positivos.",
+   "procedencia": {
+    "data": "2026-08-25",
+    "modelo": "modelo de linguagem local",
+    "onde": "na máquina do autor, sem serviço externo",
+    "onde_aparece_suspeito": false,
+    "revisado_por_humano": false,
+    "suspeita": ""
+   }
+  },
+  "operacoes": {
+   "o_que_e": "Soma e produto são operações básicas de adição e multiplicação, respectivamente, e seus inversos são subtração e divisão, que envolvem adicionar o oposto e multiplicar pelo inverso.",
+   "onde_aparece": "Na planilha, ao somar uma coluna de números ou calcular médias, e ao multiplicar valores para encontrar totais ou taxas.",
+   "onde_se_trava": "Os estudantes frequentemente confundem subtrair com simplesmente \"tirar\" um número de outro, sem considerar o conceito de adicionar o oposto.",
+   "por_que_existe": "Antes da formalização dessas operações, resolver problemas envolvendo quantidades desconhecidas ou comparar valores era complexo e impreciso.",
+   "procedencia": {
+    "data": "2026-08-25",
+    "modelo": "modelo de linguagem local",
+    "onde": "na máquina do autor, sem serviço externo",
+    "onde_aparece_suspeito": false,
+    "revisado_por_humano": false,
+    "suspeita": ""
+   }
+  },
+  "plano_eq": {
+   "o_que_e": "uma equação que define uma superfície plana no espaço tridimensional, onde todos os pontos satisfazem uma relação linear entre suas coordenadas.",
+   "onde_aparece": "no projeto de arquitetura, onde é necessário calcular e desenhar superfícies planas de edifícios e estruturas.",
+   "onde_se_trava": "ao confundir a equação do plano com uma equação quadrática, não percebendo que não há termos de grau superior a um.",
+   "por_que_existe": "para determinar a posição exata de uma superfície plana em um espaço tridimensional, permitindo a representação de fenômenos físicos e construções geométricas.",
+   "procedencia": {
+    "data": "2026-08-25",
+    "modelo": "modelo de linguagem local",
+    "onde": "na máquina do autor, sem serviço externo",
+    "onde_aparece_suspeito": false,
+    "revisado_por_humano": false,
+    "suspeita": ""
+   }
+  },
+  "polares": {
+   "o_que_e": "um sistema de coordenadas que usa distância e ângulo para localizar pontos no plano, diferente das coordenadas cartesianas que usam eixos x e y.",
+   "onde_aparece": "no design de antenas de rádio e televisão, onde a orientação e a distância da antena em relação a um ponto central são cruciais para a cobertura de sinal.",
+   "onde_se_trava": "ao confundir a conversão entre coordenadas polares e cartesianas, especialmente ao calcular ângulos e distâncias em contextos práticos.",
+   "por_que_existe": "para resolver problemas que são mais naturais em termos de ângulos e distâncias, como aqueles envolvendo circunferências e espirais, onde o uso de coordenadas cartesianas seria complicado.",
+   "procedencia": {
+    "data": "2026-08-25",
+    "modelo": "modelo de linguagem local",
+    "onde": "na máquina do autor, sem serviço externo",
+    "onde_aparece_suspeito": false,
+    "revisado_por_humano": false,
+    "suspeita": ""
+   }
+  },
+  "potencias": {
+   "o_que_e": "A potência é uma operação que eleva um número (base) a um expoente, resultando em um produto de multiplicações repetidas da base. A raiz é a operação inversa que, dado um número, encontra a base que, elevada a um determinado expoente, resulta nesse número. O logaritmo é a operação inversa que, dado um número e uma base, encontra o expoente necessário para que a base elevada a esse expoente resulte no número dado.",
+   "onde_aparece": "A potência, raiz e logaritmo são usadas em finanças para calcular juros compostos, em ciências para modelar crescimento exponencial de populações ou reações químicas, e em tecnologia para escalonar a complexidade de algoritmos.",
+   "onde_se_trava": "Um erro comum é confundir a potência com a multiplicação repetida, ou a raiz com a divisão, não entendendo que a potência envolve multiplicação de uma base por si mesma um número de vezes igual ao expoente.",
+   "por_que_existe": "Antes da formalização da potência, raiz e logaritmo, era difícil resolver problemas que envolviam crescimento exponencial, como juros compostos ou crescimento populacional, de forma eficiente e precisa.",
+   "procedencia": {
+    "data": "2026-08-25",
+    "modelo": "modelo de linguagem local",
+    "onde": "na máquina do autor, sem serviço externo",
+    "onde_aparece_suspeito": false,
+    "revisado_por_humano": false,
+    "suspeita": ""
+   }
+  },
+  "primitiva": {
+   "o_que_e": "a função que, quando derivada, resulta na função original.",
+   "onde_aparece": "no cálculo de juros compostos ao longo do tempo, onde a taxa de crescimento é conhecida.",
+   "onde_se_trava": "confundir primitivas com integrais, esquecendo que primitivas são funções antiderivadas, não valores numéricos.",
+   "por_que_existe": "para calcular áreas sob curvas e resolver equações diferenciais, problemas que não podiam ser resolvidos apenas com derivadas.",
+   "procedencia": {
+    "data": "2026-08-25",
+    "modelo": "modelo de linguagem local",
+    "onde": "na máquina do autor, sem serviço externo",
+    "onde_aparece_suspeito": false,
+    "revisado_por_humano": false,
+    "suspeita": ""
+   }
+  },
+  "prod_interno": {
+   "o_que_e": "operação que calcula o ângulo e a projeção de um vetor sobre outro, em qualquer dimensão.",
+   "onde_aparece": "na navegação por satélite, onde calcula distâncias e ângulos entre pontos no espaço tridimensional.",
+   "onde_se_trava": "confundir o produto interno com a multiplicação escalar, ignorando a orientação dos vetores.",
+   "por_que_existe": "para medir ângulos e distâncias em espaços multidimensionais, facilitando o entendimento de relações entre vetores.",
+   "procedencia": {
+    "data": "2026-08-25",
+    "modelo": "modelo de linguagem local",
+    "onde": "na máquina do autor, sem serviço externo",
+    "onde_aparece_suspeito": false,
+    "revisado_por_humano": false,
+    "suspeita": ""
+   }
+  },
+  "reais": {
+   "o_que_e": "Conjunto de números que inclui todos os números racionais e irracionais, formando um sistema completo e ordenado.",
+   "onde_aparece": "Na modelagem de fenômenos físicos, como a previsão do tempo, onde variáveis como temperatura e pressão são representadas por números reais.",
+   "onde_se_trava": "Confundir números reais com números racionais, ignorando a existência de números irracionais como a raiz quadrada de 2.",
+   "por_que_existe": "Para resolver problemas que envolvem medições contínuas e precisas, como comprimento, área e volume, que não podem ser expressos apenas com números racionais.",
+   "procedencia": {
+    "data": "2026-08-25",
+    "modelo": "modelo de linguagem local",
+    "onde": "na máquina do autor, sem serviço externo",
+    "onde_aparece_suspeito": false,
+    "revisado_por_humano": false,
+    "suspeita": ""
+   }
+  },
+  "regra_cadeia": {
+   "o_que_e": "A regra da cadeia é um método para calcular a derivada de uma função composta, que é a derivada de uma função aplicada a outra função.",
+   "onde_aparece": "Na otimização de algoritmos de machine learning, onde a regra da cadeia é usada para calcular gradientes em redes neurais.",
+   "onde_se_trava": "Os estudantes frequentemente confundem a ordem das derivadas das funções interna e externa, aplicando incorretamente a regra.",
+   "por_que_existe": "Antes da regra da cadeia, não havia uma maneira sistemática de encontrar a derivada de funções compostas, o que limitava a análise de sistemas complexos.",
+   "procedencia": {
+    "data": "2026-08-25",
+    "modelo": "modelo de linguagem local",
+    "onde": "na máquina do autor, sem serviço externo",
+    "onde_aparece_suspeito": false,
+    "revisado_por_humano": false,
+    "suspeita": ""
+   }
+  },
+  "relacoes": {
+   "o_que_e": "Um par ordenado é uma sequência de dois elementos, onde a ordem importa, formando um vínculo entre elementos de dois conjuntos.",
+   "onde_aparece": "Em sistemas de coordenadas geográficas, onde a latitude e a longitude formam um par ordenado para localizar pontos no globo terrestre.",
+   "onde_se_trava": "Estudantes frequentemente confundem a importância da ordem, tratando (a, b) como igual a (b, a), o que não é verdade.",
+   "por_que_existe": "Antes do conceito de par ordenado, não havia uma maneira estruturada de associar elementos de dois conjuntos de forma que a ordem fosse significativa, essencial para a definição de funções e coordenadas.",
+   "procedencia": {
+    "data": "2026-08-25",
+    "modelo": "modelo de linguagem local",
+    "onde": "na máquina do autor, sem serviço externo",
+    "onde_aparece_suspeito": false,
+    "revisado_por_humano": false,
+    "suspeita": ""
+   }
+  },
+  "reta": {
+   "o_que_e": "uma equação que relaciona x e y de forma linear, representando uma reta no plano cartesiano.",
+   "onde_aparece": "no cálculo de trajetórias em jogos eletrônicos, onde a posição de um objeto é ajustada linearmente.",
+   "onde_se_trava": "confundindo a inclinação da reta com a interceptação, ou interpretando mal o sinal da inclinação.",
+   "por_que_existe": "para descrever relações proporcionais entre duas variáveis, como taxas de crescimento ou declínio.",
+   "procedencia": {
+    "data": "2026-08-25",
+    "modelo": "modelo de linguagem local",
+    "onde": "na máquina do autor, sem serviço externo",
+    "onde_aparece_suspeito": false,
+    "revisado_por_humano": false,
+    "suspeita": ""
+   }
+  },
+  "sequencias": {
+   "o_que_e": "uma sequência é uma lista ordenada de números, onde cada número é chamado de termo, e a posição do termo é dada por um número natural.",
+   "onde_aparece": "sequências são usadas em planilhas para calcular previsões financeiras, onde cada termo representa um valor futuro baseado em uma regra de progressão.",
+   "onde_se_trava": "estudantes frequentemente confundem a definição de uma sequência com a de uma função, esquecendo que uma sequência é específica para números naturais como índices.",
+   "por_que_existe": "sequências surgiram para estudar padrões e regularidades em conjuntos de números, permitindo a análise de tendências e comportamentos ao longo de uma progressão.",
+   "procedencia": {
+    "data": "2026-08-25",
+    "modelo": "modelo de linguagem local",
+    "onde": "na máquina do autor, sem serviço externo",
+    "onde_aparece_suspeito": false,
+    "revisado_por_humano": false,
+    "suspeita": ""
+   }
+  },
+  "sistemas": {
+   "o_que_e": "um conjunto de equações com várias incógnitas, que busca encontrar valores que satisfaçam todas ao mesmo tempo.",
+   "onde_aparece": "na otimização de redes de distribuição de energia, garantindo eficiência e estabilidade no fornecimento.",
+   "onde_se_trava": "confundir a solução única com múltiplas soluções ou nenhuma, sem verificar a consistência do sistema.",
+   "por_que_existe": "antes, resolver problemas com múltiplas variáveis era complexo e propenso a erros, sem uma abordagem sistemática.",
+   "procedencia": {
+    "data": "2026-08-25",
+    "modelo": "modelo de linguagem local",
+    "onde": "na máquina do autor, sem serviço externo",
+    "onde_aparece_suspeito": false,
+    "revisado_por_humano": false,
+    "suspeita": ""
+   }
+  },
+  "tecnicas_int": {
+   "o_que_e": "Técnicas de primitivação são métodos para encontrar antiderivadas de funções complexas, dividindo-as em partes mais simples ou expressando-as como somas de frações parciais.",
+   "onde_aparece": "Técnicas de primitivação são usadas em engenharia para calcular áreas sob curvas complexas, como no projeto de estruturas ou no cálculo de volumes de fluidos.",
+   "onde_se_trava": "Estudantes frequentemente cometem erros na aplicação da regra da substituição, especialmente ao escolher a função adequada para substituir, ou na decomposição de frações parciais, ao não identificar corretamente os termos.",
+   "por_que_existe": "Antes dessas técnicas, integrar funções complexas diretamente era impossível ou muito difícil, limitando o uso do cálculo em aplicações práticas.",
+   "procedencia": {
+    "data": "2026-08-25",
+    "modelo": "modelo de linguagem local",
+    "onde": "na máquina do autor, sem serviço externo",
+    "onde_aparece_suspeito": false,
+    "revisado_por_humano": false,
+    "suspeita": ""
+   }
+  },
+  "topologia": {
+   "o_que_e": "estudo de propriedades de espaços que são preservadas sob deformações contínuas, como esticar ou dobrar, sem rasgar ou colar.",
+   "onde_aparece": "em algoritmos de reconhecimento de padrões, onde a forma é mais importante que a posição ou o tamanho exato.",
+   "onde_se_trava": "confundir topologia com geometria, esquecendo que a topologia não considera medidas como distância ou ângulo.",
+   "por_que_existe": "para entender conceitos como continuidade e limites em contextos mais gerais do que os números reais, permitindo análise em espaços complexos.",
+   "procedencia": {
+    "data": "2026-08-25",
+    "modelo": "modelo de linguagem local",
+    "onde": "na máquina do autor, sem serviço externo",
+    "onde_aparece_suspeito": false,
+    "revisado_por_humano": false,
+    "suspeita": ""
+   }
+  },
+  "transf_lin": {
+   "o_que_e": "uma função que, aplicada a vetores, preserva a soma e a multiplicação por escalares, mantendo a estrutura do espaço vetorial.",
+   "onde_aparece": "no cálculo de rotações e escalonamentos em gráficos de computador, onde a transformação linear ajusta as posições dos pontos no espaço.",
+   "onde_se_trava": "ao confundir transformações lineares com funções não lineares, como quadráticas, que não respeitam a propriedade de preservar a soma e a escala.",
+   "por_que_existe": "antes da formalização das transformações lineares, não havia uma maneira sistemática de estudar como operações matemáticas afetam sistemas de equações ou espaços multidimensionais.",
+   "procedencia": {
+    "data": "2026-08-25",
+    "modelo": "modelo de linguagem local",
+    "onde": "na máquina do autor, sem serviço externo",
+    "onde_aparece_suspeito": false,
+    "revisado_por_humano": false,
+    "suspeita": ""
+   }
+  },
+  "trigonometria": {
+   "o_que_e": "Estudo das razões entre os lados de triângulos, especialmente no contexto de ângulos e funções trigonométricas.",
+   "onde_aparece": "Utilizada em sistemas de radar e sonar para determinar a posição de objetos a partir de ângulos e distâncias.",
+   "onde_se_trava": "Erro comum é confundir as funções seno, cosseno e tangente, especialmente ao aplicá-las em triângulos não retângulos.",
+   "por_que_existe": "Surgiu da necessidade de calcular distâncias e ângulos em navegação e astronomia, onde não era possível medir diretamente.",
+   "procedencia": {
+    "data": "2026-08-25",
+    "modelo": "modelo de linguagem local",
+    "onde": "na máquina do autor, sem serviço externo",
+    "onde_aparece_suspeito": false,
+    "revisado_por_humano": false,
+    "suspeita": ""
+   }
+  },
+  "variacao": {
+   "o_que_e": "Estudo de como uma função varia, identificando crescimento, decrescimento, pontos de inflexão e máximos e mínimos.",
+   "onde_aparece": "Em sistemas de controle automático, onde é crucial entender como as variáveis mudam para ajustar processos em tempo real.",
+   "onde_se_trava": "Confundir a interpretação gráfica da concavidade com a identificação correta de máximos e mínimos.",
+   "por_que_existe": "Antes, não havia uma maneira sistemática de analisar como as quantidades mudam, o que era necessário para otimizar processos e resolver problemas de máximos e mínimos.",
+   "procedencia": {
+    "data": "2026-08-25",
+    "modelo": "modelo de linguagem local",
+    "onde": "na máquina do autor, sem serviço externo",
+    "onde_aparece_suspeito": false,
+    "revisado_por_humano": false,
+    "suspeita": ""
+   }
+  },
+  "varias_var": {
+   "o_que_e": "O cálculo de várias variáveis estuda como funções dependem de múltiplas variáveis e como essas dependências mudam, usando ferramentas como derivadas parciais e gradientes.",
+   "onde_aparece": "Na otimização de redes neurais em aprendizado de máquina, onde múltiplas variáveis de peso são ajustadas para minimizar erros de previsão.",
+   "onde_se_trava": "Estudantes frequentemente confundem derivadas parciais com derivadas totais, não percebendo que cada derivada parcial considera uma variável enquanto mantém as outras constantes.",
+   "por_que_existe": "Antes do cálculo de várias variáveis, era difícil analisar fenômenos naturais e engenharia que dependem de mais de uma variável, como o comportamento de sistemas físicos complexos.",
+   "procedencia": {
+    "data": "2026-08-25",
+    "modelo": "modelo de linguagem local",
+    "onde": "na máquina do autor, sem serviço externo",
+    "onde_aparece_suspeito": false,
+    "revisado_por_humano": false,
+    "suspeita": ""
+   }
+  },
+  "vetores": {
+   "o_que_e": "Um vetor é uma quantidade que tem magnitude e direção, representado por uma flecha que pode ser somada a outros vetores e multiplicada por escalares.",
+   "onde_aparece": "Vetores são usados em física para representar forças e velocidades, e em engenharia para analisar estruturas e movimentos.",
+   "onde_se_trava": "Estudantes frequentemente confundem vetores com apenas uma lista de números, esquecendo-se de sua direção e propriedades de operação.",
+   "por_que_existe": "Antes da formalização dos vetores, não havia uma maneira sistemática de lidar com quantidades que dependem de direção e magnitude, como forças e velocidades, em um contexto matemático.",
+   "procedencia": {
+    "data": "2026-08-25",
+    "modelo": "modelo de linguagem local",
+    "onde": "na máquina do autor, sem serviço externo",
+    "onde_aparece_suspeito": false,
+    "revisado_por_humano": false,
     "suspeita": ""
    }
   }

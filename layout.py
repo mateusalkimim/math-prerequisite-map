@@ -3,7 +3,7 @@
 
 Purchase (1997) mediu cinco estéticas de desenho de grafo contra compreensão
 humana e achou que **reduzir cruzamento de arestas é, de longe, a mais
-importante**. A norma da Hipátia adota o achado e vai além: em conflito com
+importante**. A norma de diagramas do autor adota o achado e vai além: em conflito com
 qualquer outra regra, o cruzamento perde.
 
 Por isso o layout não é escrito à mão. É Sugiyama enxuto:

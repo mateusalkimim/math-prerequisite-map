@@ -11,7 +11,7 @@ numa matéria acende toda a cadeia que a sustenta, até a linguagem dos conjunto
 **→ [Abrir o mapa](https://mateusalkimim.github.io/math-prerequisite-map/)**
 
 > **Estado: PROPOSTA.** O grafo é uma afirmação sobre o que precede o quê, e
-> ainda não foi ratificado — é rascunho com fonte, não material de aula. Está
+> ainda não foi confirmado — é rascunho com fonte, não material de aula. Está
 > publicado assim de propósito: uma seta errada manda o aluno estudar a coisa
 > errada, e é melhor que ela seja contestada do que aceita em silêncio.
 > Discordâncias são bem-vindas nas issues.
@@ -62,7 +62,7 @@ aparece no desenho e no painel:
   mapa precisa mostrar para onde as estradas vão; a seta é julgamento declarado,
   desenhada em traço fraco. É honestidade, não decoração.
 
-Obras (todas em `mouseion/_dissecado/`): **Guidorizzi** v.1 (classe A, TOC de
+Obras (todas em o acervo dissecado do autor): **Guidorizzi** v.1 (classe A, TOC de
 157) · **Elon Lages Lima** (classe A) · **Callioli** (classe B — scan sem TOC, e
 a ficha do acervo pede conferir se é parcial; por isso só sustenta aresta de
 *ordem*, nunca de *definição*) · **Merzbach & Boyer** (classe A, TOC de 300).
@@ -204,7 +204,7 @@ O gerador não é só um prompt. Três coisas fazem a regra valer:
   gráfica ou processamento de imagem — que é o assunto de outro material, não
   deste mapa;
 - **um verificador adversarial** sobre o campo do exemplo, que é onde um modelo
-  inventa. Ele é **portão, não etiqueta**: reprovou, o nó volta para a fila com
+  inventa. Ele é **verificação, não etiqueta**: reprovou, o nó volta para a fila com
   o motivo e o modelo troca de exemplo. Como simples marcador ele reprovava 3
   em 4, e uma lista com 35 suspeitos em 50 não separa nada;
 - **um teto por domínio de exemplo.** Numa rodada, 13 dos 50 verbetes ancoraram
@@ -234,7 +234,7 @@ Três mudanças, e as três são medidas por [`medir_telas.py`](medir_telas.py):
 - **um botão "voltar ao mapa"**, que só aparece quando as colunas estão
   empilhadas — lado a lado o mapa nunca sai de vista, e o botão seria ruído.
 
-O portão confere as duas coisas separadamente, porque são defeitos diferentes: o
+A verificação confere as duas coisas separadamente, porque são defeitos diferentes: o
 painel fica visível depois do clique, e o gesto de um dedo não é capturado. A
 segunda medida existe porque o CSS certo não basta — o handler ainda podia
 chamar `preventDefault` e matar a rolagem com o `touch-action` correto ao lado.
@@ -269,7 +269,7 @@ Três decisões que o desenho carrega:
   vizinhança do determinante vai da camada 1 à 9, o que em altura real daria
   1.624 px contra 714 de largura, um fio ilegível numa folha 16:9. Colapsadas,
   a proporção sai entre 0,83 e 1,10 nos episódios medidos;
-- **SVG e não PNG**, por causa de um portão: o auditor de rótulos lê o **texto
+- **SVG e não PNG**, por causa de uma verificação: o auditor de rótulos lê o **texto
   vetorial** do PDF. Rótulo em bitmap é rótulo que o auditor não vê.
 
 A paleta é a do **deck** (papel `#f3f5f9`), não a do site: os matizes dos

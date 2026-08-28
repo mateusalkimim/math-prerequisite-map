@@ -15,7 +15,7 @@ Sob a §1.5 da norma de diagramas — **apagar em vez de sumir**: o contexto
 continua visível, o foco não. É o mesmo gesto que o mapa interativo faz ao
 acender uma cadeia; aqui ele vira artefato parado.
 
-⚠️ TEMA CLARO, não o do site. Os decks da Hipátia têm fundo `#f3f5f9`; o mapa
+⚠️ TEMA CLARO, não o do site. Os decks do autor têm fundo `#f3f5f9`; o mapa
 vive em navy. Herdar as cores do site poria texto claro sobre papel claro. As
 matizes dos troncos são as mesmas — muda a mistura, que no claro é média e não
 soma (`cor_do_no`), e a tinta do texto.

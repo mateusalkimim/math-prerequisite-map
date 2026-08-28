@@ -10,7 +10,7 @@ on a subject lights up the entire chain that supports it, up to the language of 
 
 **→ [Open the map](https://mateusalkimim.github.io/math-prerequisite-map/)**
 
-> **Status: PROPOSAL.** The graph is a statement about what precedes what, and it has not yet been ratified — it is a draft with a source, not teaching material. It is published this way on purpose: a wrong arrow sends the student to study the wrong thing, and it is better that it be contested than accepted in silence.  
+> **Status: PROPOSAL.** The graph is a statement about what precedes what, and it has not yet been confirmed — it is a draft with a source, not teaching material. It is published this way on purpose: a wrong arrow sends the student to study the wrong thing, and it is better that it be contested than accepted in silence.  
 > Disagreements are welcome in the issues.
 
 A map of the **logical order** of the subjects — not the historical, not the curricular. The three orders were already distinguished in the `fig-tres-ordens` of a map of the historical genealogy (sibling document, unpublished); this document takes **the third** to its conclusion and makes it an instrument.
@@ -50,7 +50,7 @@ The map will point out where a student got stuck: **a wrong arrow leads the stud
   because the map needs to show where the roads go; the arrow is a declared judgment,  
   drawn with a weak line. It's honesty, not decoration.
 
-Works (all in `mouseion/_dissecado/`): **Guidorizzi** v.1 (class A, TOC of  
+Works (all in the author's dissected library): **Guidorizzi** v.1 (class A, TOC of  
 157) · **Elon Lages Lima** (class A) · **Callioli** (class B — scan without TOC, and  
 the archive card asks to check if it's partial; for this reason it only supports edge of  
 *order*, never of *definition*) · **Merzbach & Boyer** (class A, TOC of 300).
@@ -192,7 +192,7 @@ Three decisions that the drawing carries:
 
 - **label only on related items.** Fifty names on a sheet of 1920 do not read. The other subjects remain drawn and erased — §1.5 of the standard: *erase instead of disappear*, the context stays, the focus does not;  
 - **the crop is by `viewBox`, with the layout intact.** Recalculating positions only for the neighborhood would give a more compact drawing and **lie about the geography**: the reader just saw the entire map in the opening, and the boxes need to be where they were. What is compressed are the **empty layers** — the neighborhood of the determinant goes from layer 1 to 9, which in real height would be 1,624 px against 714 of width, an illegible thread on a 16:9 sheet. Collapsed, the ratio comes out between 0.83 and 1.10 in the episodes measured;  
-- **SVG and not PNG**, because of a gate: the auditor of labels reads the **vector text** of the PDF. A label in bitmap is a label that the auditor does not see.
+- **SVG and not PNG**, because of a check: the auditor of labels reads the **vector text** of the PDF. A label in bitmap is a label that the auditor does not see.
 
 The palette is that of the **deck** (paper `#f3f5f9`), not that of the site: the tints of  
 the trunks are the same, but in the light the color **mixes by average** and not by sum —  
