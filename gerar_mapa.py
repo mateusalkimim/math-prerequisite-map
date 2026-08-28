@@ -208,7 +208,7 @@ def badges(doms, L, A):
 def ortogonal(pts, desvio):
     """Sem diagonal: cada trecho vira um Z — desce, anda, desce.
 
-    Pedido do operador (2026-08-18): só horizontal, vertical e L. A diagonal
+    Pedido do autor (2026-08-18): só horizontal, vertical e L. A diagonal
     some. O `desvio` afasta o degrau horizontal de cada aresta dentro do vão
     entre camadas, para que duas arestas não se deitem uma sobre a outra.
     """
@@ -480,12 +480,12 @@ aside{width:330px;flex:none;border-left:1px solid var(--borda);padding:18px 20px
    própria. Antes isto vivia espremido embaixo do Venn, no fim de uma coluna
    que o leitor já tinha percorrido — e o texto mais longo da página ficava no
    pior lugar dela.
-   ORDEM (correção do operador): o TEXTO vem primeiro, encostado no mapa, e as
+   ORDEM (correção do autor): o TEXTO vem primeiro, encostado no mapa, e as
    figuras ficam na ponta. Quem clica num nó olha para o lado e lê; a chave de
    cores e formas é consulta ocasional, e consulta ocasional mora mais longe.
    Fica SEMPRE aberta, mesmo vazia: coluna que aparece e some faz o mapa saltar
    de largura a cada clique, e o leitor perde o nó que estava olhando.
-   UM POR VEZ, por decisão do operador — o Properties Bin do Nuke empilha, este
+   UM POR VEZ, por decisão do autor — o Properties Bin do Nuke empilha, este
    não. */
 #propriedades{width:390px;flex:none;border-left:1px solid var(--borda);
       padding:18px 22px;overflow-y:auto;height:calc(100vh - 210px);

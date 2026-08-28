@@ -136,7 +136,7 @@ def desenhar(ids, modo, titulo=None, margem=40):
                        .replace('class="regiao-geo"',
                                 f'fill="none" stroke="{_hx(COR_REGIAO)}" stroke-width="1.2"'))
         svg.append("</g>")
-        # O RÓTULO SÓ NOS RELACIONADOS — decisão do operador. Cinquenta nomes
+        # O RÓTULO SÓ NOS RELACIONADOS — decisão do autor. Cinquenta nomes
         # numa folha de 1920 não se leem; o que importa é ler os que importam.
         if nid in rotulado:
             linhas = rotulo.split("\n")
