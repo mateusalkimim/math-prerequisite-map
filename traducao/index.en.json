@@ -1,5 +1,5 @@
 {
- "atualizado_em": "2026-09-01 12:44:33",
+ "atualizado_em": "2026-09-01 12:47:08",
  "blocos": {
   "001646581a": {
    "en": "Space",
@@ -1586,12 +1586,13 @@
    "tipo": "js"
   },
   "5d63db25e0": {
-   "en": "suspect",
-   "modelo": "phi-4",
+   "en": "suspeita",
+   "modelo": "claude-opus-5 (agente da sessao)",
    "orfao": false,
    "pt": "suspeita",
    "qa": "ok",
-   "tipo": "js"
+   "tipo": "js",
+   "reparo": "chave de objeto JSON lida pelo JS (p.modelo/p.onde) — identificador, não texto de tela"
   },
   "5d6cce5330": {
    "en": "<span><b>The corner mark</b> — <b>C</b> for constant, <b>L</b> for linear: the material indicates which trunk it belongs to without depending on the color</span>",
@@ -3872,12 +3873,13 @@
    "tipo": "js"
   },
   "dab9c1872e": {
-   "en": "model",
-   "modelo": "phi-4",
+   "en": "modelo",
+   "modelo": "claude-opus-5 (agente da sessao)",
    "orfao": false,
    "pt": "modelo",
    "qa": "ok",
-   "tipo": "js"
+   "tipo": "js",
+   "reparo": "chave de objeto JSON lida pelo JS (p.modelo/p.onde) — identificador, não texto de tela"
   },
   "db2aa6f7e1": {
    "en": "<b>not yet reviewed by human reading.</b>",
@@ -4056,12 +4058,13 @@
    "tipo": "svg"
   },
   "e531761786": {
-   "en": "where",
-   "modelo": "phi-4",
+   "en": "onde",
+   "modelo": "claude-opus-5 (agente da sessao)",
    "orfao": false,
    "pt": "onde",
    "qa": "ok",
-   "tipo": "js"
+   "tipo": "js",
+   "reparo": "chave de objeto JSON lida pelo JS (p.modelo/p.onde) — identificador, não texto de tela"
   },
   "e58e12cd88": {
    "en": "angle and length within space",
