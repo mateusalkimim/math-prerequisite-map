@@ -64,6 +64,19 @@ NOS = [
     ("negativos",    "Negativos\ne a reta",       "base", "o sinal, a ordem e a distância — os números postos em fila"),
     ("fatoracao",    "Divisibilidade\ne fatoração","base", "primos, o que divide o quê, e por que isso simplifica"),
     ("algebra_elem", "Álgebra\nelementar",         "base", "a letra no lugar do número"),
+    # 2026-09-01. O nó FALTAVA, e a falta era visível de dentro: o warrant de
+    # determinante->autovalores já dizia "o polinômio característico é um
+    # determinante", isto é, o mapa CITAVA um objeto que ele não tinha. Nos
+    # seminários a dívida tem a mesma forma da que gerou o deck da
+    # trigonometria: 9 menções no corpo dos decks, uma folha inteira do G4
+    # ("um polinômio É um ponto") com figura própria — e nenhum deck ensina
+    # grau, raiz ou fatoração.
+    # ⚠️ ESTE nó é a EXPRESSÃO algébrica, não a função polinomial. São dois
+    # slots com a mesma palavra: GUI trata a expressão nos exercícios do cap. 1
+    # (p.33-34) e só define a FUNÇÃO polinomial em §2.1, p.62, depois de
+    # funções. Fichar a expressão é o que põe o nó ANTES dos dois troncos, que
+    # é onde ele é consumido — pelo cálculo e pela álgebra linear.
+    ("polinomios",   "Polinômios",                 "base", "a soma de potências da letra — grau, raiz e fatoração"),
     ("trigonometria","Trigonometria",              "base", "razão entre lados de um triângulo"),
     ("reais",        "Números reais",              "base", "o corpo ordenado completo onde tudo se passa"),
     ("funcoes",      "Funções",                    "base", "leva número em número"),
@@ -156,6 +169,10 @@ ARESTAS = [
     ("operacoes",    "algebra_elem", O, "mapa-genealogia, fig-3-base · a letra obedece às MESMAS propriedades: comutativa, associativa, distributiva"),
     ("fatoracao",    "algebra_elem", O, "seminario-calculo-0, folha 9 — fatorar é o que revela ou esconde um buraco no domínio"),
     ("fracoes",      "trigonometria",O, "trigonometria é RAZÃO entre lados: sem fração, o seno não tem sentido"),
+    # OS POLINÔMIOS (2026-09-01). Duas entradas e três saídas, e as saídas vão
+    # para os DOIS troncos — é o que justifica o domínio vazio do nó.
+    ("algebra_elem", "polinomios",   O, "GUI cap. 1, p. 33-34 — o polinômio do 2.º grau, a fórmula de suas raízes e sua fatoração são exercícios do capítulo de NÚMEROS REAIS, antes de qualquer função"),
+    ("fatoracao",    "polinomios",   O, "GUI cap. 1, p. 34 — ax²+bx+c = a(x−x₁)(x−x₂): fatorar o polinômio é a fatoração com a letra no lugar do número"),
     ("negativos",    "reais",        O, "GUI cap. 1 — a reta ordenada é o que os reais completam"),
     ("negativos",    "coord_plano",  O, "seminario-geometria, Estação 3 — o eixo tem lado negativo, e o observador fica na origem"),
     # A CISÃO (2026-08-25): a OPERAÇÃO potência/raiz/log é da base — expoente
@@ -171,6 +188,7 @@ ARESTAS = [
 
     # cálculo — Guidorizzi, ordem de definição
     ("funcoes",      "limite",       A, "GUI §3.3 define limite de uma função"),
+    ("polinomios",   "limite",       O, "GUI §2.1 p. 62 define a função polinomial; §3, p. 119, a usa — 'EXEMPLO 12. Toda função polinomial é contínua'"),
     ("reais",        "limite",       A, "GUI §3.3 — o ε e o δ são reais"),
     ("limite",       "sequencias",   O, "GUI §4.3-4.4 (sequência depois do limite; §4.4 liga os dois)"),
     ("limite",       "exp_log",      A, "GUI §6.3 — o limite define a potência de expoente real"),
@@ -207,6 +225,12 @@ ARESTAS = [
     #   DEFINIR sistema — é consequência, não precedência. O detector de ciclo
     #   do layout.py pegou; a confusão era entre "usa" e "precede".
     ("vetores",      "esp_vetorial", O, "CAL — o espaço vetorial generaliza o vetor (classe B)"),
+    # O polinômio como VETOR — e quem declara a precedência é o próprio livro:
+    # "O leitor, QUE JÁ ESTUDOU OS POLINÔMIOS SOBRE ℝ, não terá dificuldades em
+    # perceber que…" (CAL, ao apresentar Pₙ(ℝ)). É a folha 10 do seminário de
+    # espaços vetoriais: "um polinômio É um ponto, e o espaço dele tem quatro
+    # eixos". CAL é classe B, logo sustenta ORDEM, nunca definição.
+    ("polinomios",   "esp_vetorial", O, "CAL cap. 2 — 'O leitor, que já estudou os polinômios sobre ℝ, não terá dificuldades…': o livro DECLARA o polinômio como pré-requisito, e Pₙ(ℝ) é o exemplo canônico de espaço sem flecha (classe B)"),
     ("esp_vetorial", "base_dim",     A, "CAL — base é definida dentro do espaço vetorial (classe B)"),
     ("esp_vetorial", "transf_lin",   A, "ELO 'Transformações Lineares' — entre espaços"),
     ("matrizes",     "transf_lin",   A, "ELO — a matriz representa a transformação numa base"),
@@ -214,6 +238,13 @@ ARESTAS = [
     ("vetores",      "prod_interno", A, "ELO 'Distância de um Ponto a uma Reta' usa o produto"),
     ("transf_lin",   "autovalores",  A, "CAL — autovalor é da transformação (classe B)"),
     ("determinante", "autovalores",  A, "CAL — o polinômio característico é um determinante (classe B)"),
+    # A aresta que FECHA a citação órfã: até hoje o warrant acima citava o
+    # polinômio característico sem que o mapa tivesse o nó. ELO é classe A e
+    # define: o polinômio característico é o polinômio de grau n em λ cujas
+    # RAÍZES são os autovalores — logo é o polinômio, não só o determinante,
+    # que entra na definição. Custo declarado: salta da camada 5 à 11, e
+    # sozinha responde por 5 dos 9 nós virtuais novos.
+    ("polinomios",   "autovalores",  A, "ELO — 'chama-se polinômio característico da matriz m ao polinômio de grau três na variável λ… as RAÍZES deste polinômio são chamadas os autovalores'"),
     ("conicas",      "formas_quad",  O, "ELO 'Formas Quadráticas' depois das cônicas"),
     ("autovalores",  "formas_quad",  A, "ELO 'Completando Quadrados' — diagonalizar a forma"),
 
@@ -291,6 +322,9 @@ DOMINIOS = {
     "negativos": ((), "pilar da aritmética — a reta ordenada, que os reais completam"),
     "fatoracao": ((), "pilar da aritmética — o que permite simplificar sem mudar o valor"),
     "algebra_elem": ((), "anterior aos dois"),
+    "polinomios": ((), "anterior aos dois — o único objeto da base que os DOIS troncos "
+                       "consomem de frente: o cálculo pela continuidade, a álgebra "
+                       "linear por Pₙ(ℝ) e pelo polinômio característico"),
     "trigonometria": ((), "anterior aos dois; mora na geometria plana, GUI §2.2 a retoma como função"),
     "reais": ((), "anterior aos dois; GUI cap. 1 a formaliza antes de tudo"),
     "funcoes": ((), "anterior aos dois; é o objeto que os dois manipulam"),

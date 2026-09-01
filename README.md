@@ -4,8 +4,8 @@
 
 # The map of subjects — the logical order of the basic cycle
 
-An interactive map of **prerequisites** for mathematics in the basic cycle: 50  
-subjects, 78 dependencies, each arrow declaring where it came from. Clicking  
+An interactive map of **prerequisites** for mathematics in the basic cycle: 51  
+subjects, 83 dependencies, each arrow declaring where it came from. Clicking  
 on a subject lights up the entire chain that supports it, up to the language of sets.
 
 **→ [Open the map](https://mateusalkimim.github.io/math-prerequisite-map/)**
@@ -28,16 +28,16 @@ lesson. The identifiers are in `materias.py`.
 
 | | |
 |---|---|
-| subjects | **50** in **13 layers** |
-| dependencies | **78** |
-| edge crossings | **102 → 41** |
+| subjects | **51** in **13 layers** |
+| dependencies | **83** |
+| edge crossings | **123 → 54** |
 
 ## No arrow enters without saying where it came from
 
 The map will point out where a student got stuck: **a wrong arrow leads the student to study the wrong thing.** That's why each dependency carries its class of warrant, and it appears in the drawing and the panel:
 
-- **definition** (26) — X enters the *definition* of Y in the cited work. It is the strong arrow: logical dependency, not curriculum convenience. *The derivative is defined as a limit* (Guidorizzi §7.2);  
-- **order of the book** (29) — X is defined before Y in the same work, and Y uses it.  
+- **definition** (27) — X enters the *definition* of Y in the cited work. It is the strong arrow: logical dependency, not curriculum convenience. *The derivative is defined as a limit* (Guidorizzi §7.2);  
+- **order of the book** (33) — X is defined before Y in the same work, and Y uses it.  
   Established precedence, weaker evidence;  
 - **academic orientation** (9) — the arrow comes from **registered orientation**, not  
   a verifiable page. Stronger than the border, because there is a responsible person  
@@ -86,13 +86,16 @@ trunk — there were no more three lights to add.
 
 ## The base has six areas, and the count is not the first
 
-The layer prior to the two trunks has **16 nodes**, organized into the six areas  
+The layer prior to the two trunks has **17 nodes**, organized into the six areas  
 of elementary mathematics (taxonomy of orientation, 2026-08-25):
 
 1. **sets and numeric sets** — the language in which the remainder is spoken, and thus where the map begins. ℕ ⊂ ℤ ⊂ ℚ ⊂ ℝ: each exists because the previous was not enough — the integer provides the opposite, the rational provides the inverse, the real closes the gaps;  
 2. **arithmetic and counting problems** — combinatorial reasoning, which is not the same area as the arithmetic of operations. It supports the **determinant**, which is a sum over the *n*! permutations;  
 3. **plane and non-plane geometry** — the two-dimensional figure and the three-dimensional solid. This is where **trigonometry** resides: it is the ratio between the sides of a *triangle*, and before that it hung on elementary algebra without a base;  
-4. **elementary algebra** — the letter in place of the number;  
+4. **elementary algebra** — the letter in place of the number, and the
+   **polynomials**, which are the sum of its powers. The polynomial is the only
+   object of the base that both trunks consume head-on: calculus through
+   continuity, linear algebra through Pₙ(ℝ) and the characteristic polynomial;  
 5. **arithmetic and the operations** — which opens into five pillars, and where the gaps in basic education appear;  
 6. **relations and functions** — a function is a relation in which each input has only one output. And the **ordered pair** of the Cartesian product is the same object as the coordinate in the plane: it is the common root of the function and analytic geometry.
 
@@ -236,6 +239,15 @@ Under a diagram norm of its own (sibling document, not published):
 The new algorithm is worth **−10** crossings; the six new subjects and ten
    new dependencies cost **+13**. The balance is declared, not hidden: the map
    grew 14% and ended up with 7 crossings more than it had.
+
+   **Update of 2026-09-01** — the table above is the dated record of the
+   algorithm swap and stays as it is. Since then the graph gained the
+   `polinomios` node and five dependencies, and the price was measured before
+   anything was written: **41 → 54** crossings (+13), 63 → 72 virtual nodes, and
+   the 13 layers intact. The `polinomios → autovalores` edge alone accounts for
+   5 of the 9 new virtual nodes, because it jumps from layer 5 to layer 11 — it
+   was kept for being the only *definition*-class arrow of the batch, and for
+   closing the orphan citation of the characteristic polynomial.
 
 5. **Two of my edges came out as redundant — and eleven stayed.**  
    `conj_num → negativos` and `conj_num → fracoes` cost 15 measured crossings,  

@@ -4,8 +4,8 @@
 
 # O mapa das matérias — a ordem lógica do ciclo básico
 
-Um mapa interativo de **pré-requisitos** da matemática do ciclo básico: 50
-matérias, 78 dependências, cada seta declarando de onde ela saiu. Clicar
+Um mapa interativo de **pré-requisitos** da matemática do ciclo básico: 51
+matérias, 83 dependências, cada seta declarando de onde ela saiu. Clicar
 numa matéria acende toda a cadeia que a sustenta, até a linguagem dos conjuntos.
 
 **→ [Abrir o mapa](https://mateusalkimim.github.io/math-prerequisite-map/)**
@@ -36,9 +36,9 @@ aula. Os identificadores estão em `materias.py`.
 
 | | |
 |---|---|
-| matérias | **50** em **13 camadas** |
-| dependências | **78** |
-| cruzamentos de aresta | **102 → 41** |
+| matérias | **51** em **13 camadas** |
+| dependências | **83** |
+| cruzamentos de aresta | **123 → 54** |
 
 ## Nenhuma seta entra sem dizer de onde veio
 
@@ -46,10 +46,10 @@ O mapa vai apontar onde um aluno travou: **uma seta errada manda o aluno estudar
 a coisa errada.** Por isso cada dependência carrega sua classe de warrant, e ela
 aparece no desenho e no painel:
 
-- **definição** (26) — X entra na *definição* de Y na obra citada. É a seta
+- **definição** (27) — X entra na *definição* de Y na obra citada. É a seta
   forte: dependência lógica, não conveniência de currículo. *A derivada é
   definida como um limite* (Guidorizzi §7.2);
-- **ordem do livro** (29) — X é definido antes de Y na mesma obra, e Y o usa.
+- **ordem do livro** (33) — X é definido antes de Y na mesma obra, e Y o usa.
   Precedência consolidada, evidência mais fraca;
 - **orientação acadêmica** (9) — a seta vem de **orientação registrada**, não
   de página conferível. Mais forte que a fronteira, porque há uma pessoa
@@ -112,7 +112,7 @@ forma diz onde a matéria é ensinada.
 
 ## A base tem seis áreas, e a conta não é a primeira
 
-A camada anterior aos dois troncos tem **16 nós**, organizados nas seis áreas da
+A camada anterior aos dois troncos tem **17 nós**, organizados nas seis áreas da
 matemática elementar (taxonomia de orientação, 2026-08-25):
 
 1. **conjuntos e conjuntos numéricos** — a língua em que o resto é dito, e por
@@ -125,7 +125,10 @@ matemática elementar (taxonomia de orientação, 2026-08-25):
 3. **geometria plana e não plana** — a figura de duas dimensões e o sólido de
    três. É aqui que a **trigonometria** mora: ela é razão entre lados de um
    *triângulo*, e antes disso ficava pendurada na álgebra elementar sem chão;
-4. **álgebra elementar** — a letra no lugar do número;
+4. **álgebra elementar** — a letra no lugar do número, e os **polinômios**, que
+   são a soma de potências dela. O polinômio é o único objeto da base que os
+   dois troncos consomem de frente: o cálculo pela continuidade, a álgebra
+   linear por Pₙ(ℝ) e pelo polinômio característico;
 5. **aritmética e as operações** — que abre em cinco pilares, e onde as lacunas
    do ensino básico aparecem;
 6. **relações e funções** — a função é a relação em que cada entrada tem uma
@@ -343,6 +346,15 @@ Sob uma norma de diagramas própria (documento irmão, não publicado):
    O algoritmo novo vale **−10** cruzamentos; as seis matérias e dez
    dependências novas custam **+13**. O saldo é declarado, não escondido: o mapa
    cresceu 14% e ficou com 7 cruzamentos a mais do que tinha.
+
+   **Atualização de 2026-09-01** — a tabela acima é o registro datado da troca
+   de algoritmo e fica como está. O grafo, desde então, ganhou o nó
+   `polinomios` e cinco dependências, e o preço foi medido antes de escrever:
+   **41 → 54** cruzamentos (+13), 63 → 72 nós virtuais, e as 13 camadas
+   intactas. Só a aresta `polinomios → autovalores` responde por 5 dos 9 nós
+   virtuais novos, porque salta da camada 5 à 11 — foi mantida por ser a única
+   de classe *definição* do lote, e por fechar a citação órfã do polinômio
+   característico.
 
 5. **Duas arestas minhas saíram por serem redundantes — e onze ficaram.**
    `conj_num → negativos` e `conj_num → fracoes` custavam 15 cruzamentos
