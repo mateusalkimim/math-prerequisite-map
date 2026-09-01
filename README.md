@@ -5,7 +5,7 @@
 # The map of subjects — the logical order of the basic cycle
 
 An interactive map of **prerequisites** for mathematics in the basic cycle: 51  
-subjects, 83 dependencies, each arrow declaring where it came from. Clicking  
+subjects, 84 dependencies, each arrow declaring where it came from. Clicking  
 on a subject lights up the entire chain that supports it, up to the language of sets.
 
 **→ [Open the map](https://mateusalkimim.github.io/math-prerequisite-map/)**
@@ -29,15 +29,15 @@ lesson. The identifiers are in `materias.py`.
 | | |
 |---|---|
 | subjects | **51** in **13 layers** |
-| dependencies | **83** |
-| edge crossings | **123 → 54** |
+| dependencies | **84** |
+| edge crossings | **125 → 49** |
 
 ## No arrow enters without saying where it came from
 
 The map will point out where a student got stuck: **a wrong arrow leads the student to study the wrong thing.** That's why each dependency carries its class of warrant, and it appears in the drawing and the panel:
 
 - **definition** (27) — X enters the *definition* of Y in the cited work. It is the strong arrow: logical dependency, not curriculum convenience. *The derivative is defined as a limit* (Guidorizzi §7.2);  
-- **order of the book** (33) — X is defined before Y in the same work, and Y uses it.  
+- **order of the book** (34) — X is defined before Y in the same work, and Y uses it.  
   Established precedence, weaker evidence;  
 - **academic orientation** (9) — the arrow comes from **registered orientation**, not  
   a verifiable page. Stronger than the border, because there is a responsible person  
@@ -203,7 +203,7 @@ adding light over light paper blows out to white.
 
 ## The lines have no diagonal
 
-Only horizontal, vertical, and L, by design decision. Each segment becomes a **Z** (descends, moves, descends), with the step offset within the gap between layers so that two edges do not lie one on top of the other. Measured in the generated SVG: **0 diagonal segments in 83 edges**.
+Only horizontal, vertical, and L, by design decision. Each segment becomes a **Z** (descends, moves, descends), with the step offset within the gap between layers so that two edges do not lie one on top of the other. Measured in the generated SVG: **0 diagonal segments in 84 edges**.
 
 ## The norm, cited where it was applied
 
@@ -248,6 +248,12 @@ The new algorithm is worth **−10** crossings; the six new subjects and ten
    5 of the 9 new virtual nodes, because it jumps from layer 5 to layer 11 — it
    was kept for being the only *definition*-class arrow of the batch, and for
    closing the orphan citation of the characteristic polynomial.
+
+   Still on 2026-09-01, the edge `fatoracao → fracoes` came in and **lowered** the
+   count: 84 dependencies and **125 → 49** crossings, five fewer than before
+   it. This is not luck — the arrow links two nodes of the same base layer that
+   were already neighbors, and tying them removes a degree of freedom from an
+   ordering that used to cross. A new edge does not always cost.
 
 5. **Two of my edges came out as redundant — and eleven stayed.**  
    `conj_num → negativos` and `conj_num → fracoes` cost 15 measured crossings,  

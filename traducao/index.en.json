@@ -1,5 +1,5 @@
 {
- "atualizado_em": "2026-09-01 12:47:08",
+ "atualizado_em": "2026-09-01 15:28:34",
  "blocos": {
   "001646581a": {
    "en": "Space",
@@ -22,6 +22,14 @@
    "modelo": "phi-4",
    "orfao": false,
    "pt": "Os estudantes frequentemente confundem as propriedades dos logaritmos, como a regra do produto, soma e divisão, e têm dificuldade em entender a relação entre exponenciais e logaritmos como inversos.",
+   "qa": "ok",
+   "tipo": "js"
+  },
+  "01476a6b62": {
+   "en": "prior to the two — the only object of the base that BOTH trunks consume head-on: calculus through continuity, linear algebra through Pₙ(ℝ) and the characteristic polynomial",
+   "modelo": "claude-opus-5 (agente da sessao)",
+   "orfao": false,
+   "pt": "anterior aos dois — o único objeto da base que os DOIS troncos consomem de frente: o cálculo pela continuidade, a álgebra linear por Pₙ(ℝ) e pelo polinômio característico",
    "qa": "ok",
    "tipo": "js"
   },
@@ -153,6 +161,14 @@
    "qa": "ok",
    "tipo": "js"
   },
+  "05b4e47d63": {
+   "en": "BOY ch. 2, “Numbers and Fractions” — the Ahmes papyrus shares out loaves using “a kind of equivalent to our least common multiple”; and ch. 5, “Theory of Numbers”, gives Euclid's algorithm for the greatest common divisor (Book VII) and the rule for the least common multiple (Prop. 39). A common denominator IS a common multiple; reducing a fraction IS dividing by a common divisor",
+   "modelo": "claude-opus-5 (agente da sessao)",
+   "orfao": false,
+   "pt": "BOY cap. 2, “Numbers and Fractions” — o papiro de Ahmes reparte pães usando “a kind of equivalent to our least common multiple”; e cap. 5, “Theory of Numbers”, traz o algoritmo de Euclides para o máximo divisor comum (Livro VII) e a regra do mínimo múltiplo comum (Prop. 39). Denominador comum É múltiplo comum; reduzir a fração É dividir pelo divisor comum",
+   "qa": "ok",
+   "tipo": "js"
+  },
   "0658b1d9df": {
    "en": "Calculus II/III — belongs to calculus even depending on vectors",
    "modelo": "phi-4",
@@ -225,6 +241,14 @@
    "qa": "ok",
    "tipo": "svg"
   },
+  "088fa0a623": {
+   "en": "GUI ch. 1, p. 34 — ax²+bx+c = a(x−x₁)(x−x₂): factoring the polynomial is factorization with the letter in place of the number",
+   "modelo": "claude-opus-5 (agente da sessao)",
+   "orfao": false,
+   "pt": "GUI cap. 1, p. 34 — ax²+bx+c = a(x−x₁)(x−x₂): fatorar o polinômio é a fatoração com a letra no lugar do número",
+   "qa": "ok",
+   "tipo": "js"
+  },
   "098bf6b8fd": {
    "en": "Inverse Functions",
    "modelo": "phi-4",
@@ -248,6 +272,15 @@
    "pt": "Divisibilidade e fatoração",
    "qa": "ok",
    "tipo": "js"
+  },
+  "0b9c70cdc3": {
+   "en": "<span>51 topics · 84 dependencies · 13 layers</span>  \n  <span>edge crossings: <b>125 → 49</b> (§1.1 of the diagram standard)</span>  \n  <span>solid arrow = definition · weak = book order · dashed = academic orientation · dotted = no work in the collection</span>  \n  <span class=\"licenca\">© 2026 Mateus Alkimim · content under <a href=\"https://creativecommons.org/licenses/by-sa/4.0/\">CC BY-SA 4.0</a> · code under MIT</span>",
+   "modelo": "claude-opus-5 (agente da sessao)",
+   "orfao": false,
+   "pt": "\n  <span>51 matérias · 84 dependências · 13 camadas</span>\n  <span>cruzamentos de aresta: <b>125 → 49</b> (§1.1 da norma de diagramas)</span>\n  <span>seta cheia = definição · fraca = ordem do livro · pontilhada = orientação acadêmica · tracejada = sem obra no acervo</span>\n  <span class=\"licenca\">© 2026 Mateus Alkimim · conteúdo sob <a href=\"https://creativecommons.org/licenses/by-sa/4.0/\">CC BY-SA 4.0</a> · código sob MIT</span>\n",
+   "qa": "ok",
+   "reaproveitado_de": "a157420e4c",
+   "tipo": "prosa"
   },
   "0bca6ba0af": {
    "en": "In the optimization of neural networks in machine learning, where multiple weight variables are adjusted to minimize prediction errors.",
@@ -510,6 +543,14 @@
    "modelo": "phi-4",
    "orfao": false,
    "pt": "onde se trava",
+   "qa": "ok",
+   "tipo": "js"
+  },
+  "210f192f00": {
+   "en": "Algebraic expressions formed by the sum of terms, each one a coefficient multiplied by a variable raised to a non-negative integer exponent.",
+   "modelo": "claude-opus-5 (agente da sessao)",
+   "orfao": false,
+   "pt": "Expressões algébricas formadas pela soma de termos, cada um sendo um coeficiente multiplicado por uma variável elevada a um expoente inteiro não negativo.",
    "qa": "ok",
    "tipo": "js"
   },
@@ -961,6 +1002,14 @@
    "qa": "ok",
    "tipo": "js"
   },
+  "387be7d899": {
+   "en": "the sum of powers of the letter — degree, root and factorization",
+   "modelo": "claude-opus-5 (agente da sessao)",
+   "orfao": false,
+   "pt": "a soma de potências da letra — grau, raiz e fatoração",
+   "qa": "ok",
+   "tipo": "js"
+  },
   "38be50a31d": {
    "en": "hashchange",
    "modelo": "phi-4",
@@ -982,6 +1031,14 @@
    "modelo": "phi-4",
    "orfao": false,
    "pt": "a base é um conjunto de vetores que permite expressar qualquer vetor do espaço como uma combinação linear única; a dimensão é o número de vetores na base.",
+   "qa": "ok",
+   "tipo": "js"
+  },
+  "3a052bb9e0": {
+   "en": "CAL ch. 2 — 'The reader, who has already studied polynomials over ℝ, will have no difficulty…': the book DECLARES the polynomial as a prerequisite, and Pₙ(ℝ) is the canonical example of a space without arrows (class B)",
+   "modelo": "claude-opus-5 (agente da sessao)",
+   "orfao": false,
+   "pt": "CAL cap. 2 — 'O leitor, que já estudou os polinômios sobre ℝ, não terá dificuldades…': o livro DECLARA o polinômio como pré-requisito, e Pₙ(ℝ) é o exemplo canônico de espaço sem flecha (classe B)",
    "qa": "ok",
    "tipo": "js"
   },
@@ -1497,6 +1554,14 @@
    "qa": "ok",
    "tipo": "js"
   },
+  "59160c5536": {
+   "en": "Polynomials",
+   "modelo": "claude-opus-5 (agente da sessao)",
+   "orfao": false,
+   "pt": "Polinômios",
+   "qa": "ok",
+   "tipo": "svg"
+  },
   "59b744c30d": {
    "en": "Divisibility",
    "modelo": "phi-4",
@@ -1591,8 +1656,8 @@
    "orfao": false,
    "pt": "suspeita",
    "qa": "ok",
-   "tipo": "js",
-   "reparo": "chave de objeto JSON lida pelo JS (p.modelo/p.onde) — identificador, não texto de tela"
+   "reparo": "chave de objeto JSON lida pelo JS (p.modelo/p.onde) — identificador, não texto de tela",
+   "tipo": "js"
   },
   "5d6cce5330": {
    "en": "<span><b>The corner mark</b> — <b>C</b> for constant, <b>L</b> for linear: the material indicates which trunk it belongs to without depending on the color</span>",
@@ -1993,6 +2058,14 @@
    "modelo": "phi-4",
    "orfao": false,
    "pt": "Funções",
+   "qa": "ok",
+   "tipo": "js"
+  },
+  "755d960f19": {
+   "en": "Confusing the multiplication of polynomials with addition, leading to errors in simplification and in solving equations.",
+   "modelo": "claude-opus-5 (agente da sessao)",
+   "orfao": false,
+   "pt": "Confundir a multiplicação de polinômios com a adição, levando a erros na simplificação e na resolução de equações.",
    "qa": "ok",
    "tipo": "js"
   },
@@ -2872,6 +2945,15 @@
    "qa": "ok",
    "tipo": "js"
   },
+  "a157420e4c": {
+   "en": "<span>51 topics · 83 dependencies · 13 layers</span>  \n  <span>edge crossings: <b>123 → 54</b> (§1.1 of the diagram standard)</span>  \n  <span>solid arrow = definition · weak = book order · dashed = academic orientation · dotted = no work in the collection</span>  \n  <span class=\"licenca\">© 2026 Mateus Alkimim · content under <a href=\"https://creativecommons.org/licenses/by-sa/4.0/\">CC BY-SA 4.0</a> · code under MIT</span>",
+   "modelo": "claude-opus-5 (agente da sessao)",
+   "orfao": false,
+   "pt": "\n  <span>51 matérias · 83 dependências · 13 camadas</span>\n  <span>cruzamentos de aresta: <b>123 → 54</b> (§1.1 da norma de diagramas)</span>\n  <span>seta cheia = definição · fraca = ordem do livro · pontilhada = orientação acadêmica · tracejada = sem obra no acervo</span>\n  <span class=\"licenca\">© 2026 Mateus Alkimim · conteúdo sob <a href=\"https://creativecommons.org/licenses/by-sa/4.0/\">CC BY-SA 4.0</a> · código sob MIT</span>\n",
+   "qa": "ok",
+   "reaproveitado_de": "78d6cdc007",
+   "tipo": "prosa"
+  },
   "a17c9aaa61": {
    "en": "data",
    "modelo": "phi-4",
@@ -2992,6 +3074,14 @@
    "qa": "ok",
    "tipo": "js"
   },
+  "a48a9bd2a1": {
+   "en": "GUI ch. 1, pp. 33-34 — the 2nd-degree polynomial, the formula for its roots and its factorization are exercises in the chapter on REAL NUMBERS, before any function",
+   "modelo": "claude-opus-5 (agente da sessao)",
+   "orfao": false,
+   "pt": "GUI cap. 1, p. 33-34 — o polinômio do 2.º grau, a fórmula de suas raízes e sua fatoração são exercícios do capítulo de NÚMEROS REAIS, antes de qualquer função",
+   "qa": "ok",
+   "tipo": "js"
+  },
   "a4caf9867d": {
    "en": "<h3>the entire chain that supports it</h3>",
    "modelo": "phi-4",
@@ -3048,11 +3138,27 @@
    "qa": "ok",
    "tipo": "js"
   },
+  "a8c270c538": {
+   "en": "GUI §2.1 p. 62 defines the polynomial function; §3, p. 119, uses it — 'EXAMPLE 12. Every polynomial function is continuous'",
+   "modelo": "claude-opus-5 (agente da sessao)",
+   "orfao": false,
+   "pt": "GUI §2.1 p. 62 define a função polinomial; §3, p. 119, a usa — 'EXEMPLO 12. Toda função polinomial é contínua'",
+   "qa": "ok",
+   "tipo": "js"
+  },
   "a8c5ea2945": {
    "en": "</b><p class=\"verbete\">",
    "modelo": "phi-4",
    "orfao": false,
    "pt": "</b><p class=\"verbete\">",
+   "qa": "ok",
+   "tipo": "js"
+  },
+  "a90bdf1ef5": {
+   "en": "ELO — 'the characteristic polynomial of the matrix m is the third-degree polynomial in the variable λ… the ROOTS of this polynomial are called the eigenvalues'",
+   "modelo": "claude-opus-5 (agente da sessao)",
+   "orfao": false,
+   "pt": "ELO — 'chama-se polinômio característico da matriz m ao polinômio de grau três na variável λ… as RAÍZES deste polinômio são chamadas os autovalores'",
    "qa": "ok",
    "tipo": "js"
   },
@@ -3878,8 +3984,8 @@
    "orfao": false,
    "pt": "modelo",
    "qa": "ok",
-   "tipo": "js",
-   "reparo": "chave de objeto JSON lida pelo JS (p.modelo/p.onde) — identificador, não texto de tela"
+   "reparo": "chave de objeto JSON lida pelo JS (p.modelo/p.onde) — identificador, não texto de tela",
+   "tipo": "js"
   },
   "db2aa6f7e1": {
    "en": "<b>not yet reviewed by human reading.</b>",
@@ -4063,8 +4169,8 @@
    "orfao": false,
    "pt": "onde",
    "qa": "ok",
-   "tipo": "js",
-   "reparo": "chave de objeto JSON lida pelo JS (p.modelo/p.onde) — identificador, não texto de tela"
+   "reparo": "chave de objeto JSON lida pelo JS (p.modelo/p.onde) — identificador, não texto de tela",
+   "tipo": "js"
   },
   "e58e12cd88": {
    "en": "angle and length within space",
@@ -4199,6 +4305,14 @@
    "modelo": "phi-4",
    "orfao": false,
    "pt": "seminario-determinantes — o determinante é a soma sobre as permutações",
+   "qa": "ok",
+   "tipo": "js"
+  },
+  "ef4ae96968": {
+   "en": "To solve higher-order equations, such as those arising in physics and engineering problems, which cannot be solved with basic arithmetic operations alone.",
+   "modelo": "claude-opus-5 (agente da sessao)",
+   "orfao": false,
+   "pt": "Para resolver equações de ordem superior, como as que surgem em problemas de física e engenharia, que não podem ser resolvidas apenas com operações aritméticas básicas.",
    "qa": "ok",
    "tipo": "js"
   },
@@ -4506,6 +4620,14 @@
    "qa": "ok",
    "tipo": "js"
   },
+  "ff4d4fc9a7": {
+   "en": "In the calculation of trajectories in astronomy, where the position of a celestial body is modelled as a polynomial function of time.",
+   "modelo": "claude-opus-5 (agente da sessao)",
+   "orfao": false,
+   "pt": "No cálculo de trajetórias em astronomia, onde a posição de um corpo celeste é modelada como uma função polinomial do tempo.",
+   "qa": "ok",
+   "tipo": "js"
+  },
   "ff6363f529": {
    "en": "The Lebesgue integral, within analysis",
    "modelo": "phi-4",
@@ -4527,111 +4649,6 @@
    "modelo": "phi-4",
    "orfao": false,
    "pt": "seminario-calculo-0, folha 9 — a função escrita como quociente, e o domínio que ela perde",
-   "qa": "ok",
-   "tipo": "js"
-  },
-  "59160c5536": {
-   "en": "Polynomials",
-   "modelo": "claude-opus-5 (agente da sessao)",
-   "orfao": false,
-   "pt": "Polinômios",
-   "qa": "ok",
-   "tipo": "svg"
-  },
-  "387be7d899": {
-   "en": "the sum of powers of the letter — degree, root and factorization",
-   "modelo": "claude-opus-5 (agente da sessao)",
-   "orfao": false,
-   "pt": "a soma de potências da letra — grau, raiz e fatoração",
-   "qa": "ok",
-   "tipo": "js"
-  },
-  "01476a6b62": {
-   "en": "prior to the two — the only object of the base that BOTH trunks consume head-on: calculus through continuity, linear algebra through Pₙ(ℝ) and the characteristic polynomial",
-   "modelo": "claude-opus-5 (agente da sessao)",
-   "orfao": false,
-   "pt": "anterior aos dois — o único objeto da base que os DOIS troncos consomem de frente: o cálculo pela continuidade, a álgebra linear por Pₙ(ℝ) e pelo polinômio característico",
-   "qa": "ok",
-   "tipo": "js"
-  },
-  "a48a9bd2a1": {
-   "en": "GUI ch. 1, pp. 33-34 — the 2nd-degree polynomial, the formula for its roots and its factorization are exercises in the chapter on REAL NUMBERS, before any function",
-   "modelo": "claude-opus-5 (agente da sessao)",
-   "orfao": false,
-   "pt": "GUI cap. 1, p. 33-34 — o polinômio do 2.º grau, a fórmula de suas raízes e sua fatoração são exercícios do capítulo de NÚMEROS REAIS, antes de qualquer função",
-   "qa": "ok",
-   "tipo": "js"
-  },
-  "088fa0a623": {
-   "en": "GUI ch. 1, p. 34 — ax²+bx+c = a(x−x₁)(x−x₂): factoring the polynomial is factorization with the letter in place of the number",
-   "modelo": "claude-opus-5 (agente da sessao)",
-   "orfao": false,
-   "pt": "GUI cap. 1, p. 34 — ax²+bx+c = a(x−x₁)(x−x₂): fatorar o polinômio é a fatoração com a letra no lugar do número",
-   "qa": "ok",
-   "tipo": "js"
-  },
-  "a8c270c538": {
-   "en": "GUI §2.1 p. 62 defines the polynomial function; §3, p. 119, uses it — 'EXAMPLE 12. Every polynomial function is continuous'",
-   "modelo": "claude-opus-5 (agente da sessao)",
-   "orfao": false,
-   "pt": "GUI §2.1 p. 62 define a função polinomial; §3, p. 119, a usa — 'EXEMPLO 12. Toda função polinomial é contínua'",
-   "qa": "ok",
-   "tipo": "js"
-  },
-  "3a052bb9e0": {
-   "en": "CAL ch. 2 — 'The reader, who has already studied polynomials over ℝ, will have no difficulty…': the book DECLARES the polynomial as a prerequisite, and Pₙ(ℝ) is the canonical example of a space without arrows (class B)",
-   "modelo": "claude-opus-5 (agente da sessao)",
-   "orfao": false,
-   "pt": "CAL cap. 2 — 'O leitor, que já estudou os polinômios sobre ℝ, não terá dificuldades…': o livro DECLARA o polinômio como pré-requisito, e Pₙ(ℝ) é o exemplo canônico de espaço sem flecha (classe B)",
-   "qa": "ok",
-   "tipo": "js"
-  },
-  "a90bdf1ef5": {
-   "en": "ELO — 'the characteristic polynomial of the matrix m is the third-degree polynomial in the variable λ… the ROOTS of this polynomial are called the eigenvalues'",
-   "modelo": "claude-opus-5 (agente da sessao)",
-   "orfao": false,
-   "pt": "ELO — 'chama-se polinômio característico da matriz m ao polinômio de grau três na variável λ… as RAÍZES deste polinômio são chamadas os autovalores'",
-   "qa": "ok",
-   "tipo": "js"
-  },
-  "a157420e4c": {
-   "en": "<span>51 topics · 83 dependencies · 13 layers</span>  \n  <span>edge crossings: <b>123 → 54</b> (§1.1 of the diagram standard)</span>  \n  <span>solid arrow = definition · weak = book order · dashed = academic orientation · dotted = no work in the collection</span>  \n  <span class=\"licenca\">© 2026 Mateus Alkimim · content under <a href=\"https://creativecommons.org/licenses/by-sa/4.0/\">CC BY-SA 4.0</a> · code under MIT</span>",
-   "modelo": "claude-opus-5 (agente da sessao)",
-   "orfao": false,
-   "pt": "\n  <span>51 matérias · 83 dependências · 13 camadas</span>\n  <span>cruzamentos de aresta: <b>123 → 54</b> (§1.1 da norma de diagramas)</span>\n  <span>seta cheia = definição · fraca = ordem do livro · pontilhada = orientação acadêmica · tracejada = sem obra no acervo</span>\n  <span class=\"licenca\">© 2026 Mateus Alkimim · conteúdo sob <a href=\"https://creativecommons.org/licenses/by-sa/4.0/\">CC BY-SA 4.0</a> · código sob MIT</span>\n",
-   "qa": "ok",
-   "tipo": "prosa",
-   "reaproveitado_de": "78d6cdc007"
-  },
-  "210f192f00": {
-   "en": "Algebraic expressions formed by the sum of terms, each one a coefficient multiplied by a variable raised to a non-negative integer exponent.",
-   "modelo": "claude-opus-5 (agente da sessao)",
-   "orfao": false,
-   "pt": "Expressões algébricas formadas pela soma de termos, cada um sendo um coeficiente multiplicado por uma variável elevada a um expoente inteiro não negativo.",
-   "qa": "ok",
-   "tipo": "js"
-  },
-  "ef4ae96968": {
-   "en": "To solve higher-order equations, such as those arising in physics and engineering problems, which cannot be solved with basic arithmetic operations alone.",
-   "modelo": "claude-opus-5 (agente da sessao)",
-   "orfao": false,
-   "pt": "Para resolver equações de ordem superior, como as que surgem em problemas de física e engenharia, que não podem ser resolvidas apenas com operações aritméticas básicas.",
-   "qa": "ok",
-   "tipo": "js"
-  },
-  "ff4d4fc9a7": {
-   "en": "In the calculation of trajectories in astronomy, where the position of a celestial body is modelled as a polynomial function of time.",
-   "modelo": "claude-opus-5 (agente da sessao)",
-   "orfao": false,
-   "pt": "No cálculo de trajetórias em astronomia, onde a posição de um corpo celeste é modelada como uma função polinomial do tempo.",
-   "qa": "ok",
-   "tipo": "js"
-  },
-  "755d960f19": {
-   "en": "Confusing the multiplication of polynomials with addition, leading to errors in simplification and in solving equations.",
-   "modelo": "claude-opus-5 (agente da sessao)",
-   "orfao": false,
-   "pt": "Confundir a multiplicação de polinômios com a adição, levando a erros na simplificação e na resolução de equações.",
    "qa": "ok",
    "tipo": "js"
   }

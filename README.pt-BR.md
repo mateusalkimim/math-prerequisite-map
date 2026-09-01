@@ -5,7 +5,7 @@
 # O mapa das matérias — a ordem lógica do ciclo básico
 
 Um mapa interativo de **pré-requisitos** da matemática do ciclo básico: 51
-matérias, 83 dependências, cada seta declarando de onde ela saiu. Clicar
+matérias, 84 dependências, cada seta declarando de onde ela saiu. Clicar
 numa matéria acende toda a cadeia que a sustenta, até a linguagem dos conjuntos.
 
 **→ [Abrir o mapa](https://mateusalkimim.github.io/math-prerequisite-map/)**
@@ -37,8 +37,8 @@ aula. Os identificadores estão em `materias.py`.
 | | |
 |---|---|
 | matérias | **51** em **13 camadas** |
-| dependências | **83** |
-| cruzamentos de aresta | **123 → 54** |
+| dependências | **84** |
+| cruzamentos de aresta | **125 → 49** |
 
 ## Nenhuma seta entra sem dizer de onde veio
 
@@ -49,7 +49,7 @@ aparece no desenho e no painel:
 - **definição** (27) — X entra na *definição* de Y na obra citada. É a seta
   forte: dependência lógica, não conveniência de currículo. *A derivada é
   definida como um limite* (Guidorizzi §7.2);
-- **ordem do livro** (33) — X é definido antes de Y na mesma obra, e Y o usa.
+- **ordem do livro** (34) — X é definido antes de Y na mesma obra, e Y o usa.
   Precedência consolidada, evidência mais fraca;
 - **orientação acadêmica** (9) — a seta vem de **orientação registrada**, não
   de página conferível. Mais forte que a fronteira, porque há uma pessoa
@@ -284,7 +284,7 @@ somar luz sobre papel claro estoura para o branco.
 Só horizontal, vertical e L, por decisão de desenho. Cada trecho vira um **Z**
 (desce, anda, desce), com o degrau afastado dentro do vão entre camadas para que
 duas arestas não se deitem uma sobre a outra. Medido no SVG gerado: **0
-segmentos diagonais em 83 arestas**.
+segmentos diagonais em 84 arestas**.
 
 ## A norma, citada onde foi aplicada
 
@@ -355,6 +355,12 @@ Sob uma norma de diagramas própria (documento irmão, não publicado):
    virtuais novos, porque salta da camada 5 à 11 — foi mantida por ser a única
    de classe *definição* do lote, e por fechar a citação órfã do polinômio
    característico.
+
+   Ainda em 2026-09-01, a aresta `fatoracao → fracoes` entrou e **baixou** a
+   conta: 84 dependências e **125 → 49** cruzamentos, cinco a menos que antes
+   dela. Não é sorte — a seta liga dois nós da mesma camada de base que já
+   estavam vizinhos, e amarrá-los tira grau de liberdade de uma ordenação que
+   antes cruzava. Aresta nova nem sempre custa.
 
 5. **Duas arestas minhas saíram por serem redundantes — e onze ficaram.**
    `conj_num → negativos` e `conj_num → fracoes` custavam 15 cruzamentos

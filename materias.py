@@ -168,6 +168,14 @@ ARESTAS = [
     # e cada pilar sustenta o que vem depois — é aqui que a lacuna aparece
     ("operacoes",    "algebra_elem", O, "mapa-genealogia, fig-3-base · a letra obedece às MESMAS propriedades: comutativa, associativa, distributiva"),
     ("fatoracao",    "algebra_elem", O, "seminario-calculo-0, folha 9 — fatorar é o que revela ou esconde um buraco no domínio"),
+    # 2026-09-01. O nó `fatoracao` se descreve como "…e por que isso
+    # simplifica" — ele PROMETE o pagamento, e o mapa não tinha seta para a
+    # coisa simplificada. O MDC e o MMC são as duas leituras da MESMA
+    # fatoração (primo comum com o menor expoente / com o maior), e são eles
+    # que tornam executável toda operação com fração: reduzir a irredutível
+    # é dividir pelo MDC, somar é passar pelo MMC. Mesma dívida do nó dos
+    # polinômios, uma casa adiante: lá faltava o nó, aqui faltava a seta.
+    ("fatoracao",    "fracoes",      O, "BOY cap. 2, “Numbers and Fractions” — o papiro de Ahmes reparte pães usando “a kind of equivalent to our least common multiple”; e cap. 5, “Theory of Numbers”, traz o algoritmo de Euclides para o máximo divisor comum (Livro VII) e a regra do mínimo múltiplo comum (Prop. 39). Denominador comum É múltiplo comum; reduzir a fração É dividir pelo divisor comum"),
     ("fracoes",      "trigonometria",O, "trigonometria é RAZÃO entre lados: sem fração, o seno não tem sentido"),
     # OS POLINÔMIOS (2026-09-01). Duas entradas e três saídas, e as saídas vão
     # para os DOIS troncos — é o que justifica o domínio vazio do nó.

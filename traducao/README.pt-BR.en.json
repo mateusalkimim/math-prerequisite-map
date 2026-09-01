@@ -1,12 +1,30 @@
 {
- "atualizado_em": "2026-09-01 11:32:01",
+ "atualizado_em": "2026-09-01 15:29:41",
  "blocos": {
+  "053382c5b6": {
+   "en": "- **definition** (27) — X enters the *definition* of Y in the cited work. It is the strong arrow: logical dependency, not curriculum convenience. *The derivative is defined as a limit* (Guidorizzi §7.2);  \n- **order of the book** (33) — X is defined before Y in the same work, and Y uses it.  \n  Established precedence, weaker evidence;  \n- **academic orientation** (9) — the arrow comes from **registered orientation**, not  \n  a verifiable page. Stronger than the border, because there is a responsible person  \n  and a date; weaker than the order, because the book is not opened to check.  \n  **Only enters with a date** — without a date, it's anonymous opinion. Dotted line.  \n  The name of the person who oriented is not included in this publication until  \n  there is approval from the person: the text of the warrant goes entirely to the  \n  page, and a third party's name is not published without consent;  \n- **border** (14) — a subject that **the archive does not cover**. The node appears  \n  because the map needs to show where the roads go; the arrow is a declared judgment,  \n  drawn with a weak line. It's honesty, not decoration.",
+   "modelo": "claude-opus-5 (agente da sessao)",
+   "orfao": false,
+   "pt": "- **definição** (27) — X entra na *definição* de Y na obra citada. É a seta\n  forte: dependência lógica, não conveniência de currículo. *A derivada é\n  definida como um limite* (Guidorizzi §7.2);\n- **ordem do livro** (33) — X é definido antes de Y na mesma obra, e Y o usa.\n  Precedência consolidada, evidência mais fraca;\n- **orientação acadêmica** (9) — a seta vem de **orientação registrada**, não\n  de página conferível. Mais forte que a fronteira, porque há uma pessoa\n  responsável e uma data; mais fraca que a ordem, porque não se abre o livro\n  para conferir. **Só entra com data** — sem data é opinião anônima. Desenhada\n  pontilhada. O nome de quem orientou fica fora desta publicação enquanto não\n  houver aval da pessoa: o texto do warrant vai inteiro para a página, e nome\n  de terceiro não se publica sem consentimento;\n- **fronteira** (14) — matéria que **o acervo não cobre**. O nó aparece porque o\n  mapa precisa mostrar para onde as estradas vão; a seta é julgamento declarado,\n  desenhada em traço fraco. É honestidade, não decoração.",
+   "qa": "ok",
+   "reaproveitado_de": "b659151286",
+   "tipo": "md"
+  },
   "074dfbbb1f": {
    "en": "## Two Flaws That the Instrument Itself Has",
    "modelo": "phi-4",
    "orfao": false,
    "pt": "## Dois defeitos que o próprio instrumento pegou",
    "qa": "ok",
+   "tipo": "md"
+  },
+  "0c0d2b8b78": {
+   "en": "The layer prior to the two trunks has **17 nodes**, organized into the six areas  \nof elementary mathematics (taxonomy of orientation, 2026-08-25):",
+   "modelo": "claude-opus-5 (agente da sessao)",
+   "orfao": false,
+   "pt": "A camada anterior aos dois troncos tem **17 nós**, organizados nas seis áreas da\nmatemática elementar (taxonomia de orientação, 2026-08-25):",
+   "qa": "ok",
+   "reaproveitado_de": "888b7febec",
    "tipo": "md"
   },
   "0da547a6f2": {
@@ -31,6 +49,15 @@
    "orfao": false,
    "pt": "5. **Duas arestas minhas saíram por serem redundantes — e onze ficaram.**\n   `conj_num → negativos` e `conj_num → fracoes` custavam 15 cruzamentos\n   medidos, e o caminho `conj_num → aritmética → negativos` já dizia a mesma\n   coisa; a informação que carregavam foi para a nota do nó. Mas redundância\n   topológica **não é** motivo suficiente: há 11 outras arestas redundantes no\n   grafo, e quase todas são de *definição* — *\"a derivada é um limite\"* é\n   redundante por caminho e é a informação central do cálculo. Só sai a aresta\n   cuja informação o caminho alternativo já diz.",
    "qa": "ok",
+   "tipo": "md"
+  },
+  "1e59707e3d": {
+   "en": "1. **sets and numeric sets** — the language in which the remainder is spoken, and thus where the map begins. ℕ ⊂ ℤ ⊂ ℚ ⊂ ℝ: each exists because the previous was not enough — the integer provides the opposite, the rational provides the inverse, the real closes the gaps;  \n2. **arithmetic and counting problems** — combinatorial reasoning, which is not the same area as the arithmetic of operations. It supports the **determinant**, which is a sum over the *n*! permutations;  \n3. **plane and non-plane geometry** — the two-dimensional figure and the three-dimensional solid. This is where **trigonometry** resides: it is the ratio between the sides of a *triangle*, and before that it hung on elementary algebra without a base;  \n4. **elementary algebra** — the letter in place of the number, and the\n   **polynomials**, which are the sum of its powers. The polynomial is the only\n   object of the base that both trunks consume head-on: calculus through\n   continuity, linear algebra through Pₙ(ℝ) and the characteristic polynomial;  \n5. **arithmetic and the operations** — which opens into five pillars, and where the gaps in basic education appear;  \n6. **relations and functions** — a function is a relation in which each input has only one output. And the **ordered pair** of the Cartesian product is the same object as the coordinate in the plane: it is the common root of the function and analytic geometry.",
+   "modelo": "claude-opus-5 (agente da sessao)",
+   "orfao": false,
+   "pt": "1. **conjuntos e conjuntos numéricos** — a língua em que o resto é dito, e por\n   isso é onde o mapa começa. ℕ ⊂ ℤ ⊂ ℚ ⊂ ℝ: cada um existe porque o anterior\n   não bastava — o inteiro dá o oposto, o racional dá o inverso, o real fecha os\n   buracos;\n2. **aritmética e problemas de contagem** — o raciocínio combinatório, que não é\n   a mesma área da aritmética das operações. Ela sustenta o **determinante**,\n   que é uma soma sobre as *n*! permutações;\n3. **geometria plana e não plana** — a figura de duas dimensões e o sólido de\n   três. É aqui que a **trigonometria** mora: ela é razão entre lados de um\n   *triângulo*, e antes disso ficava pendurada na álgebra elementar sem chão;\n4. **álgebra elementar** — a letra no lugar do número, e os **polinômios**, que\n   são a soma de potências dela. O polinômio é o único objeto da base que os\n   dois troncos consomem de frente: o cálculo pela continuidade, a álgebra\n   linear por Pₙ(ℝ) e pelo polinômio característico;\n5. **aritmética e as operações** — que abre em cinco pilares, e onde as lacunas\n   do ensino básico aparecem;\n6. **relações e funções** — a função é a relação em que cada entrada tem uma\n   saída só. E o **par ordenado** do produto cartesiano é o mesmo objeto que a\n   coordenada no plano: é a raiz comum da função e da geometria analítica.",
+   "qa": "ok",
+   "reaproveitado_de": "c34af17ca3",
    "tipo": "md"
   },
   "25bd33901b": {
@@ -90,6 +117,15 @@
    "qa": "ok",
    "tipo": "md"
   },
+  "3e40d280be": {
+   "en": "An interactive map of **prerequisites** for mathematics in the basic cycle: 51  \nsubjects, 83 dependencies, each arrow declaring where it came from. Clicking  \non a subject lights up the entire chain that supports it, up to the language of sets.",
+   "modelo": "claude-opus-5 (agente da sessao)",
+   "orfao": false,
+   "pt": "Um mapa interativo de **pré-requisitos** da matemática do ciclo básico: 51\nmatérias, 83 dependências, cada seta declarando de onde ela saiu. Clicar\nnuma matéria acende toda a cadeia que a sustenta, até a linguagem dos conjuntos.",
+   "qa": "ok",
+   "reaproveitado_de": "b2a3acb7d4",
+   "tipo": "md"
+  },
   "3e92c8fa00": {
    "en": "- **One finger scrolls the page, two fingers move and zoom the map** — the embedded map pattern. As the drag of one finger ended, the drag of two began to move beyond zooming; without this, the phone would only be able to zoom, never navigate;\n- **Clicking on a node takes the reader to the panel**, with smooth scrolling. Only on click, never on search: scrolling with each key pressed, with the phone's keyboard open, would be worse than the original defect;\n- **A \"return to map\" button**, which only appears when the columns are stacked — side by side the map is never out of sight, and the button would be noise.",
    "modelo": "phi-4",
@@ -120,6 +156,15 @@
    "orfao": false,
    "pt": "## As linhas não têm diagonal",
    "qa": "ok",
+   "tipo": "md"
+  },
+  "43484a6243": {
+   "en": "| | |\n|---|---|\n| subjects | **51** in **13 layers** |\n| dependencies | **84** |\n| edge crossings | **125 → 49** |",
+   "modelo": "claude-opus-5 (agente da sessao)",
+   "orfao": false,
+   "pt": "| | |\n|---|---|\n| matérias | **51** em **13 camadas** |\n| dependências | **84** |\n| cruzamentos de aresta | **125 → 49** |",
+   "qa": "ok",
+   "reaproveitado_de": "f0538f7b1f",
    "tipo": "md"
   },
   "45a03151dd": {
@@ -350,6 +395,15 @@
    "qa": "ok",
    "tipo": "md"
   },
+  "9d41cf4c77": {
+   "en": "Only horizontal, vertical, and L, by design decision. Each segment becomes a **Z** (descends, moves, descends), with the step offset within the gap between layers so that two edges do not lie one on top of the other. Measured in the generated SVG: **0 diagonal segments in 83 edges**.",
+   "modelo": "claude-opus-5 (agente da sessao)",
+   "orfao": false,
+   "pt": "Só horizontal, vertical e L, por decisão de desenho. Cada trecho vira um **Z**\n(desce, anda, desce), com o degrau afastado dentro do vão entre camadas para que\nduas arestas não se deitem uma sobre a outra. Medido no SVG gerado: **0\nsegmentos diagonais em 83 arestas**.",
+   "qa": "ok",
+   "reaproveitado_de": "d1534f65a7",
+   "tipo": "md"
+  },
   "a457df596f": {
    "en": "4. **The layout started with alphabetical order.** The centroid is local: it improves the  \n   arrangement that receives, and received the nodes of each layer ordered **by name** —  \n   which has no relation at all with the graph. Replaced by descent in depth  \n   from the roots, which puts siblings side by side, and added the step of  \n   **transposition** (test each adjacent pair, swap, and only keep if the  \n   count falls). Measured in the four combinations, to separate what is from the  \n   algorithm and what is from the new content:",
    "modelo": "phi-4",
@@ -439,6 +493,14 @@
    "qa": "ok",
    "tipo": "md"
   },
+  "b2ade43f7b": {
+   "en": "   Still on 2026-09-01, the edge `fatoracao → fracoes` came in and **lowered** the\n   count: 84 dependencies and **125 → 49** crossings, five fewer than before\n   it. This is not luck — the arrow links two nodes of the same base layer that\n   were already neighbors, and tying them removes a degree of freedom from an\n   ordering that used to cross. A new edge does not always cost.",
+   "modelo": "claude-opus-5 (agente da sessao)",
+   "orfao": false,
+   "pt": "   Ainda em 2026-09-01, a aresta `fatoracao → fracoes` entrou e **baixou** a\n   conta: 84 dependências e **125 → 49** cruzamentos, cinco a menos que antes\n   dela. Não é sorte — a seta liga dois nós da mesma camada de base que já\n   estavam vizinhos, e amarrá-los tira grau de liberdade de uma ordenação que\n   antes cruzava. Aresta nova nem sempre custa.",
+   "qa": "ok",
+   "tipo": "md"
+  },
   "b659151286": {
    "en": "- **definition** (26) — X enters the *definition* of Y in the cited work. It is the strong arrow: logical dependency, not curriculum convenience. *The derivative is defined as a limit* (Guidorizzi §7.2);  \n- **order of the book** (29) — X is defined before Y in the same work, and Y uses it.  \n  Established precedence, weaker evidence;  \n- **academic orientation** (9) — the arrow comes from **registered orientation**, not  \n  a verifiable page. Stronger than the border, because there is a responsible person  \n  and a date; weaker than the order, because the book is not opened to check.  \n  **Only enters with a date** — without a date, it's anonymous opinion. Dotted line.  \n  The name of the person who oriented is not included in this publication until  \n  there is approval from the person: the text of the warrant goes entirely to the  \n  page, and a third party's name is not published without consent;  \n- **border** (14) — a subject that **the archive does not cover**. The node appears  \n  because the map needs to show where the roads go; the arrow is a declared judgment,  \n  drawn with a weak line. It's honesty, not decoration.",
    "modelo": "phi-4",
@@ -519,6 +581,15 @@
    "qa": "ok",
    "tipo": "md"
   },
+  "d67fa7870f": {
+   "en": "- **definition** (27) — X enters the *definition* of Y in the cited work. It is the strong arrow: logical dependency, not curriculum convenience. *The derivative is defined as a limit* (Guidorizzi §7.2);  \n- **order of the book** (34) — X is defined before Y in the same work, and Y uses it.  \n  Established precedence, weaker evidence;  \n- **academic orientation** (9) — the arrow comes from **registered orientation**, not  \n  a verifiable page. Stronger than the border, because there is a responsible person  \n  and a date; weaker than the order, because the book is not opened to check.  \n  **Only enters with a date** — without a date, it's anonymous opinion. Dotted line.  \n  The name of the person who oriented is not included in this publication until  \n  there is approval from the person: the text of the warrant goes entirely to the  \n  page, and a third party's name is not published without consent;  \n- **border** (14) — a subject that **the archive does not cover**. The node appears  \n  because the map needs to show where the roads go; the arrow is a declared judgment,  \n  drawn with a weak line. It's honesty, not decoration.",
+   "modelo": "claude-opus-5 (agente da sessao)",
+   "orfao": false,
+   "pt": "- **definição** (27) — X entra na *definição* de Y na obra citada. É a seta\n  forte: dependência lógica, não conveniência de currículo. *A derivada é\n  definida como um limite* (Guidorizzi §7.2);\n- **ordem do livro** (34) — X é definido antes de Y na mesma obra, e Y o usa.\n  Precedência consolidada, evidência mais fraca;\n- **orientação acadêmica** (9) — a seta vem de **orientação registrada**, não\n  de página conferível. Mais forte que a fronteira, porque há uma pessoa\n  responsável e uma data; mais fraca que a ordem, porque não se abre o livro\n  para conferir. **Só entra com data** — sem data é opinião anônima. Desenhada\n  pontilhada. O nome de quem orientou fica fora desta publicação enquanto não\n  houver aval da pessoa: o texto do warrant vai inteiro para a página, e nome\n  de terceiro não se publica sem consentimento;\n- **fronteira** (14) — matéria que **o acervo não cobre**. O nó aparece porque o\n  mapa precisa mostrar para onde as estradas vão; a seta é julgamento declarado,\n  desenhada em traço fraco. É honestidade, não decoração.",
+   "qa": "ok",
+   "reaproveitado_de": "053382c5b6",
+   "tipo": "md"
+  },
   "d6b073d0c5": {
    "en": "## On a cell phone, one finger is for the page and two are for the map",
    "modelo": "phi-4",
@@ -533,6 +604,15 @@
    "orfao": false,
    "pt": "A Geometria Analítica não é irmã da Álgebra Linear: está **contida** nela. E a\ncontenção tem nome exato — é a região da Álgebra Linear onde existe **produto\ninterno**, que é o que dá distância e ângulo, e portanto figura. Em **qualquer**\ndimensão: prender a Geometria Analítica a três dimensões confunde o limite da\n*ilustração*, que precisa caber no papel, com o limite da *estrutura*, que não\ntem nenhum.",
    "qa": "ok",
+   "tipo": "md"
+  },
+  "e0ba68f686": {
+   "en": "An interactive map of **prerequisites** for mathematics in the basic cycle: 51  \nsubjects, 84 dependencies, each arrow declaring where it came from. Clicking  \non a subject lights up the entire chain that supports it, up to the language of sets.",
+   "modelo": "claude-opus-5 (agente da sessao)",
+   "orfao": false,
+   "pt": "Um mapa interativo de **pré-requisitos** da matemática do ciclo básico: 51\nmatérias, 84 dependências, cada seta declarando de onde ela saiu. Clicar\nnuma matéria acende toda a cadeia que a sustenta, até a linguagem dos conjuntos.",
+   "qa": "ok",
+   "reaproveitado_de": "3e40d280be",
    "tipo": "md"
   },
   "e2c3f477df": {
@@ -575,11 +655,28 @@
    "qa": "ok",
    "tipo": "md"
   },
+  "f0538f7b1f": {
+   "en": "| | |\n|---|---|\n| subjects | **51** in **13 layers** |\n| dependencies | **83** |\n| edge crossings | **123 → 54** |",
+   "modelo": "claude-opus-5 (agente da sessao)",
+   "orfao": false,
+   "pt": "| | |\n|---|---|\n| matérias | **51** em **13 camadas** |\n| dependências | **83** |\n| cruzamentos de aresta | **123 → 54** |",
+   "qa": "ok",
+   "reaproveitado_de": "60ee9dd8d8",
+   "tipo": "md"
+  },
   "f153fce8d2": {
    "en": "**→ [Open the map](https://mateusalkimim.github.io/math-prerequisite-map/)**",
    "modelo": "phi-4",
    "orfao": false,
    "pt": "**→ [Abrir o mapa](https://mateusalkimim.github.io/math-prerequisite-map/)**",
+   "qa": "ok",
+   "tipo": "md"
+  },
+  "f86327329b": {
+   "en": "   **Update of 2026-09-01** — the table above is the dated record of the\n   algorithm swap and stays as it is. Since then the graph gained the\n   `polinomios` node and five dependencies, and the price was measured before\n   anything was written: **41 → 54** crossings (+13), 63 → 72 virtual nodes, and\n   the 13 layers intact. The `polinomios → autovalores` edge alone accounts for\n   5 of the 9 new virtual nodes, because it jumps from layer 5 to layer 11 — it\n   was kept for being the only *definition*-class arrow of the batch, and for\n   closing the orphan citation of the characteristic polynomial.",
+   "modelo": "claude-opus-5 (agente da sessao)",
+   "orfao": false,
+   "pt": "   **Atualização de 2026-09-01** — a tabela acima é o registro datado da troca\n   de algoritmo e fica como está. O grafo, desde então, ganhou o nó\n   `polinomios` e cinco dependências, e o preço foi medido antes de escrever:\n   **41 → 54** cruzamentos (+13), 63 → 72 nós virtuais, e as 13 camadas\n   intactas. Só a aresta `polinomios → autovalores` responde por 5 dos 9 nós\n   virtuais novos, porque salta da camada 5 à 11 — foi mantida por ser a única\n   de classe *definição* do lote, e por fechar a citação órfã do polinômio\n   característico.",
    "qa": "ok",
    "tipo": "md"
   },
@@ -591,6 +688,15 @@
    "qa": "ok",
    "tipo": "md"
   },
+  "fdf1ec5618": {
+   "en": "Only horizontal, vertical, and L, by design decision. Each segment becomes a **Z** (descends, moves, descends), with the step offset within the gap between layers so that two edges do not lie one on top of the other. Measured in the generated SVG: **0 diagonal segments in 84 edges**.",
+   "modelo": "claude-opus-5 (agente da sessao)",
+   "orfao": false,
+   "pt": "Só horizontal, vertical e L, por decisão de desenho. Cada trecho vira um **Z**\n(desce, anda, desce), com o degrau afastado dentro do vão entre camadas para que\nduas arestas não se deitem uma sobre a outra. Medido no SVG gerado: **0\nsegmentos diagonais em 84 arestas**.",
+   "qa": "ok",
+   "reaproveitado_de": "9d41cf4c77",
+   "tipo": "md"
+  },
   "ff7d97aeec": {
    "en": "The new algorithm is worth **−10** crossings; the six new subjects and ten\n   new dependencies cost **+13**. The balance is declared, not hidden: the map\n   grew 14% and ended up with 7 crossings more than it had.",
    "modelo": "phi-4",
@@ -598,68 +704,6 @@
    "pt": "   O algoritmo novo vale **−10** cruzamentos; as seis matérias e dez\n   dependências novas custam **+13**. O saldo é declarado, não escondido: o mapa\n   cresceu 14% e ficou com 7 cruzamentos a mais do que tinha.",
    "qa": "ok",
    "tipo": "md"
-  },
-  "3e40d280be": {
-   "en": "An interactive map of **prerequisites** for mathematics in the basic cycle: 51  \nsubjects, 83 dependencies, each arrow declaring where it came from. Clicking  \non a subject lights up the entire chain that supports it, up to the language of sets.",
-   "modelo": "claude-opus-5 (agente da sessao)",
-   "orfao": false,
-   "pt": "Um mapa interativo de **pré-requisitos** da matemática do ciclo básico: 51\nmatérias, 83 dependências, cada seta declarando de onde ela saiu. Clicar\nnuma matéria acende toda a cadeia que a sustenta, até a linguagem dos conjuntos.",
-   "qa": "ok",
-   "tipo": "md",
-   "reaproveitado_de": "b2a3acb7d4"
-  },
-  "f0538f7b1f": {
-   "en": "| | |\n|---|---|\n| subjects | **51** in **13 layers** |\n| dependencies | **83** |\n| edge crossings | **123 → 54** |",
-   "modelo": "claude-opus-5 (agente da sessao)",
-   "orfao": false,
-   "pt": "| | |\n|---|---|\n| matérias | **51** em **13 camadas** |\n| dependências | **83** |\n| cruzamentos de aresta | **123 → 54** |",
-   "qa": "ok",
-   "tipo": "md",
-   "reaproveitado_de": "60ee9dd8d8"
-  },
-  "053382c5b6": {
-   "en": "- **definition** (27) — X enters the *definition* of Y in the cited work. It is the strong arrow: logical dependency, not curriculum convenience. *The derivative is defined as a limit* (Guidorizzi §7.2);  \n- **order of the book** (33) — X is defined before Y in the same work, and Y uses it.  \n  Established precedence, weaker evidence;  \n- **academic orientation** (9) — the arrow comes from **registered orientation**, not  \n  a verifiable page. Stronger than the border, because there is a responsible person  \n  and a date; weaker than the order, because the book is not opened to check.  \n  **Only enters with a date** — without a date, it's anonymous opinion. Dotted line.  \n  The name of the person who oriented is not included in this publication until  \n  there is approval from the person: the text of the warrant goes entirely to the  \n  page, and a third party's name is not published without consent;  \n- **border** (14) — a subject that **the archive does not cover**. The node appears  \n  because the map needs to show where the roads go; the arrow is a declared judgment,  \n  drawn with a weak line. It's honesty, not decoration.",
-   "modelo": "claude-opus-5 (agente da sessao)",
-   "orfao": false,
-   "pt": "- **definição** (27) — X entra na *definição* de Y na obra citada. É a seta\n  forte: dependência lógica, não conveniência de currículo. *A derivada é\n  definida como um limite* (Guidorizzi §7.2);\n- **ordem do livro** (33) — X é definido antes de Y na mesma obra, e Y o usa.\n  Precedência consolidada, evidência mais fraca;\n- **orientação acadêmica** (9) — a seta vem de **orientação registrada**, não\n  de página conferível. Mais forte que a fronteira, porque há uma pessoa\n  responsável e uma data; mais fraca que a ordem, porque não se abre o livro\n  para conferir. **Só entra com data** — sem data é opinião anônima. Desenhada\n  pontilhada. O nome de quem orientou fica fora desta publicação enquanto não\n  houver aval da pessoa: o texto do warrant vai inteiro para a página, e nome\n  de terceiro não se publica sem consentimento;\n- **fronteira** (14) — matéria que **o acervo não cobre**. O nó aparece porque o\n  mapa precisa mostrar para onde as estradas vão; a seta é julgamento declarado,\n  desenhada em traço fraco. É honestidade, não decoração.",
-   "qa": "ok",
-   "tipo": "md",
-   "reaproveitado_de": "b659151286"
-  },
-  "f86327329b": {
-   "en": "   **Update of 2026-09-01** — the table above is the dated record of the\n   algorithm swap and stays as it is. Since then the graph gained the\n   `polinomios` node and five dependencies, and the price was measured before\n   anything was written: **41 → 54** crossings (+13), 63 → 72 virtual nodes, and\n   the 13 layers intact. The `polinomios → autovalores` edge alone accounts for\n   5 of the 9 new virtual nodes, because it jumps from layer 5 to layer 11 — it\n   was kept for being the only *definition*-class arrow of the batch, and for\n   closing the orphan citation of the characteristic polynomial.",
-   "modelo": "claude-opus-5 (agente da sessao)",
-   "orfao": false,
-   "pt": "   **Atualização de 2026-09-01** — a tabela acima é o registro datado da troca\n   de algoritmo e fica como está. O grafo, desde então, ganhou o nó\n   `polinomios` e cinco dependências, e o preço foi medido antes de escrever:\n   **41 → 54** cruzamentos (+13), 63 → 72 nós virtuais, e as 13 camadas\n   intactas. Só a aresta `polinomios → autovalores` responde por 5 dos 9 nós\n   virtuais novos, porque salta da camada 5 à 11 — foi mantida por ser a única\n   de classe *definição* do lote, e por fechar a citação órfã do polinômio\n   característico.",
-   "qa": "ok",
-   "tipo": "md"
-  },
-  "0c0d2b8b78": {
-   "en": "The layer prior to the two trunks has **17 nodes**, organized into the six areas  \nof elementary mathematics (taxonomy of orientation, 2026-08-25):",
-   "modelo": "claude-opus-5 (agente da sessao)",
-   "orfao": false,
-   "pt": "A camada anterior aos dois troncos tem **17 nós**, organizados nas seis áreas da\nmatemática elementar (taxonomia de orientação, 2026-08-25):",
-   "qa": "ok",
-   "tipo": "md",
-   "reaproveitado_de": "888b7febec"
-  },
-  "1e59707e3d": {
-   "en": "1. **sets and numeric sets** — the language in which the remainder is spoken, and thus where the map begins. ℕ ⊂ ℤ ⊂ ℚ ⊂ ℝ: each exists because the previous was not enough — the integer provides the opposite, the rational provides the inverse, the real closes the gaps;  \n2. **arithmetic and counting problems** — combinatorial reasoning, which is not the same area as the arithmetic of operations. It supports the **determinant**, which is a sum over the *n*! permutations;  \n3. **plane and non-plane geometry** — the two-dimensional figure and the three-dimensional solid. This is where **trigonometry** resides: it is the ratio between the sides of a *triangle*, and before that it hung on elementary algebra without a base;  \n4. **elementary algebra** — the letter in place of the number, and the\n   **polynomials**, which are the sum of its powers. The polynomial is the only\n   object of the base that both trunks consume head-on: calculus through\n   continuity, linear algebra through Pₙ(ℝ) and the characteristic polynomial;  \n5. **arithmetic and the operations** — which opens into five pillars, and where the gaps in basic education appear;  \n6. **relations and functions** — a function is a relation in which each input has only one output. And the **ordered pair** of the Cartesian product is the same object as the coordinate in the plane: it is the common root of the function and analytic geometry.",
-   "modelo": "claude-opus-5 (agente da sessao)",
-   "orfao": false,
-   "pt": "1. **conjuntos e conjuntos numéricos** — a língua em que o resto é dito, e por\n   isso é onde o mapa começa. ℕ ⊂ ℤ ⊂ ℚ ⊂ ℝ: cada um existe porque o anterior\n   não bastava — o inteiro dá o oposto, o racional dá o inverso, o real fecha os\n   buracos;\n2. **aritmética e problemas de contagem** — o raciocínio combinatório, que não é\n   a mesma área da aritmética das operações. Ela sustenta o **determinante**,\n   que é uma soma sobre as *n*! permutações;\n3. **geometria plana e não plana** — a figura de duas dimensões e o sólido de\n   três. É aqui que a **trigonometria** mora: ela é razão entre lados de um\n   *triângulo*, e antes disso ficava pendurada na álgebra elementar sem chão;\n4. **álgebra elementar** — a letra no lugar do número, e os **polinômios**, que\n   são a soma de potências dela. O polinômio é o único objeto da base que os\n   dois troncos consomem de frente: o cálculo pela continuidade, a álgebra\n   linear por Pₙ(ℝ) e pelo polinômio característico;\n5. **aritmética e as operações** — que abre em cinco pilares, e onde as lacunas\n   do ensino básico aparecem;\n6. **relações e funções** — a função é a relação em que cada entrada tem uma\n   saída só. E o **par ordenado** do produto cartesiano é o mesmo objeto que a\n   coordenada no plano: é a raiz comum da função e da geometria analítica.",
-   "qa": "ok",
-   "tipo": "md",
-   "reaproveitado_de": "c34af17ca3"
-  },
-  "9d41cf4c77": {
-   "en": "Only horizontal, vertical, and L, by design decision. Each segment becomes a **Z** (descends, moves, descends), with the step offset within the gap between layers so that two edges do not lie one on top of the other. Measured in the generated SVG: **0 diagonal segments in 83 edges**.",
-   "modelo": "claude-opus-5 (agente da sessao)",
-   "orfao": false,
-   "pt": "Só horizontal, vertical e L, por decisão de desenho. Cada trecho vira um **Z**\n(desce, anda, desce), com o degrau afastado dentro do vão entre camadas para que\nduas arestas não se deitem uma sobre a outra. Medido no SVG gerado: **0\nsegmentos diagonais em 83 arestas**.",
-   "qa": "ok",
-   "tipo": "md",
-   "reaproveitado_de": "d1534f65a7"
   }
  },
  "fatia": "README",
