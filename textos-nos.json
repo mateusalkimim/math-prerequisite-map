@@ -1,5 +1,5 @@
 {
- "gerado_em": "2026-08-25T14:06:02",
+ "gerado_em": "2026-09-01T12:40:14",
  "modelo": "modelo de linguagem local",
  "nos": {
   "algebra_abs": {
@@ -695,6 +695,20 @@
    "por_que_existe": "Antes da formalização dos vetores, não havia uma maneira sistemática de lidar com quantidades que dependem de direção e magnitude, como forças e velocidades, em um contexto matemático.",
    "procedencia": {
     "data": "2026-08-25",
+    "modelo": "modelo de linguagem local",
+    "onde": "na máquina do autor, sem serviço externo",
+    "onde_aparece_suspeito": false,
+    "revisado_por_humano": false,
+    "suspeita": ""
+   }
+  },
+  "polinomios": {
+   "o_que_e": "Expressões algébricas formadas pela soma de termos, cada um sendo um coeficiente multiplicado por uma variável elevada a um expoente inteiro não negativo.",
+   "por_que_existe": "Para resolver equações de ordem superior, como as que surgem em problemas de física e engenharia, que não podem ser resolvidas apenas com operações aritméticas básicas.",
+   "onde_aparece": "No cálculo de trajetórias em astronomia, onde a posição de um corpo celeste é modelada como uma função polinomial do tempo.",
+   "onde_se_trava": "Confundir a multiplicação de polinômios com a adição, levando a erros na simplificação e na resolução de equações.",
+   "procedencia": {
+    "data": "2026-09-01",
     "modelo": "modelo de linguagem local",
     "onde": "na máquina do autor, sem serviço externo",
     "onde_aparece_suspeito": false,

@@ -1,5 +1,5 @@
 {
- "atualizado_em": "2026-09-01 11:32:01",
+ "atualizado_em": "2026-09-01 12:44:33",
  "blocos": {
   "001646581a": {
    "en": "Space",
@@ -4599,6 +4599,38 @@
    "qa": "ok",
    "tipo": "prosa",
    "reaproveitado_de": "78d6cdc007"
+  },
+  "210f192f00": {
+   "en": "Algebraic expressions formed by the sum of terms, each one a coefficient multiplied by a variable raised to a non-negative integer exponent.",
+   "modelo": "claude-opus-5 (agente da sessao)",
+   "orfao": false,
+   "pt": "Expressões algébricas formadas pela soma de termos, cada um sendo um coeficiente multiplicado por uma variável elevada a um expoente inteiro não negativo.",
+   "qa": "ok",
+   "tipo": "js"
+  },
+  "ef4ae96968": {
+   "en": "To solve higher-order equations, such as those arising in physics and engineering problems, which cannot be solved with basic arithmetic operations alone.",
+   "modelo": "claude-opus-5 (agente da sessao)",
+   "orfao": false,
+   "pt": "Para resolver equações de ordem superior, como as que surgem em problemas de física e engenharia, que não podem ser resolvidas apenas com operações aritméticas básicas.",
+   "qa": "ok",
+   "tipo": "js"
+  },
+  "ff4d4fc9a7": {
+   "en": "In the calculation of trajectories in astronomy, where the position of a celestial body is modelled as a polynomial function of time.",
+   "modelo": "claude-opus-5 (agente da sessao)",
+   "orfao": false,
+   "pt": "No cálculo de trajetórias em astronomia, onde a posição de um corpo celeste é modelada como uma função polinomial do tempo.",
+   "qa": "ok",
+   "tipo": "js"
+  },
+  "755d960f19": {
+   "en": "Confusing the multiplication of polynomials with addition, leading to errors in simplification and in solving equations.",
+   "modelo": "claude-opus-5 (agente da sessao)",
+   "orfao": false,
+   "pt": "Confundir a multiplicação de polinômios com a adição, levando a erros na simplificação e na resolução de equações.",
+   "qa": "ok",
+   "tipo": "js"
   }
  },
  "fatia": "index",
