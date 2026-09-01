@@ -284,7 +284,7 @@ somar luz sobre papel claro estoura para o branco.
 Só horizontal, vertical e L, por decisão de desenho. Cada trecho vira um **Z**
 (desce, anda, desce), com o degrau afastado dentro do vão entre camadas para que
 duas arestas não se deitem uma sobre a outra. Medido no SVG gerado: **0
-segmentos diagonais em 78 arestas**.
+segmentos diagonais em 83 arestas**.
 
 ## A norma, citada onde foi aplicada
 

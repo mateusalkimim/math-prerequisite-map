@@ -203,7 +203,7 @@ adding light over light paper blows out to white.
 
 ## The lines have no diagonal
 
-Only horizontal, vertical, and L, by design decision. Each segment becomes a **Z** (descends, moves, descends), with the step offset within the gap between layers so that two edges do not lie one on top of the other. Measured in the generated SVG: **0 diagonal segments in 78 edges**.
+Only horizontal, vertical, and L, by design decision. Each segment becomes a **Z** (descends, moves, descends), with the step offset within the gap between layers so that two edges do not lie one on top of the other. Measured in the generated SVG: **0 diagonal segments in 83 edges**.
 
 ## The norm, cited where it was applied
 

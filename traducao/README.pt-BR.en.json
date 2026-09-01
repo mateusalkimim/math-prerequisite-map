@@ -1,5 +1,5 @@
 {
- "atualizado_em": "2026-09-01 11:17:52",
+ "atualizado_em": "2026-09-01 11:32:01",
  "blocos": {
   "074dfbbb1f": {
    "en": "## Two Flaws That the Instrument Itself Has",
@@ -651,6 +651,15 @@
    "qa": "ok",
    "tipo": "md",
    "reaproveitado_de": "c34af17ca3"
+  },
+  "9d41cf4c77": {
+   "en": "Only horizontal, vertical, and L, by design decision. Each segment becomes a **Z** (descends, moves, descends), with the step offset within the gap between layers so that two edges do not lie one on top of the other. Measured in the generated SVG: **0 diagonal segments in 83 edges**.",
+   "modelo": "claude-opus-5 (agente da sessao)",
+   "orfao": false,
+   "pt": "Só horizontal, vertical e L, por decisão de desenho. Cada trecho vira um **Z**\n(desce, anda, desce), com o degrau afastado dentro do vão entre camadas para que\nduas arestas não se deitem uma sobre a outra. Medido no SVG gerado: **0\nsegmentos diagonais em 83 arestas**.",
+   "qa": "ok",
+   "tipo": "md",
+   "reaproveitado_de": "d1534f65a7"
   }
  },
  "fatia": "README",

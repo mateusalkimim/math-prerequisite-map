@@ -1,5 +1,5 @@
 {
- "atualizado_em": "2026-08-28 11:42:01",
+ "atualizado_em": "2026-09-01 11:32:01",
  "blocos": {
   "001646581a": {
    "en": "Space",
@@ -4526,6 +4526,79 @@
    "pt": "seminario-calculo-0, folha 9 — a função escrita como quociente, e o domínio que ela perde",
    "qa": "ok",
    "tipo": "js"
+  },
+  "59160c5536": {
+   "en": "Polynomials",
+   "modelo": "claude-opus-5 (agente da sessao)",
+   "orfao": false,
+   "pt": "Polinômios",
+   "qa": "ok",
+   "tipo": "svg"
+  },
+  "387be7d899": {
+   "en": "the sum of powers of the letter — degree, root and factorization",
+   "modelo": "claude-opus-5 (agente da sessao)",
+   "orfao": false,
+   "pt": "a soma de potências da letra — grau, raiz e fatoração",
+   "qa": "ok",
+   "tipo": "js"
+  },
+  "01476a6b62": {
+   "en": "prior to the two — the only object of the base that BOTH trunks consume head-on: calculus through continuity, linear algebra through Pₙ(ℝ) and the characteristic polynomial",
+   "modelo": "claude-opus-5 (agente da sessao)",
+   "orfao": false,
+   "pt": "anterior aos dois — o único objeto da base que os DOIS troncos consomem de frente: o cálculo pela continuidade, a álgebra linear por Pₙ(ℝ) e pelo polinômio característico",
+   "qa": "ok",
+   "tipo": "js"
+  },
+  "a48a9bd2a1": {
+   "en": "GUI ch. 1, pp. 33-34 — the 2nd-degree polynomial, the formula for its roots and its factorization are exercises in the chapter on REAL NUMBERS, before any function",
+   "modelo": "claude-opus-5 (agente da sessao)",
+   "orfao": false,
+   "pt": "GUI cap. 1, p. 33-34 — o polinômio do 2.º grau, a fórmula de suas raízes e sua fatoração são exercícios do capítulo de NÚMEROS REAIS, antes de qualquer função",
+   "qa": "ok",
+   "tipo": "js"
+  },
+  "088fa0a623": {
+   "en": "GUI ch. 1, p. 34 — ax²+bx+c = a(x−x₁)(x−x₂): factoring the polynomial is factorization with the letter in place of the number",
+   "modelo": "claude-opus-5 (agente da sessao)",
+   "orfao": false,
+   "pt": "GUI cap. 1, p. 34 — ax²+bx+c = a(x−x₁)(x−x₂): fatorar o polinômio é a fatoração com a letra no lugar do número",
+   "qa": "ok",
+   "tipo": "js"
+  },
+  "a8c270c538": {
+   "en": "GUI §2.1 p. 62 defines the polynomial function; §3, p. 119, uses it — 'EXAMPLE 12. Every polynomial function is continuous'",
+   "modelo": "claude-opus-5 (agente da sessao)",
+   "orfao": false,
+   "pt": "GUI §2.1 p. 62 define a função polinomial; §3, p. 119, a usa — 'EXEMPLO 12. Toda função polinomial é contínua'",
+   "qa": "ok",
+   "tipo": "js"
+  },
+  "3a052bb9e0": {
+   "en": "CAL ch. 2 — 'The reader, who has already studied polynomials over ℝ, will have no difficulty…': the book DECLARES the polynomial as a prerequisite, and Pₙ(ℝ) is the canonical example of a space without arrows (class B)",
+   "modelo": "claude-opus-5 (agente da sessao)",
+   "orfao": false,
+   "pt": "CAL cap. 2 — 'O leitor, que já estudou os polinômios sobre ℝ, não terá dificuldades…': o livro DECLARA o polinômio como pré-requisito, e Pₙ(ℝ) é o exemplo canônico de espaço sem flecha (classe B)",
+   "qa": "ok",
+   "tipo": "js"
+  },
+  "a90bdf1ef5": {
+   "en": "ELO — 'the characteristic polynomial of the matrix m is the third-degree polynomial in the variable λ… the ROOTS of this polynomial are called the eigenvalues'",
+   "modelo": "claude-opus-5 (agente da sessao)",
+   "orfao": false,
+   "pt": "ELO — 'chama-se polinômio característico da matriz m ao polinômio de grau três na variável λ… as RAÍZES deste polinômio são chamadas os autovalores'",
+   "qa": "ok",
+   "tipo": "js"
+  },
+  "a157420e4c": {
+   "en": "<span>51 topics · 83 dependencies · 13 layers</span>  \n  <span>edge crossings: <b>123 → 54</b> (§1.1 of the diagram standard)</span>  \n  <span>solid arrow = definition · weak = book order · dashed = academic orientation · dotted = no work in the collection</span>  \n  <span class=\"licenca\">© 2026 Mateus Alkimim · content under <a href=\"https://creativecommons.org/licenses/by-sa/4.0/\">CC BY-SA 4.0</a> · code under MIT</span>",
+   "modelo": "claude-opus-5 (agente da sessao)",
+   "orfao": false,
+   "pt": "\n  <span>51 matérias · 83 dependências · 13 camadas</span>\n  <span>cruzamentos de aresta: <b>123 → 54</b> (§1.1 da norma de diagramas)</span>\n  <span>seta cheia = definição · fraca = ordem do livro · pontilhada = orientação acadêmica · tracejada = sem obra no acervo</span>\n  <span class=\"licenca\">© 2026 Mateus Alkimim · conteúdo sob <a href=\"https://creativecommons.org/licenses/by-sa/4.0/\">CC BY-SA 4.0</a> · código sob MIT</span>\n",
+   "qa": "ok",
+   "tipo": "prosa",
+   "reaproveitado_de": "78d6cdc007"
   }
  },
  "fatia": "index",
